@@ -1,0 +1,6 @@
+{
+  "name": "لومینا لرن — پلتفرم جامع دوره‌های آموزشی آنلاین",
+  "description": "پلتفرم تخصصی آموزش آنلاین و مسترکلاس‌های ویدیویی به زبان فارسی با رابط کاربری راست‌چین (RTL)، اساتید برجسته، سیستم آزمون و اعطای گواهی معتبر.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
