@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Course } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from './RatingStars';
-import { Heart, Play, Clock, BookOpen, Award } from 'lucide-react';
+import { Play, Clock, BookOpen, Award } from 'lucide-react';
 import { formatPriceToman, toPersianDigits } from '../../utils/persian';
 
 interface CourseCardProps {
@@ -18,8 +18,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   const { 
     navigate, 
-    toggleWishlist, 
-    isInWishlist, 
     addToCart, 
     isInCart, 
     isEnrolled,
@@ -32,19 +30,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const enrolled = isEnrolled(course.id);
   const enrollment = enrollments[course.id];
   const inCart = isInCart(course.id);
-  const inWishlist = isInWishlist(course.id);
 
   const handleCardClick = () => {
     if (enrolled) {
       navigate('player', course.id);
     } else {
-      navigate('course-detail', course.slug);
+      navigate('course-detail', course.slug || course.id);
     }
-  };
-
-  const handleWishlistClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    toggleWishlist(course.id);
   };
 
   const handleAddToCartClick = (e: React.MouseEvent) => {
@@ -60,19 +52,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
   // Localized level mapping
   const levelText = language === 'fa' 
-    ? (course.level === 'Beginner' ? 'مقدماتی' 
-       : course.level === 'Intermediate' ? 'متوسط' 
-       : course.level === 'Advanced' ? 'پیشرفته' 
+    ? (course.level === 'Beginner' || (course.level as any) === 'BEGINNER' ? 'مقدماتی' 
+       : course.level === 'Intermediate' || (course.level as any) === 'INTERMEDIATE' ? 'متوسط' 
+       : course.level === 'Advanced' || (course.level as any) === 'ADVANCED' ? 'پیشرفته' 
        : 'همه سطوح')
     : course.level;
 
   const durationDisplay = language === 'fa'
-    ? `${toPersianDigits(course.durationHours)} ${t('hours')}`
-    : `${course.durationHours}h`;
+    ? `${toPersianDigits(course.durationHours || 0)} ${t('hours')}`
+    : `${course.durationHours || 0}h`;
 
   const lessonCountDisplay = language === 'fa'
-    ? `${toPersianDigits(course.lessonCount)} ${t('lessons')}`
-    : `${course.lessonCount} ${t('lessons')}`;
+    ? `${toPersianDigits(course.lessonCount || (course as any).totalLessons || 0)} ${t('lessons')}`
+    : `${course.lessonCount || (course as any).totalLessons || 0} ${t('lessons')}`;
+
+  const discountPercent = (!course.isFree && course.price > 0 && course.originalPrice > course.price)
+    ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)
+    : (course.discountPercentage || 0);
 
   if (variant === 'list') {
     return (
@@ -103,6 +99,11 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               {t('newBadge')}
             </span>
           )}
+          {discountPercent > 0 && !course.isFree && (
+            <span className="absolute top-3 inset-inline-end-3 bg-rose-500 text-white font-black text-[10px] px-2 py-0.5 rounded shadow-xs tracking-wider">
+              {toPersianDigits(discountPercent)}٪ {language === 'fa' ? 'تخفیف' : 'OFF'}
+            </span>
+          )}
         </div>
 
         {/* Content */}
@@ -112,13 +113,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               <span className="text-xs font-bold text-[#0b3b49] dark:text-[#5eead4] bg-[#def4ee] dark:bg-[#0e3b47] px-2.5 py-0.5 rounded-md">
                 {course.categoryName}
               </span>
-              <button
-                onClick={handleWishlistClick}
-                className="p-1.5 rounded-full text-gray-400 hover:text-rose-500 hover:bg-[#f0faf7] dark:hover:bg-slate-800 transition-colors"
-                title={inWishlist ? t('removeFromWishlist') : t('addToWishlist')}
-              >
-                <Heart size={16} className={inWishlist ? 'fill-rose-500 text-rose-500' : ''} />
-              </button>
             </div>
 
             <h3 className="text-base font-bold text-[#06242e] dark:text-slate-100 group-hover:text-[#0d9488] dark:group-hover:text-[#2dd4bf] transition-colors line-clamp-1 mb-1">
@@ -160,9 +154,16 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                     {course.price === 0 ? t('free') : formatPriceToman(course.price)}
                   </span>
                   {course.originalPrice > course.price && (
-                    <span className="text-xs text-gray-400 line-through">
-                      {formatPriceToman(course.originalPrice)}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-gray-400 line-through">
+                        {formatPriceToman(course.originalPrice)}
+                      </span>
+                      {discountPercent > 0 && (
+                        <span className="px-1.5 py-0.2 rounded text-[10px] font-black bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400">
+                          {toPersianDigits(discountPercent)}٪
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>
@@ -222,16 +223,12 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               {t('newBadge')}
             </span>
           )}
+          {discountPercent > 0 && !course.isFree && (
+            <span className="bg-rose-500 text-white font-black text-[10px] px-2 py-0.5 rounded shadow-xs tracking-wider">
+              {toPersianDigits(discountPercent)}٪ {language === 'fa' ? 'تخفیف' : 'OFF'}
+            </span>
+          )}
         </div>
-
-        {/* Wishlist Button */}
-        <button
-          onClick={handleWishlistClick}
-          className="absolute top-2.5 inset-inline-end-2.5 w-7 h-7 rounded-full bg-slate-900/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-white hover:text-rose-500 dark:hover:bg-slate-800 transition-all duration-200 shadow-xs"
-          title={inWishlist ? t('removeFromWishlist') : t('addToWishlist')}
-        >
-          <Heart size={14} className={inWishlist ? 'fill-rose-500 text-rose-500' : ''} />
-        </button>
 
         {/* Duration / Certificate pill */}
         <div className="absolute bottom-2 inset-inline-start-2.5 inset-inline-end-2.5 flex items-center justify-between text-[11px] text-white/90 font-medium">
@@ -312,9 +309,16 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                   {course.price === 0 ? t('free') : formatPriceToman(course.price)}
                 </span>
                 {course.originalPrice > course.price && (
-                  <span className="text-[11px] text-gray-400 line-through">
-                    {formatPriceToman(course.originalPrice)}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-[11px] text-gray-400 line-through">
+                      {formatPriceToman(course.originalPrice)}
+                    </span>
+                    {discountPercent > 0 && (
+                      <span className="px-1 py-0.2 rounded text-[9px] font-black bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400">
+                        {toPersianDigits(discountPercent)}٪
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
             )}

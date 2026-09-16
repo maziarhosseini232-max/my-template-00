@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { CourseCard } from '../common/CourseCard';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { toPersianDigits } from '../../utils/persian';
 
 export const PopularCarousel: React.FC = () => {
@@ -58,26 +58,49 @@ export const PopularCarousel: React.FC = () => {
         </div>
 
         {/* Course Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.slice(0, 6).map(course => (
-            <CourseCard key={course.id} course={course} variant="grid" />
-          ))}
-        </div>
+        {filteredCourses.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCourses.slice(0, 6).map(course => (
+              <CourseCard key={course.id} course={course} variant="grid" />
+            ))}
+          </div>
+        ) : (
+          <div className="py-14 px-6 text-center border-2 border-dashed border-teal-200 dark:border-teal-900 rounded-3xl bg-white/70 dark:bg-[#07242e]/40 max-w-xl mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto mb-3">
+              <Sparkles size={22} />
+            </div>
+            <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-white mb-2">
+              بوم آماده انتشار دوره‌های تخصصی
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-5">
+              هنوز دوره‌ای در این دسته‌بندی ایجاد نشده است. مدیران سیستم می‌توانند نخستین دوره‌ها را از طریق استودیو مدیریت تدوین و منتشر کنند.
+            </p>
+            <button
+              onClick={() => navigate('admin')}
+              className="px-5 py-2.5 bg-[#0d9488] hover:bg-[#0f766e] text-white text-xs font-bold rounded-xl transition-all inline-flex items-center gap-2 cursor-pointer shadow-md shadow-teal-500/10"
+            >
+              <span>ورود به استودیو مدیریت</span>
+              {isRTL ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}
+            </button>
+          </div>
+        )}
 
         {/* Explore all CTA button */}
-        <div className="text-center mt-12">
-          <button
-            onClick={() => navigate('catalog')}
-            className="px-7 py-3 rounded-2xl bg-white dark:bg-[#0b2b35] border border-[#ccede5] dark:border-teal-800 text-[#0b3b49] dark:text-[#ccede5] font-extrabold text-xs hover:bg-[#def4ee] hover:text-[#06242e] hover:border-[#99f6e4] transition-all inline-flex items-center gap-2 shadow-xs cursor-pointer"
-          >
-            <span>
-              {language === 'fa' 
-                ? `مشاهده تمام ${toPersianDigits('1,450')}+ دوره تخصصی`
-                : 'Explore All 1,450+ Masterclasses'}
-            </span>
-            {isRTL ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}
-          </button>
-        </div>
+        {filteredCourses.length > 0 && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => navigate('catalog')}
+              className="px-7 py-3 rounded-2xl bg-white dark:bg-[#0b2b35] border border-[#ccede5] dark:border-teal-800 text-[#0b3b49] dark:text-[#ccede5] font-extrabold text-xs hover:bg-[#def4ee] hover:text-[#06242e] hover:border-[#99f6e4] transition-all inline-flex items-center gap-2 shadow-xs cursor-pointer"
+            >
+              <span>
+                {language === 'fa' 
+                  ? 'مشاهده کاتالوگ دوره‌ها'
+                  : 'Explore Courses Catalog'}
+              </span>
+              {isRTL ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -17,7 +17,8 @@ import {
   Edit3, 
   Eye, 
   Copy,
-  AlertCircle
+  AlertCircle,
+  BarChart3
 } from 'lucide-react';
 import { toPersianDigits, formatTomanPrice } from '../../../utils/persian';
 import { Course } from '../../../types';
@@ -111,11 +112,18 @@ export const StudioDashboard: React.FC<StudioDashboardProps> = ({
               <span>ایجاد دوره جدید</span>
             </button>
             <button
+              onClick={() => onSelectTab('reports')}
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all cursor-pointer backdrop-blur-xs"
+            >
+              <BarChart3 size={17} />
+              <span>گزارش‌ها و آنالیتیکس</span>
+            </button>
+            <button
               onClick={onOpenBulkUpload}
               className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all cursor-pointer backdrop-blur-xs"
             >
               <UploadCloud size={17} />
-              <span>بارگذاری گروهی ویدیو</span>
+              <span>بارگذاری گروهی</span>
             </button>
             <button
               onClick={onOpenImport}

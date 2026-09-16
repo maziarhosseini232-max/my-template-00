@@ -4,14 +4,65 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   avatar: string;
   role: UserRole;
+  roles?: string[];
   headline?: string;
   bio?: string;
+  shebaNumber?: string;
   joinedDate: string;
+  walletBalance?: number;
+  isEmailVerified?: boolean;
+  isPhoneVerified?: boolean;
+  isActive?: boolean;
+  subscriptionEndDate?: string | null;
+  createdAt?: string;
   enrolledCourseIds: string[];
   wishlistCourseIds: string[];
   followedInstructorIds: string[];
+}
+
+export interface WalletTransaction {
+  id: string;
+  userId: string;
+  type: 'deposit' | 'purchase' | 'refund' | 'bonus';
+  amount: number;
+  title: string;
+  description?: string;
+  trackingCode: string;
+  gateway?: string;
+  date: string;
+  status: 'success' | 'pending' | 'failed';
+}
+
+export interface CourseDownloadItem {
+  id: string;
+  courseId: string;
+  courseTitle: string;
+  lessonTitle?: string;
+  title: string;
+  description?: string;
+  fileSize: string;
+  fileType: 'zip' | 'pdf' | 'figma' | 'code' | 'video' | 'doc' | 'audio';
+  downloadUrl: string;
+  downloadCount?: number;
+  addedDate: string;
+}
+
+export interface InstructorApplication {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  phone: string;
+  expertise: string;
+  experienceYears: string;
+  sampleUrl?: string;
+  proposedTopic?: string;
+  bio: string;
+  status: 'pending' | 'reviewed' | 'approved' | 'rejected';
+  submittedAt: string;
 }
 
 export type CourseLevel = 'All Levels' | 'Beginner' | 'Intermediate' | 'Advanced';
@@ -165,9 +216,19 @@ export interface Course {
   instructorName: string;
   instructorAvatar: string;
   instructorTitle: string;
-  price: number;
-  originalPrice: number;
+  isVip?: boolean; // نیازمند اشتراک ویژه (VIP)
+  requiresSubscription?: boolean; // معادل isVip
+  accessType?: 'FREE' | 'VIP' | 'PAID';
+  // فیلدهای قیمت‌گذاری تکی (اختیاری/غیرفعال)
+  price?: number;
+  originalPrice?: number;
+  isFree?: boolean;
+  salePrice?: number;
   discountPercentage?: number;
+  currency?: string;
+  saleStart?: string;
+  saleEnd?: string;
+  isSaleEnabled?: boolean;
   rating: number;
   reviewCount: number;
   studentCount: number;
@@ -186,6 +247,12 @@ export interface Course {
   requirements: string[];
   targetAudience: string[];
   modules: CourseModule[];
+  sections?: any[];
+  userAccess?: {
+    canAccessFull: boolean;
+    reason: string;
+    canPreviewFree: boolean;
+  };
   faqs: { question: string; answer: string }[];
   tags: string[];
   status: CourseStatus;
@@ -237,16 +304,29 @@ export interface InstructorProfile {
   featuredCourseId?: string;
 }
 
+export interface LessonNote {
+  id: string;
+  userId?: string;
+  courseId?: string;
+  lessonId: string;
+  lessonTitle?: string;
+  timestampSeconds: number;
+  text: string;
+  createdAt: string;
+}
+
 export type Instructor = InstructorProfile;
 
 export interface Enrollment {
   courseId: string;
   userId: string;
+  accessType?: 'FREE' | 'PAID' | 'SUBSCRIPTION' | 'GIFT';
   enrolledAt: string;
   completedLessonIds: string[];
   lastLessonId: string;
   lastPositionSeconds: number;
   progressPercent: number;
+  isArchived?: boolean;
   completedAt?: string;
   certificateId?: string;
   notes: {
@@ -261,49 +341,25 @@ export interface Enrollment {
 
 export interface Certificate {
   id: string;
-  certificateNumber: string;
+  certificateNumber?: string;
   courseId: string;
   courseTitle: string;
   instructorName: string;
-  studentId: string;
+  studentId?: string;
   studentName: string;
   issueDate: string;
-  verificationUrl: string;
-  skills: string[];
+  verificationUrl?: string;
+  certificateUrl?: string;
+  skills?: string[];
+  grade?: string;
   gradeScore?: string;
+  verificationCode?: string;
 }
 
 export interface CartItem {
   courseId: string;
   course: Course;
   savedForLater?: boolean;
-}
-
-export interface Coupon {
-  code: string;
-  discountPercentage: number;
-  minSpend?: number;
-  expiresAt: string;
-  description: string;
-}
-
-export interface Order {
-  id: string;
-  orderNumber: string;
-  userId: string;
-  courses: {
-    id: string;
-    title: string;
-    price: number;
-    thumbnail: string;
-  }[];
-  subtotal: number;
-  discountAmount: number;
-  couponCode?: string;
-  total: number;
-  paymentMethod: 'card' | 'paypal' | 'applepay';
-  createdAt: string;
-  status: 'completed' | 'processing' | 'refunded';
 }
 
 export interface NotificationItem {
@@ -348,3 +404,242 @@ export interface CatalogFilters {
 
 export type AppLanguage = 'en' | 'fa';
 export type AppTheme = 'light' | 'dark' | 'system';
+
+export type UserRoleType = 'OWNER' | 'ADMIN' | 'INSTRUCTOR' | 'EDITOR' | 'SUPPORT' | 'STUDENT';
+
+export interface DigitalProduct {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  shortDescription?: string;
+  thumbnail: string;
+  fileType: string;
+  fileSize: string;
+  storageKey: string;
+  version: string;
+  isFree: boolean;
+  price: number;
+  discountPrice?: number;
+  downloadCount: number;
+  associatedCourseId?: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface LessonProgress {
+  id: string;
+  userId: string;
+  courseId: string;
+  lessonId: string;
+  isCompleted: boolean;
+  lastPositionSeconds: number;
+  timeSpentSeconds: number;
+  completedAt?: string | null;
+  updatedAt: string;
+}
+
+export interface CourseProgress {
+  id: string;
+  userId: string;
+  courseId: string;
+  progressPercent: number;
+  completedLessonsCount: number;
+  totalLessonsCount: number;
+  lastWatchedLessonId?: string;
+  isCompleted: boolean;
+  completedAt?: string | null;
+  certificateIssued: boolean;
+  certificateId?: string;
+  updatedAt: string;
+}
+
+export interface HomepageSection {
+  id: string;
+  sectionType: string;
+  title: string;
+  subtitle?: string;
+  orderIndex: number;
+  isEnabled: boolean;
+  content: Record<string, any>;
+  styleConfig?: Record<string, any>;
+  updatedAt: string;
+}
+
+export interface SiteSetting {
+  id: string;
+  siteName: string;
+  siteNameEn: string;
+  tagline: string;
+  heroSubtitle?: string;
+  logoUrl: string;
+  faviconUrl: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  borderRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  buttonStyle?: 'solid' | 'outline' | 'soft' | 'gradient';
+  fontFamily: string;
+  defaultLanguage: 'fa' | 'en';
+  isRtl: boolean;
+  contactEmail: string;
+  contactPhone: string;
+  address: string;
+  socialLinks: {
+    instagram?: string;
+    telegram?: string;
+    linkedin?: string;
+    youtube?: string;
+    twitter?: string;
+  };
+  footerText: string;
+  copyrightText: string;
+  isInstructorRegistrationEnabled?: boolean;
+  isAlacarteSaleEnabled?: boolean;
+  paymentGatewayMode?: 'MOCK_GATEWAY' | 'ZARINPAL';
+  zarinpalMerchantId?: string;
+  zarinpalSandbox?: boolean;
+  updatedAt: string;
+}
+
+export interface NavigationItem {
+  id: string;
+  menuLocation: string;
+  label: string;
+  labelEn?: string;
+  url: string;
+  icon?: string;
+  parentId?: string | null;
+  orderIndex: number;
+  isEnabled: boolean;
+  targetBlank: boolean;
+}
+
+export interface SeoMetadata {
+  id: string;
+  entityType: string;
+  entityId: string;
+  title: string;
+  description: string;
+  canonical?: string;
+  robots?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  keywords?: string[];
+  structuredData?: Record<string, any>;
+}
+
+// Commerce Types
+export type OrderStatus = 'PENDING' | 'PAID' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
+export type PaymentStatus = 'PENDING' | 'PAID' | 'FAILED' | 'REFUNDED';
+export type PaymentGatewayType = 'MOCK_GATEWAY' | 'ZARINPAL' | 'NEXTPAY' | 'SHAPARAK' | 'STRIPE';
+
+export interface OrderItem {
+  courseId?: string;
+  subscriptionPlanId?: string;
+  durationInMonths?: 1 | 3 | 6 | 9;
+  title: string;
+  price: number;
+  originalPrice: number;
+  instructorId?: string;
+  instructorName?: string;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  type?: 'SUBSCRIPTION' | 'COURSE';
+  subscriptionPlanId?: string;
+  durationInMonths?: 1 | 3 | 6 | 9;
+  items?: OrderItem[];
+  courses?: {
+    id: string;
+    title: string;
+    price: number;
+    thumbnail?: string;
+  }[];
+  subtotal: number;
+  discountAmount: number;
+  totalAmount?: number;
+  total?: number;
+  couponCode?: string;
+  status: OrderStatus | 'completed' | 'processing' | 'refunded';
+  paymentMethod: 'gateway' | 'wallet' | 'card' | 'paypal' | 'applepay';
+  paymentGateway?: PaymentGatewayType;
+  trackingCode?: string;
+  paidAt?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface Payment {
+  id: string;
+  orderId: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  gateway: PaymentGatewayType;
+  transactionId: string;
+  trackingCode: string;
+  status: PaymentStatus;
+  cardPanMasked?: string;
+  paidAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Coupon {
+  id?: string;
+  code: string;
+  title?: string;
+  type?: 'PERCENTAGE' | 'FIXED';
+  value?: number;
+  discountPercentage?: number;
+  minSpend?: number;
+  minOrderAmount?: number;
+  maxDiscountAmount?: number;
+  usageLimit?: number;
+  usedCount?: number;
+  applicableCourseIds?: string[];
+  startDate?: string;
+  endDate?: string;
+  expiresAt?: string;
+  description?: string;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PaymentTransaction {
+  id: string;
+  orderId: string;
+  userId: string;
+  type: 'PAYMENT' | 'REFUND';
+  amount: number;
+  currency: string;
+  status: 'SUCCESS' | 'FAILED';
+  description: string;
+  referenceNumber?: string;
+  createdAt: string;
+}
+
+export interface SubscriptionPlan {
+  id: string;
+  title: string;
+  durationInMonths: 1 | 3 | 6 | 9;
+  price: number; // Toman
+  discountedPrice?: number; // Toman
+  features?: string[];
+  isPopular?: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+

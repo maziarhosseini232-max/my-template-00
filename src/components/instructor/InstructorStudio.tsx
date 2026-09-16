@@ -2,17 +2,68 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   DollarSign, Users, Star, PlusCircle, 
-  CheckCircle, Video, 
-  Sparkles, TrendingUp, ArrowRight, ArrowLeft 
+  CheckCircle, Video, ShieldAlert, GraduationCap,
+  Sparkles, TrendingUp, ArrowRight, ArrowLeft, ShieldCheck 
 } from 'lucide-react';
 import { CourseModule, Lesson } from '../../types';
 import { formatPriceToman, toPersianDigits } from '../../utils/persian';
 
 export const InstructorStudio: React.FC = () => {
-  const { courses, categories, addToast, navigate, t, language, isRTL } = useApp();
+  const { courses, categories, addToast, navigate, t, language, isRTL, userRole, setUserRole, currentUser } = useApp();
+
+  const isActualAdmin = Boolean(
+    currentUser &&
+    (currentUser.roles?.some(r => r === 'ADMIN' || r === 'OWNER') ||
+     (currentUser.role === 'admin' && (!currentUser.roles || currentUser.roles.length === 0)))
+  );
 
   const [creatorModalOpen, setCreatorModalOpen] = useState(false);
   const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+
+  // If user is not admin, show clear message according to instructions
+  if (userRole !== 'admin') {
+    return (
+      <div className="min-h-screen py-16 bg-slate-50/50 dark:bg-slate-950/60 flex items-center justify-center px-4">
+        <div className="max-w-lg w-full bg-white dark:bg-[#08242d] rounded-3xl p-8 border border-teal-100 dark:border-teal-900 shadow-xl text-center space-y-6">
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 mx-auto flex items-center justify-center shadow-xs">
+            <ShieldAlert size={32} />
+          </div>
+
+          <div className="space-y-2">
+            <span className="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-bold">
+              دسترسی ویژه مدیریت
+            </span>
+            <h2 className="text-xl font-black text-slate-900 dark:text-slate-100">
+              امکان ایجاد و انتشار دوره منحصراً برای مدیریت فعال است
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              در ساختار فعلی پلتفرم لومینا لرن، ایجاد سرفصل و انتشار دوره‌ها توسط صاحب و مدیر سایت انجام می‌پذیرد. اگر تمایل دارید به عنوان مدرس در لومینا لرن فعالیت نمایید، می‌توانید فرم درخواست تدریس را تکمیل کنید تا توسط مدیریت بررسی شود.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <button
+              onClick={() => navigate('dashboard')}
+              className="flex-1 py-3 px-4 rounded-xl bg-[#0d9488] hover:bg-[#0f766e] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+            >
+              <GraduationCap size={16} />
+              <span>ارسال فرم درخواست تدریس</span>
+            </button>
+
+            {isActualAdmin && (
+              <button
+                onClick={() => setUserRole('admin')}
+                className="py-3 px-4 rounded-xl border border-teal-200 dark:border-teal-800 text-slate-700 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <ShieldCheck size={16} className="text-[#0d9488]" />
+                <span>بازگشت به دیدگاه مدیر (ADMIN)</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // New course draft state
   const [courseForm, setCourseForm] = useState({

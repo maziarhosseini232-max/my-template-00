@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, Play, Sparkles, Headphones, Clock, BookMarked, C
 import { toPersianDigits } from '../../utils/persian';
 
 export const HeroSection: React.FC = () => {
-  const { navigate, currentUser, enrollments, courses, isRTL, language } = useApp();
+  const { navigate, currentUser, enrollments, courses, isRTL, language, siteSettings } = useApp();
 
   const enrolledCourseIds = Object.keys(enrollments);
   const activeCourse = enrolledCourseIds.length > 0
@@ -36,12 +36,18 @@ export const HeroSection: React.FC = () => {
 
             {/* Editorial Headline with Teal Highlight */}
             <h1 className="font-extrabold text-3xl sm:text-5xl lg:text-[3.5rem] text-[#06242e] dark:text-white tracking-tight leading-[1.28]">
-              مسیر یادگیری <span className="text-[#0d9488] dark:text-[#2dd4bf] font-black">حرفه‌ای</span> و تخصصی را دنبال کن.
+              {siteSettings?.tagline ? (
+                <span>{siteSettings.tagline}</span>
+              ) : (
+                <>مسیر یادگیری <span className="text-[#0d9488] dark:text-[#2dd4bf] font-black">حرفه‌ای</span> و تخصصی را دنبال کن.</>
+              )}
             </h1>
 
             {/* Subheadline */}
             <p className="text-base sm:text-lg text-[#3b5d69] dark:text-slate-300 max-w-2xl leading-relaxed">
-              لومینا لرن، خانه‌ای آرام برای کشف، یادگیری عمیق و نگه‌داشتن دانش تخصصی است؛ هر دوره با ریتمی استاندارد که برای رشد مهارت‌های واقعی شما ساخته شده است.
+              {siteSettings?.heroSubtitle || (
+                <>لومینا لرن، خانه‌ای آرام برای کشف، یادگیری عمیق و نگه‌داشتن دانش تخصصی است؛ هر دوره با ریتمی استاندارد که برای رشد مهارت‌های واقعی شما ساخته شده است.</>
+              )}
             </p>
 
             {/* Action CTAs */}
@@ -172,7 +178,7 @@ export const HeroSection: React.FC = () => {
                     </div>
 
                     <button
-                      onClick={() => navigate('course-detail', 'modern-ui-ux-design-systems-mastery')}
+                      onClick={() => navigate('course-detail', 'figma-design-system-masterclass')}
                       className="px-5 py-2.5 rounded-xl bg-[#2dd4bf] hover:bg-[#14b8a6] text-[#06242e] font-extrabold text-xs transition-all shadow-md flex items-center gap-2 cursor-pointer"
                     >
                       <Play size={14} className="fill-[#06242e]" />

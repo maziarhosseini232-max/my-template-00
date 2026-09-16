@@ -31,6 +31,17 @@ export const SearchModal: React.FC = () => {
     }
   }, [searchModalOpen]);
 
+  // Global escape key listener to close modal from anywhere
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && searchModalOpen) {
+        setSearchModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [searchModalOpen, setSearchModalOpen]);
+
   const filteredCourses = query.trim()
     ? courses.filter(c => 
         c.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -76,18 +87,25 @@ export const SearchModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm">
+      <div 
+        id="search-modal-backdrop"
+        onClick={() => setSearchModalOpen(false)}
+        className="fixed inset-0 z-50 flex items-start justify-center pt-14 sm:pt-20 md:pt-24 px-3 sm:px-4 bg-slate-950/70 backdrop-blur-md transition-all duration-200 cursor-pointer"
+        role="dialog"
+        aria-modal="true"
+        aria-label={language === 'fa' ? 'پنجره جستجوی دوره‌ها و اساتید' : 'Search courses and instructors'}
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: -10 }}
+          initial={{ opacity: 0, scale: 0.95, y: -12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: -10 }}
-          transition={{ duration: 0.15 }}
-          className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+          exit={{ opacity: 0, scale: 0.95, y: -12 }}
+          transition={{ duration: 0.16, ease: 'easeOut' }}
+          className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[82vh] cursor-default"
           onClick={e => e.stopPropagation()}
         >
           {/* Input Header */}
-          <div className="flex items-center px-4 py-3.5 border-b border-slate-100 dark:border-slate-800 gap-3">
-            <Search className="w-5 h-5 text-slate-400 shrink-0" />
+          <div className="flex items-center px-4 py-3.5 border-b border-slate-100 dark:border-slate-800 gap-2.5 sm:gap-3 bg-slate-50/50 dark:bg-slate-900/60">
+            <Search className="w-5 h-5 text-[#0d9488] dark:text-[#5eead4] shrink-0" />
             <input
               ref={inputRef}
               type="text"
@@ -96,18 +114,41 @@ export const SearchModal: React.FC = () => {
               onKeyDown={handleKeyDown}
               placeholder={t('searchPlaceholder')}
               className="flex-1 bg-transparent text-sm md:text-base text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden"
+              autoFocus
             />
+
+            {/* Clear Query Button (when query is typed) */}
             {query && (
               <button
-                onClick={() => setQuery('')}
-                className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-md"
+                type="button"
+                onClick={() => {
+                  setQuery('');
+                  inputRef.current?.focus();
+                }}
+                className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                title={language === 'fa' ? 'پاک‌کردن متن' : 'Clear text'}
+                aria-label="Clear query"
               >
-                <X size={16} />
+                <X size={15} />
               </button>
             )}
-            <kbd className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">
+
+            {/* Keyboard ESC indicator */}
+            <kbd className="hidden sm:inline-flex items-center justify-center px-2 py-0.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700/80">
               ESC
             </kbd>
+
+            {/* Dedicated Modern Close Button */}
+            <button
+              type="button"
+              id="search-modal-close-btn"
+              onClick={() => setSearchModalOpen(false)}
+              className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-transparent hover:border-rose-200 dark:hover:border-rose-900/50 transition-all duration-150 cursor-pointer flex items-center justify-center shrink-0 group"
+              title={language === 'fa' ? 'بستن پنجره جستجو (ESC)' : 'Close search (ESC)'}
+              aria-label={language === 'fa' ? 'بستن پنجره جستجو' : 'Close search modal'}
+            >
+              <X size={18} className="group-hover:rotate-90 transition-transform duration-200" />
+            </button>
           </div>
 
           {/* Results / Suggestion Body */}
@@ -279,13 +320,25 @@ export const SearchModal: React.FC = () => {
           </div>
 
           {/* Footer Bar */}
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span>
-              {language === 'fa' ? 'کلید ↵ Enter برای جستجو در کاتالوگ' : 'Press ↵ Enter to search catalog'}
-            </span>
-            <span>
-              {language === 'fa' ? 'کلید ESC یا کلیک بیرون برای بستن' : 'Click outside or press ESC to close'}
-            </span>
+          <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-800/60 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-2">
+              <kbd className="px-1.5 py-0.5 text-[10px] font-bold bg-white dark:bg-slate-700 rounded border border-slate-200 dark:border-slate-600 shadow-2xs">↵ Enter</kbd>
+              <span>
+                {language === 'fa' ? 'جستجو در کاتالوگ' : 'Search in catalog'}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:inline text-slate-400">
+                {language === 'fa' ? 'کلیک در فضای خالی یا فشردن ESC' : 'Click backdrop or press ESC'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setSearchModalOpen(false)}
+                className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 px-2 py-1 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer"
+              >
+                {language === 'fa' ? 'بستن' : 'Close'}
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>

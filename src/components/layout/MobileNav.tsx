@@ -1,10 +1,10 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { Home, Compass, BookOpen, Heart, Sparkles } from 'lucide-react';
+import { Home, Compass, BookOpen, Sparkles, GraduationCap, Crown } from 'lucide-react';
 import { toPersianDigits } from '../../utils/persian';
 
 export const MobileNav: React.FC = () => {
-  const { currentRoute, navigate, wishlist, enrollments, t } = useApp();
+  const { currentRoute, navigate, enrollments, userRole, t } = useApp();
 
   const activeEnrolledCount = Object.keys(enrollments).length;
 
@@ -37,20 +37,36 @@ export const MobileNav: React.FC = () => {
           <span className="text-[10px]">{t('explore')}</span>
         </button>
 
-        {/* Studio Button in Mobile Center */}
-        <button
-          onClick={() => navigate('admin')}
-          className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
-            currentRoute.view === 'admin'
-              ? 'text-[#0d9488] dark:text-[#5eead4] font-bold'
-              : 'text-[#527683] dark:text-[#8ab5be]'
-          }`}
-        >
-          <div className="w-6 h-6 rounded-lg bg-[#def4ee] dark:bg-[#0e3b47] flex items-center justify-center text-[#0d9488] dark:text-[#5eead4]">
-            <Sparkles size={14} />
-          </div>
-          <span className="text-[10px] font-extrabold">استودیو</span>
-        </button>
+        {/* Studio Button for Admin OR Request for Student */}
+        {userRole === 'admin' ? (
+          <button
+            onClick={() => navigate('admin')}
+            className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
+              currentRoute.view === 'admin'
+                ? 'text-[#0d9488] dark:text-[#5eead4] font-bold'
+                : 'text-[#527683] dark:text-[#8ab5be]'
+            }`}
+          >
+            <div className="w-6 h-6 rounded-lg bg-[#def4ee] dark:bg-[#0e3b47] flex items-center justify-center text-[#0d9488] dark:text-[#5eead4]">
+              <Sparkles size={14} />
+            </div>
+            <span className="text-[10px] font-extrabold">استودیو (مدیر)</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate('vip')}
+            className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
+              currentRoute.view === 'vip'
+                ? 'text-amber-500 font-bold'
+                : 'text-[#527683] dark:text-[#8ab5be]'
+            }`}
+          >
+            <div className="w-6 h-6 rounded-lg bg-amber-100/70 dark:bg-amber-950/70 flex items-center justify-center text-amber-600 dark:text-amber-400">
+              <Crown size={14} />
+            </div>
+            <span className="text-[10px]">اشتراک VIP</span>
+          </button>
+        )}
 
         {/* My Learning */}
         <button
@@ -67,23 +83,8 @@ export const MobileNav: React.FC = () => {
             <span className="absolute top-1 inset-inline-end-2 w-2 h-2 bg-[#0d9488] rounded-full" />
           )}
         </button>
-
-        {/* Wishlist */}
-        <button
-          onClick={() => navigate('wishlist')}
-          className={`relative flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
-            currentRoute.view === 'wishlist'
-              ? 'text-[#0d9488] dark:text-[#5eead4] font-bold'
-              : 'text-[#527683] dark:text-[#8ab5be]'
-          }`}
-        >
-          <Heart size={19} />
-          <span className="text-[10px]">{t('wishlist')}</span>
-          {wishlist.length > 0 && (
-            <span className="absolute top-1 inset-inline-end-2 w-2 h-2 bg-rose-500 rounded-full" />
-          )}
-        </button>
       </div>
     </nav>
   );
 };
+

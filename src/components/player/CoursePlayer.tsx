@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
+import { api } from '../../services/api';
 import { 
   Play, Pause, SkipBack, SkipForward, 
   Maximize, CheckCircle2, Circle, Clock, Download, 
@@ -18,6 +19,7 @@ export const CoursePlayer: React.FC<CoursePlayerProps> = ({ courseId }) => {
     courses, 
     enrollments, 
     updateLessonProgress, 
+    saveLessonProgress,
     addNote, 
     deleteNote, 
     navigate, 
@@ -28,19 +30,29 @@ export const CoursePlayer: React.FC<CoursePlayerProps> = ({ courseId }) => {
     language 
   } = useApp();
 
-  const course = courses.find(c => c.id === courseId) || courses[0];
-  const enrollment = enrollments[courseId] || {
-    courseId: course.id,
+  const course = courses.find(c => c.id === courseId || c.slug === courseId) || courses[0];
+  const targetCourseId = course ? course.id : courseId;
+  const enrollment = enrollments[targetCourseId] || enrollments[courseId] || {
+    courseId: targetCourseId,
+    userId: currentUser.id,
     enrolledAt: new Date().toISOString(),
-    progressPercent: 25,
+    progressPercent: 0,
     completedLessonIds: [],
-    lastLessonId: course.modules[0]?.lessons[0]?.id || '',
+    lastLessonId: course?.modules?.[0]?.lessons?.[0]?.id || '',
     notes: []
   };
 
   // Find all lessons flattened for easy next/prev indexing
-  const allLessons = course.modules.flatMap(m => m.lessons);
-  const initialLesson = allLessons.find(l => l.id === enrollment.lastLessonId) || allLessons[0];
+  const allLessons = (course?.modules || []).flatMap(m => m.lessons || []);
+  const initialLesson = allLessons.find(l => l.id === enrollment.lastLessonId) || allLessons[0] || {
+    id: 'lsn_default',
+    title: 'جلسه اول',
+    description: '',
+    durationMinutes: 10,
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    isFreePreview: true,
+    resources: []
+  };
 
   const [activeLesson, setActiveLesson] = useState<Lesson>(initialLesson);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -79,37 +91,164 @@ export const CoursePlayer: React.FC<CoursePlayerProps> = ({ courseId }) => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Position Persistence & Resume state refs
+  const lessonPositionsRef = useRef<Record<string, number>>({});
+  const lastSavedPositionRef = useRef<number>(-1);
+  const lastSavedTimestampRef = useRef<number>(0);
+  const isResumingRef = useRef<boolean>(false);
+
+  // Synchronize initial positions from enrollment object
+  useEffect(() => {
+    if (enrollment.lastLessonId && typeof enrollment.lastPositionSeconds === 'number' && enrollment.lastPositionSeconds > 0) {
+      lessonPositionsRef.current[enrollment.lastLessonId] = enrollment.lastPositionSeconds;
+    }
+  }, [enrollment.lastLessonId, enrollment.lastPositionSeconds]);
+
+  // Fetch verified progress from server to populate per-lesson positions
+  useEffect(() => {
+    let isMounted = true;
+    if (targetCourseId && currentUser.id) {
+      api.progress.getCourseProgress(targetCourseId).then(res => {
+        if (!isMounted || !res || !res.data) return;
+        const lps = (res.data as any).lessonProgressList || [];
+        lps.forEach((lp: any) => {
+          if (lp.lessonId && typeof lp.lastPositionSeconds === 'number' && lp.lastPositionSeconds > 0) {
+            lessonPositionsRef.current[lp.lessonId] = lp.lastPositionSeconds;
+          }
+        });
+      }).catch(() => {});
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [targetCourseId, currentUser.id]);
+
+  // Centralized position persistence helper
+  const persistCurrentPosition = useCallback((targetLessonId: string = activeLesson.id) => {
+    if (!videoRef.current) return;
+    const sec = Math.floor(videoRef.current.currentTime);
+    if (sec >= 0 && Math.abs(sec - lastSavedPositionRef.current) >= 1) {
+      lessonPositionsRef.current[targetLessonId] = sec;
+      saveLessonProgress(targetCourseId, targetLessonId, sec);
+      lastSavedPositionRef.current = sec;
+      lastSavedTimestampRef.current = Date.now();
+    }
+  }, [activeLesson.id, targetCourseId, saveLessonProgress]);
+
+  // Flush on unmount or before window unload
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (videoRef.current && videoRef.current.currentTime > 0) {
+        const sec = Math.floor(videoRef.current.currentTime);
+        saveLessonProgress(targetCourseId, activeLesson.id, sec);
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      if (videoRef.current && videoRef.current.currentTime > 0) {
+        const sec = Math.floor(videoRef.current.currentTime);
+        saveLessonProgress(targetCourseId, activeLesson.id, sec);
+      }
+    };
+  }, [activeLesson.id, targetCourseId, saveLessonProgress]);
+
   // Lesson index
   const currentIndex = allLessons.findIndex(l => l.id === activeLesson.id);
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
-  // Handle lesson switch
+  // Handle lesson switch with previous position preservation
   const handleSelectLesson = (lesson: Lesson) => {
+    if (lesson.id === activeLesson.id) return;
+    
+    // Save outgoing lesson position before switching
+    if (videoRef.current && videoRef.current.currentTime > 0) {
+      const sec = Math.floor(videoRef.current.currentTime);
+      lessonPositionsRef.current[activeLesson.id] = sec;
+      saveLessonProgress(targetCourseId, activeLesson.id, sec);
+      lastSavedPositionRef.current = sec;
+    }
+
     setActiveLesson(lesson);
     setCurrentTime(0);
     setIsPlaying(true);
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
   };
+
+  // Video Loaded Metadata — Resume accurately from lastPositionSeconds
+  const handleLoadedMetadata = useCallback(() => {
+    if (!videoRef.current) return;
+    const video = videoRef.current;
+    const dur = video.duration || 0;
+    setDuration(dur);
+
+    // Read saved position for this lesson
+    let savedSec = lessonPositionsRef.current[activeLesson.id];
+    if (savedSec === undefined && enrollment.lastLessonId === activeLesson.id) {
+      savedSec = enrollment.lastPositionSeconds;
+    }
+
+    if (typeof savedSec === 'number' && !isNaN(savedSec) && savedSec > 0) {
+      const maxClamp = Math.max(0, dur > 2 ? dur - 2 : dur);
+      const resumeTime = Math.min(savedSec, maxClamp);
+      if (resumeTime > 0) {
+        isResumingRef.current = true;
+        video.currentTime = resumeTime;
+        setCurrentTime(resumeTime);
+        lastSavedPositionRef.current = Math.floor(resumeTime);
+        lastSavedTimestampRef.current = Date.now();
+        setTimeout(() => {
+          isResumingRef.current = false;
+        }, 600);
+      }
+    } else {
+      setCurrentTime(0);
+      lastSavedPositionRef.current = 0;
+    }
+
+    if (isPlaying) {
+      video.play().catch(() => {});
+    }
+  }, [activeLesson.id, enrollment.lastLessonId, enrollment.lastPositionSeconds, isPlaying]);
 
   const handleTogglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        persistCurrentPosition(activeLesson.id);
       } else {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
       setIsPlaying(!isPlaying);
     }
   };
 
+  const handleVideoPause = () => {
+    setIsPlaying(false);
+    persistCurrentPosition(activeLesson.id);
+  };
+
+  const handleVideoPlay = () => {
+    setIsPlaying(true);
+  };
+
   const handleTimeUpdate = () => {
     if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
+      const cur = videoRef.current.currentTime;
+      setCurrentTime(cur);
       setDuration(videoRef.current.duration || 0);
+
+      // Periodic auto-save every 5 seconds during playback (isolated from initial resume)
+      if (isPlaying && !isResumingRef.current) {
+        const now = Date.now();
+        const sec = Math.floor(cur);
+        if (now - lastSavedTimestampRef.current >= 5000 && Math.abs(sec - lastSavedPositionRef.current) >= 3) {
+          lessonPositionsRef.current[activeLesson.id] = sec;
+          saveLessonProgress(targetCourseId, activeLesson.id, sec);
+          lastSavedPositionRef.current = sec;
+          lastSavedTimestampRef.current = now;
+        }
+      }
     }
   };
 
@@ -118,6 +257,7 @@ export const CoursePlayer: React.FC<CoursePlayerProps> = ({ courseId }) => {
     setCurrentTime(time);
     if (videoRef.current) {
       videoRef.current.currentTime = time;
+      lastSavedPositionRef.current = Math.floor(time);
     }
   };
 
@@ -244,7 +384,10 @@ export const CoursePlayer: React.FC<CoursePlayerProps> = ({ courseId }) => {
             <video
               ref={videoRef}
               src={activeLesson.videoUrl || course.previewVideoUrl}
+              onLoadedMetadata={handleLoadedMetadata}
               onTimeUpdate={handleTimeUpdate}
+              onPause={handleVideoPause}
+              onPlay={handleVideoPlay}
               onEnded={() => handleToggleComplete(activeLesson.id)}
               className="w-full h-full object-contain"
             />

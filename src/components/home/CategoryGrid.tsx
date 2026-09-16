@@ -7,7 +7,7 @@ import {
 import { toPersianDigits } from '../../utils/persian';
 
 export const CategoryGrid: React.FC = () => {
-  const { categories, navigate, t, language, isRTL } = useApp();
+  const { categories, courses, navigate, t, language, isRTL } = useApp();
 
   const getIcon = (name: string) => {
     switch (name) {
@@ -76,7 +76,10 @@ export const CategoryGrid: React.FC = () => {
                     {language === 'fa' ? category.nameFa : category.name}
                   </h3>
                   <p className="text-[11px] sm:text-xs text-teal-100/80 mt-0.5 font-medium">
-                    {language === 'fa' ? `${toPersianDigits(category.courseCount)} دوره تخصصی` : `${category.courseCount} Masterclasses`}
+                    {(() => {
+                      const count = courses.filter(c => c.categoryId === category.id || c.category === category.id || c.categoryId === category.slug).length;
+                      return language === 'fa' ? `${toPersianDigits(count)} دوره تخصصی` : `${count} Masterclasses`;
+                    })()}
                   </p>
                 </div>
               </div>

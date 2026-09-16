@@ -8,6 +8,10 @@ export const TrendingSection: React.FC = () => {
 
   const trendingCourses = courses.filter(c => c.isTrending || c.rating >= 4.95);
 
+  if (trendingCourses.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-16 bg-[#F3F8F6] dark:bg-[#07171e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

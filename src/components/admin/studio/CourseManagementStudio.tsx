@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { StudioSidebar } from './StudioSidebar';
 import { StudioHeader } from './StudioHeader';
@@ -12,6 +12,7 @@ import { StudentsManagerTab } from './StudentsManagerTab';
 import { OrdersManagerTab } from './OrdersManagerTab';
 import { PayoutsManagerTab } from './PayoutsManagerTab';
 import { StudioSettingsTab } from './StudioSettingsTab';
+import { ReportsAnalyticsTab } from './ReportsAnalyticsTab';
 import { BulkUploadModal } from './BulkUploadModal';
 import { ImportCoursePackageModal } from './ImportCoursePackageModal';
 import { CourseAnalyticsModal } from './CourseAnalyticsModal';
@@ -19,7 +20,23 @@ import { CoursePreviewModal } from './CoursePreviewModal';
 import { Course } from '../../../types';
 
 export const CourseManagementStudio: React.FC = () => {
-  const { courses, categories, instructors, activeAdminTab, setActiveAdminTab, setCurrentView } = useApp();
+  const { courses, categories, instructors, mediaAssets, navigate, isLoggedIn, currentUser } = useApp();
+
+  const isActualAdmin = Boolean(
+    isLoggedIn && currentUser &&
+    (currentUser.roles?.some(r => r === 'ADMIN' || r === 'OWNER') ||
+     (currentUser.role === 'admin' && (!currentUser.roles || currentUser.roles.length === 0)))
+  );
+
+  useEffect(() => {
+    if (!isActualAdmin) {
+      navigate('home');
+    }
+  }, [isActualAdmin, navigate]);
+
+  if (!isActualAdmin) {
+    return null;
+  }
 
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
@@ -29,6 +46,10 @@ export const CourseManagementStudio: React.FC = () => {
   const [showImportModal, setShowImportModal] = useState(false);
   const [analyticsCourse, setAnalyticsCourse] = useState<Course | null>(null);
   const [previewCourse, setPreviewCourse] = useState<Course | null>(null);
+
+  const draftCount = courses.filter(c => c.status === 'draft').length;
+  const pendingCount = courses.filter(c => c.status === 'pending').length;
+  const mediaCount = mediaAssets?.length || 0;
 
   const handleCreateCourse = () => {
     setEditingCourse(null);
@@ -54,9 +75,8 @@ export const CourseManagementStudio: React.FC = () => {
       {/* Studio Header */}
       <StudioHeader
         onNewCourse={handleCreateCourse}
-        onImportCourse={() => setShowImportModal(true)}
+        onOpenImport={() => setShowImportModal(true)}
         onOpenBulkUpload={() => setShowBulkUpload(true)}
-        onExitStudio={() => setCurrentView('home')}
       />
 
       {/* Main Studio Container */}
@@ -65,16 +85,17 @@ export const CourseManagementStudio: React.FC = () => {
         {/* Studio Navigation Sidebar */}
         <div className="w-full lg:w-64 shrink-0">
           <StudioSidebar
-            activeTab={activeTab}
-            onTabChange={tab => {
+            activeTab={activeTab as any}
+            onSelectTab={tab => {
               if (tab !== 'create-course') {
                 setEditingCourse(null);
               }
               setActiveTab(tab);
             }}
-            onNewCourse={handleCreateCourse}
-            onOpenBulkUpload={() => setShowBulkUpload(true)}
-            onImportPackage={() => setShowImportModal(true)}
+            courseCount={courses.length}
+            draftCount={draftCount}
+            pendingCount={pendingCount}
+            mediaCount={mediaCount}
           />
         </div>
 
@@ -84,21 +105,22 @@ export const CourseManagementStudio: React.FC = () => {
           {/* Dashboard Tab */}
           {activeTab === 'dashboard' && (
             <StudioDashboard
-              onNavigate={setActiveTab}
-              onCreateCourse={handleCreateCourse}
+              onSelectTab={setActiveTab}
               onEditCourse={handleEditCourse}
               onPreviewCourse={handlePreviewCourse}
-              onViewAnalytics={handleViewAnalytics}
+              onOpenBulkUpload={() => setShowBulkUpload(true)}
+              onOpenImport={() => setShowImportModal(true)}
             />
           )}
 
           {/* Courses List Tab */}
           {activeTab === 'courses' && (
             <CourseListManager
-              onCreateNew={handleCreateCourse}
+              onNewCourse={handleCreateCourse}
               onEditCourse={handleEditCourse}
               onPreviewCourse={handlePreviewCourse}
-              onViewAnalytics={handleViewAnalytics}
+              onOpenAnalytics={handleViewAnalytics}
+              onOpenImport={() => setShowImportModal(true)}
             />
           )}
 
@@ -119,7 +141,7 @@ export const CourseManagementStudio: React.FC = () => {
           )}
 
           {/* Media Library Tab */}
-          {activeTab === 'media-library' && (
+          {(activeTab === 'media' || activeTab === 'media-library') && (
             <MediaLibraryTab onOpenBulkUpload={() => setShowBulkUpload(true)} />
           )}
 
@@ -148,17 +170,12 @@ export const CourseManagementStudio: React.FC = () => {
             <PayoutsManagerTab />
           )}
 
-          {/* Reports Tab */}
+          {/* Reports & Analytics Tab */}
           {activeTab === 'reports' && (
-            <div className="space-y-6">
-              <StudioDashboard
-                onNavigate={setActiveTab}
-                onCreateCourse={handleCreateCourse}
-                onEditCourse={handleEditCourse}
-                onPreviewCourse={handlePreviewCourse}
-                onViewAnalytics={handleViewAnalytics}
-              />
-            </div>
+            <ReportsAnalyticsTab
+              onViewCourseAnalytics={handleViewAnalytics}
+              onSelectTab={setActiveTab}
+            />
           )}
 
           {/* Settings Tab */}

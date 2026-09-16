@@ -1,0 +1,2703 @@
+{
+  "version": 1,
+  "timestamp": "2026-09-15T19:33:13.768Z",
+  "siteSetting": {
+    "id": "setting_1",
+    "siteName": "لومینا لرن",
+    "siteNameEn": "Lumina Learn",
+    "tagline": "پلتفرم جامع آموزش آنلاین مهارت‌های مدرن و فایل‌های دانلودی",
+    "logoUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80",
+    "faviconUrl": "/favicon.ico",
+    "primaryColor": "#2563EB",
+    "secondaryColor": "#4F46E5",
+    "fontFamily": "Vazirmatn",
+    "defaultLanguage": "fa",
+    "isRtl": true,
+    "contactEmail": "support@luminalearn.ir",
+    "contactPhone": "۰۲۱-۸۸۸۸۴۴۲۲",
+    "address": "تهران، میدان ونک، برج فناوری لومینا",
+    "socialLinks": {
+      "instagram": "https://instagram.com/luminalearn",
+      "telegram": "https://t.me/luminalearn",
+      "linkedin": "https://linkedin.com/company/lumina-learn",
+      "youtube": "https://youtube.com/@luminalearn",
+      "twitter": "https://x.com/lumina_academy"
+    },
+    "footerText": "لومینا لرن پلتفرمی برای پرورش متخصصان نسل آینده با آموزش‌های پروژه‌محور و منابع دیجیتال حرفه‌ای.",
+    "copyrightText": "© ۱۴۰۴ تمامی حقوق مادی و معنوی برای آکادمی لومینا محفوظ است.",
+    "isInstructorRegistrationEnabled": false,
+    "isAlacarteSaleEnabled": false,
+    "updatedAt": "2026-09-14T09:59:58.851Z",
+    "heroSubtitle": "لومینا لرن، خانه‌ای آرام برای کشف، یادگیری عمیق و نگه‌داشتن دانش تخصصی است؛ هر دوره با ریتمی استاندارد که برای رشد مهارت‌های واقعی شما ساخته شده است."
+  },
+  "users": [
+    {
+      "id": "usr_admin_1",
+      "name": "مازیار حسینی (مدیر ارشد لومینا)",
+      "email": "maziarhosseini232@gmail.com",
+      "phone": "09120000000",
+      "passwordHash": "$2b$10$HHoyJ3UA2DcY3DaZ2Bs3z.Xwz9zizxHIEGyaIayYCUub7loXM95hG",
+      "roles": [
+        "OWNER",
+        "ADMIN"
+      ],
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "headline": "مدیر کل و معمار سیستم",
+      "bio": "سرپرست تیم آموزش و توسعه سیستم‌های نرم‌افزاری مقیاس‌پذیر.",
+      "walletBalance": 0,
+      "isEmailVerified": true,
+      "isPhoneVerified": true,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z",
+      "isVip": false
+    },
+    {
+      "id": "usr_admin_2",
+      "name": "مدیر سیستم لومینا",
+      "email": "admin@lumina.com",
+      "phone": "09120000001",
+      "passwordHash": "$2b$10$HHoyJ3UA2DcY3DaZ2Bs3z.Xwz9zizxHIEGyaIayYCUub7loXM95hG",
+      "roles": [
+        "OWNER",
+        "ADMIN"
+      ],
+      "avatar": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=400&auto=format&fit=crop",
+      "headline": "مدیر سیستم و نظارت بر محتوا",
+      "bio": "مدیریت و پشتیبانی محتوای آموزشی لومینا لرن.",
+      "walletBalance": 0,
+      "isEmailVerified": true,
+      "isPhoneVerified": true,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-15T15:33:03.087Z",
+      "shebaNumber": "",
+      "isVip": false,
+      "subscriptionEndDate": "2027-08-15T15:32:12.824Z"
+    },
+    {
+      "id": "usr_1789486250893_d1pu",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789486250893@example.com",
+      "passwordHash": "$2b$10$aCm0Cf6WvqCXnoTCRy5F5OC0GNP9fDHL.vymoyMrNAm6RJdFJHjdy",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:30:50.893Z",
+      "updatedAt": "2026-09-15T19:33:11.810Z",
+      "headline": "توسعه‌دهنده فول‌استک",
+      "shebaNumber": "123456789012345678901234"
+    },
+    {
+      "id": "usr_1789486481277_rorh",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789486481277@example.com",
+      "passwordHash": "$2b$10$BV1/TqBMkMYytPIxRvcNpO8z.V8zgXSvH68acw3DhmuDMLy7dHLHC",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:34:41.277Z",
+      "updatedAt": "2026-09-15T15:34:41.277Z"
+    },
+    {
+      "id": "usr_1789486486550_qga1",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789486486549@example.com",
+      "passwordHash": "$2b$10$n.Z2GmGVnDsEhnbbJwFaV.yriVoXgIrdBRUA6Pn3mpTvKRPJm9CUi",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:34:46.550Z",
+      "updatedAt": "2026-09-15T15:34:46.550Z"
+    },
+    {
+      "id": "usr_1789486656812_wyia",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789486656812@example.com",
+      "passwordHash": "$2b$10$oHG8l10ZgFcT7ZhUrnHipOFki0xcIdnWDDoNST3HOpkqTK9SQqpoG",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:37:36.812Z",
+      "updatedAt": "2026-09-15T15:37:36.812Z"
+    },
+    {
+      "id": "usr_1789487205050_zbix",
+      "name": "دانشجوی جدید آزمایشی",
+      "email": "test_student_1789487205044@example.com",
+      "passwordHash": "$2b$10$80J4zDK8R0d2f0lTac5WFOAtd9XAKX81L27r3FD7pFp5JffPrEZWC",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:46:45.050Z",
+      "updatedAt": "2026-09-15T15:46:45.050Z"
+    },
+    {
+      "id": "usr_instructor_1",
+      "name": "مهندس علی رضایی (مدرس ارشد)",
+      "email": "instructor@luminalearn.ir",
+      "phone": "09120000002",
+      "passwordHash": "$2b$10$6u/pK6z5veiaFxo2L.qHqu3TZIiMIPGiHO9gFTz8wz4Ka3tjYGTze",
+      "roles": [
+        "INSTRUCTOR"
+      ],
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "headline": "مدرس ارشد فرانت‌اند و طراح دیزاین سیستم",
+      "bio": "بیش از ۱۰ سال تجربه توسعه برنامه‌های وب و آموزش بیش از ۵,۰۰۰ دانشجو.",
+      "walletBalance": 0,
+      "isEmailVerified": true,
+      "isPhoneVerified": true,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:48:01.432Z",
+      "updatedAt": "2026-09-15T15:48:01.432Z"
+    },
+    {
+      "id": "usr_student_1",
+      "name": "سارا احمدی (دانشجوی فعال)",
+      "email": "student@luminalearn.ir",
+      "phone": "09120000003",
+      "passwordHash": "$2b$10$6u/pK6z5veiaFxo2L.qHqu3TZIiMIPGiHO9gFTz8wz4Ka3tjYGTze",
+      "roles": [
+        "STUDENT"
+      ],
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      "headline": "دانشجوی مشتاق برنامه‌نویسی وب مدرن",
+      "bio": "علاقه‌مند به یادگیری React، TypeScript و فناوری‌های هوش مصنوعی.",
+      "walletBalance": 0,
+      "isEmailVerified": true,
+      "isPhoneVerified": true,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:48:01.432Z",
+      "updatedAt": "2026-09-15T15:48:01.432Z"
+    },
+    {
+      "id": "usr_1789487281520_n7r2",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789487281520@example.com",
+      "passwordHash": "$2b$10$s6jM7MlzlKzoo8C9fEwhLOtD5c.CcM6gHz2HdspLHHWScZGCxu8DK",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T15:48:01.520Z",
+      "updatedAt": "2026-09-15T15:48:01.520Z"
+    },
+    {
+      "id": "usr_1789500337059_409b",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789500337058@example.com",
+      "passwordHash": "$2b$10$pU7PeUG1ZOgakrPOlClJoeWSbxwkqZ3J6bufVd3D89NsQB/e5a6lu",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T19:25:37.059Z",
+      "updatedAt": "2026-09-15T19:25:37.059Z"
+    },
+    {
+      "id": "usr_1789500615303_tmre",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789500615302@example.com",
+      "passwordHash": "$2b$10$M6jWP8FAcr3KotKnoTolMe/ytOnhyHH9/4CKbt/Rw1T5TTaOdYUum",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T19:30:15.302Z",
+      "updatedAt": "2026-09-15T19:30:15.302Z"
+    },
+    {
+      "id": "usr_1789500757441_yp1r",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789500757440@example.com",
+      "passwordHash": "$2b$10$5H60F1PDaIwDlJl9jPfKiOTWSLjyOYQpwjIZSsX1n/90P5jxPXXxS",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T19:32:37.441Z",
+      "updatedAt": "2026-09-15T19:32:37.441Z"
+    },
+    {
+      "id": "usr_1789500790395_j3l3",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789500790395@example.com",
+      "passwordHash": "$2b$10$88/0eat2jlRqLbbq.FOdaeyMa6fFKJe9S5rU4cbdEB1BcCnSAEvqu",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-15T19:33:10.395Z",
+      "updatedAt": "2026-09-15T19:33:10.395Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": "r_owner",
+      "name": "OWNER",
+      "description": "مالک پلتفرم با دسترسی کامل به تمامی بخش‌ها",
+      "permissions": [
+        "course:view",
+        "course:create",
+        "course:update",
+        "course:publish",
+        "course:delete",
+        "lesson:create",
+        "lesson:update",
+        "lesson:delete",
+        "file:upload",
+        "file:manage",
+        "user:view",
+        "user:update",
+        "user:delete",
+        "cms:manage",
+        "navigation:update",
+        "settings:update",
+        "seo:update",
+        "audit:view",
+        "commerce:manage",
+        "pricing:manage"
+      ]
+    },
+    {
+      "id": "r_admin",
+      "name": "ADMIN",
+      "description": "مدیر ارشد با دسترسی‌های مدیریتی و نظارتی",
+      "permissions": [
+        "course:view",
+        "course:create",
+        "course:update",
+        "course:publish",
+        "course:delete",
+        "lesson:create",
+        "lesson:update",
+        "lesson:delete",
+        "file:upload",
+        "file:manage",
+        "user:view",
+        "user:update",
+        "user:delete",
+        "cms:manage",
+        "navigation:update",
+        "settings:update",
+        "seo:update",
+        "audit:view",
+        "commerce:manage",
+        "pricing:manage"
+      ]
+    },
+    {
+      "id": "r_instructor",
+      "name": "INSTRUCTOR",
+      "description": "مدرس با دسترسی ساخت و ویرایش دوره‌های خود",
+      "permissions": [
+        "course:view",
+        "course:create",
+        "course:update",
+        "course:publish",
+        "course:delete",
+        "lesson:create",
+        "lesson:update",
+        "lesson:delete",
+        "file:upload"
+      ]
+    },
+    {
+      "id": "r_editor",
+      "name": "EDITOR",
+      "description": "نویسنده و تدوین‌گر محتوای سایت و وبلاگ",
+      "permissions": [
+        "cms:manage",
+        "seo:update",
+        "course:view",
+        "course:update"
+      ]
+    },
+    {
+      "id": "r_support",
+      "name": "SUPPORT",
+      "description": "پشتیبانی فنی و پاسخگویی به دانشجویان",
+      "permissions": [
+        "user:view",
+        "course:view"
+      ]
+    },
+    {
+      "id": "r_student",
+      "name": "STUDENT",
+      "description": "دانشجو با دسترسی ثبت‌نام، یادگیری و مشاهده دوره‌ها",
+      "permissions": [
+        "course:view"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "id": "p1",
+      "name": "course:view",
+      "description": "مشاهده دوره‌ها",
+      "module": "COURSES"
+    },
+    {
+      "id": "p2",
+      "name": "course:create",
+      "description": "ایجاد دوره جدید",
+      "module": "COURSES"
+    },
+    {
+      "id": "p3",
+      "name": "course:update",
+      "description": "ویرایش اطلاعات دوره",
+      "module": "COURSES"
+    },
+    {
+      "id": "p4",
+      "name": "course:publish",
+      "description": "انتشار یا خارج کردن از انتشار دوره",
+      "module": "COURSES"
+    },
+    {
+      "id": "p5",
+      "name": "course:delete",
+      "description": "حذف یا آرشیو دوره",
+      "module": "COURSES"
+    },
+    {
+      "id": "p6",
+      "name": "lesson:create",
+      "description": "افزودن جلسه به دوره",
+      "module": "LESSONS"
+    },
+    {
+      "id": "p7",
+      "name": "lesson:update",
+      "description": "ویرایش جلسات",
+      "module": "LESSONS"
+    },
+    {
+      "id": "p8",
+      "name": "lesson:delete",
+      "description": "حذف جلسات",
+      "module": "LESSONS"
+    },
+    {
+      "id": "p9",
+      "name": "file:upload",
+      "description": "آپلود فایل‌های دانلودی",
+      "module": "FILES"
+    },
+    {
+      "id": "p10",
+      "name": "file:manage",
+      "description": "مدیریت محصولات دیجیتال",
+      "module": "FILES"
+    },
+    {
+      "id": "p11",
+      "name": "user:view",
+      "description": "مشاهده لیست کاربران",
+      "module": "USERS"
+    },
+    {
+      "id": "p12",
+      "name": "user:update",
+      "description": "ویرایش مشخصات و نقش کاربران",
+      "module": "USERS"
+    },
+    {
+      "id": "p13",
+      "name": "user:delete",
+      "description": "غیرفعال‌سازی حساب کاربران",
+      "module": "USERS"
+    },
+    {
+      "id": "p14",
+      "name": "cms:manage",
+      "description": "مدیریت سکشن‌های صفحه اصلی و صفحات",
+      "module": "CMS"
+    },
+    {
+      "id": "p15",
+      "name": "navigation:update",
+      "description": "مدیریت منوهای هدر و فوتر",
+      "module": "NAVIGATION"
+    },
+    {
+      "id": "p16",
+      "name": "settings:update",
+      "description": "تنظیمات کلی و ظاهر سایت",
+      "module": "SETTINGS"
+    },
+    {
+      "id": "p17",
+      "name": "seo:update",
+      "description": "مدیریت متادیتای سئو",
+      "module": "SEO"
+    },
+    {
+      "id": "p18",
+      "name": "audit:view",
+      "description": "مشاهده لاگ‌های امنیتی و سیستمی",
+      "module": "AUDIT"
+    },
+    {
+      "id": "p19",
+      "name": "commerce:manage",
+      "description": "مدیریت سفارش‌ها، تراکنش‌ها و کوپن‌ها",
+      "module": "COMMERCE"
+    },
+    {
+      "id": "p20",
+      "name": "pricing:manage",
+      "description": "مدیریت قیمت‌گذاری و وضعیت Free/Paid دوره‌ها",
+      "module": "COMMERCE"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_ai",
+      "name": "هوش مصنوعی و داده",
+      "slug": "ai-data",
+      "icon": "Sparkles",
+      "color": "#8B5CF6",
+      "description": "آموزش مدل‌های زبانی، یادگیری ماشین و مهندسی پرامپت",
+      "orderIndex": 1,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "cat_dev",
+      "name": "برنامه‌نویسی و فرانت‌اند",
+      "slug": "development",
+      "icon": "Code",
+      "color": "#3B82F6",
+      "description": "توسعه وب مدرن با React، Next.js و TypeScript",
+      "orderIndex": 2,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "cat_uiux",
+      "name": "طراحی رابط و تجربه کاربری",
+      "slug": "ui-ux-design",
+      "icon": "Palette",
+      "color": "#EC4899",
+      "description": "طراحی دیزاین سیستم با فیگما و اصول UX حرفه‌ای",
+      "orderIndex": 3,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "cat_business",
+      "name": "کسب‌وکار و دیجیتال مارکتینگ",
+      "slug": "business",
+      "icon": "TrendingUp",
+      "color": "#10B981",
+      "description": "استراتژی‌های رشد، سئو تکنیکال و برندسازی شخصی",
+      "orderIndex": 4,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "cat_media",
+      "name": "تولید محتوا و موشن‌گرافیک",
+      "slug": "media-motion",
+      "icon": "Video",
+      "color": "#F59E0B",
+      "description": "تدوین ویدیو با پریمیر و افترافکت و تصویرسازی دیجیتال",
+      "orderIndex": 5,
+      "isActive": true,
+      "createdAt": "2026-09-05T17:40:40.699Z",
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    }
+  ],
+  "tags": [],
+  "courses": [
+    {
+      "id": "crs_react_pro",
+      "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+      "slug": "react-19-nextjs-masterclass",
+      "shortDescription": "آموزش کامل ری‌اکت ۱۹ و نکست‌جی‌اس ۱۵ با تایپ‌اسکریپت و پروژه‌های واقعی با مدرک پایان دوره.",
+      "description": "در این دوره پیشرفته، مفاهیم عمیق معماری کامپوننت‌ها، مدیریت استیت با Zustand، Server Actions و بهینه‌سازی عملکرد را یاد می‌گیرید.",
+      "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&auto=format&fit=crop&q=80",
+      "videoPreviewUrl": "https://cdn.luminalearn.ir/videos/react_preview.mp4",
+      "instructorId": "usr_instructor_1",
+      "categoryId": "cat_dev",
+      "tagIds": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Frontend"
+      ],
+      "level": "ADVANCED",
+      "durationHours": 36,
+      "language": "fa",
+      "status": "PUBLISHED",
+      "isFree": false,
+      "isVip": false,
+      "requiresSubscription": false,
+      "price": 500000,
+      "originalPrice": 490000,
+      "discountPrice": 350000,
+      "discountPercentage": 28,
+      "prerequisites": [
+        "آشنایی با HTML/CSS و مبانی JavaScript مدرن"
+      ],
+      "whatYouWillLearn": [
+        "معماری React 19",
+        "Next.js 15 App Router",
+        "Server Actions",
+        "احراز هویت JWT"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 42,
+      "enrolledStudentsCount": 161,
+      "publishedAt": "2026-09-15T15:48:01.433Z",
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z",
+      "sections": [
+        {
+          "id": "sec_react_1",
+          "courseId": "crs_react_pro",
+          "title": "فصل اول: مقدمه و پایه‌ریزی معماری React 19",
+          "orderIndex": 1,
+          "createdAt": "2026-09-15T15:48:01.433Z",
+          "updatedAt": "2026-09-15T15:48:01.433Z",
+          "lessons": [
+            {
+              "id": "lsn_1_1",
+              "sectionId": "sec_react_1",
+              "courseId": "crs_react_pro",
+              "title": "معرفی دوره و سرفصل‌ها",
+              "description": "بررسی اجمالی مباحث و پروژه‌های عملی دوره",
+              "contentType": "VIDEO",
+              "durationMinutes": 12,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/react_intro.mp4",
+              "textContent": "در این درس با اهداف آموزشی دوره آشنا می‌شویم.",
+              "isFreePreview": true,
+              "orderIndex": 1,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            },
+            {
+              "id": "lsn_1_2",
+              "sectionId": "sec_react_1",
+              "courseId": "crs_react_pro",
+              "title": "بررسی تغییرات داخلی React 19 و اکشن‌ها",
+              "description": "بررسی useActionState و useOptimistic",
+              "contentType": "VIDEO",
+              "durationMinutes": 28,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/react19_private.mp4",
+              "textContent": "محتوای تخصصی و کدهای تمرینی هوک‌های ری‌اکت ۱۹.",
+              "isFreePreview": false,
+              "orderIndex": 2,
+              "resources": [
+                {
+                  "id": "res_react_1",
+                  "lessonId": "lsn_1_2",
+                  "title": "سورس‌کد کامل کامپوننت‌های جلسه دوم",
+                  "fileType": "ZIP",
+                  "fileSize": "4.2 MB",
+                  "storageKey": "courses/crs_react_pro/resources/lesson_1_2_code.zip",
+                  "isPublic": false,
+                  "createdAt": "2026-09-15T15:48:01.433Z"
+                }
+              ],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            },
+            {
+              "id": "lsn_1_3",
+              "sectionId": "sec_react_1",
+              "courseId": "crs_react_pro",
+              "title": "راه‌اندازی پروژه عملی با Next.js 15 و Tailwind v4",
+              "description": "پیکربندی استارتر پروژه با ساختار ماژولار",
+              "contentType": "VIDEO",
+              "durationMinutes": 24,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/nextjs15_setup.mp4",
+              "textContent": "مراحل گام به گام نصب و تنظیم پکیج‌ها.",
+              "isFreePreview": false,
+              "orderIndex": 3,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crs_figma_ui",
+      "title": "مسترکلاس طراحی دیزاین سیستم با Figma",
+      "slug": "figma-design-system-masterclass",
+      "shortDescription": "طراحی سیستم دیزاین مدرن مقیاس‌پذیر در فیگما با متغیرها، اتولایوت و کامپوننت‌های پیشرفته",
+      "description": "آموزش حرفه‌ای و استانداردهای طراحی محصول، ساخت کامپوننت‌های منعطف و توکن‌های طراحی.",
+      "thumbnail": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80",
+      "videoPreviewUrl": "https://cdn.luminalearn.ir/videos/figma_preview.mp4",
+      "instructorId": "usr_instructor_1",
+      "categoryId": "cat_uiux",
+      "tagIds": [
+        "Figma",
+        "UI/UX",
+        "Design System"
+      ],
+      "level": "INTERMEDIATE",
+      "durationHours": 24,
+      "language": "fa",
+      "status": "PUBLISHED",
+      "isFree": false,
+      "isVip": false,
+      "requiresSubscription": false,
+      "price": 390000,
+      "originalPrice": 390000,
+      "prerequisites": [
+        "آشنایی با اصول اولیه فیگما"
+      ],
+      "whatYouWillLearn": [
+        "طراحی توکن‌های دیزاین",
+        "Auto Layout حرفه‌ای",
+        "مدیریت Variants"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 28,
+      "enrolledStudentsCount": 94,
+      "publishedAt": "2026-09-15T15:48:01.433Z",
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z",
+      "sections": [
+        {
+          "id": "sec_figma_1",
+          "courseId": "crs_figma_ui",
+          "title": "فصل اول: توکن‌ها و متغیرهای فیگما",
+          "orderIndex": 1,
+          "createdAt": "2026-09-15T15:48:01.433Z",
+          "updatedAt": "2026-09-15T15:48:01.433Z",
+          "lessons": [
+            {
+              "id": "lsn_figma_preview",
+              "sectionId": "sec_figma_1",
+              "courseId": "crs_figma_ui",
+              "title": "آشنایی با متغیرها (Variables) در فیگما",
+              "description": "مفهوم متغیرها و تفاوت آن با استایل‌های سنتی",
+              "contentType": "VIDEO",
+              "durationMinutes": 16,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/figma_preview.mp4",
+              "isFreePreview": true,
+              "orderIndex": 1,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            },
+            {
+              "id": "lsn_figma_1",
+              "sectionId": "sec_figma_1",
+              "courseId": "crs_figma_ui",
+              "title": "طراحی توکن‌های رنگی و تایپوگرافی در فیگما",
+              "description": "پیاده‌سازی حالت‌های دارک و لایت با سوییچ متغیرها",
+              "contentType": "VIDEO",
+              "durationMinutes": 32,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/figma_tokens_private.mp4",
+              "isFreePreview": false,
+              "orderIndex": 2,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crs_ai_agent",
+      "title": "آموزش ساخت ایجنت‌های هوش مصنوعی با Python و Gemini",
+      "slug": "ai-agents-python-gemini",
+      "shortDescription": "پیاده‌سازی ایجنت‌های خودمختار، ابزارهای RAG و اتصال مدل‌های زبانی به پایگاه‌های داده",
+      "description": "آموزش کاربردی معماری Agentic AI، ساخت دستیارهای هوشمند با حافظه بلندمدت و فراخوانی توابع.",
+      "thumbnail": "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=80",
+      "videoPreviewUrl": "https://cdn.luminalearn.ir/videos/ai_agents_intro.mp4",
+      "instructorId": "usr_instructor_1",
+      "categoryId": "cat_ai",
+      "tagIds": [
+        "AI",
+        "Gemini",
+        "Python",
+        "Agents"
+      ],
+      "level": "ADVANCED",
+      "durationHours": 20,
+      "language": "fa",
+      "status": "PUBLISHED",
+      "isFree": false,
+      "isVip": true,
+      "requiresSubscription": true,
+      "price": 580000,
+      "originalPrice": 580000,
+      "prerequisites": [
+        "تسلط بر پایتون مقدماتی"
+      ],
+      "whatYouWillLearn": [
+        "ابزارهای Function Calling",
+        "سیستم‌های چند ایجنتی",
+        "تلفیق با بردارها"
+      ],
+      "rating": 5,
+      "reviewsCount": 35,
+      "enrolledStudentsCount": 110,
+      "publishedAt": "2026-09-15T15:48:01.433Z",
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z",
+      "sections": [
+        {
+          "id": "sec_ai_1",
+          "courseId": "crs_ai_agent",
+          "title": "فصل اول: مفاهیم پایه ایجنت‌ها و مدل‌های Gemini",
+          "orderIndex": 1,
+          "createdAt": "2026-09-15T15:48:01.433Z",
+          "updatedAt": "2026-09-15T15:48:01.433Z",
+          "lessons": [
+            {
+              "id": "lsn_ai_1",
+              "sectionId": "sec_ai_1",
+              "courseId": "crs_ai_agent",
+              "title": "ایجنت چیست و چگونه فکر می‌کند؟",
+              "description": "مفهوم حلقه ReAct و تصمیم‌گیری هوشمند",
+              "contentType": "VIDEO",
+              "durationMinutes": 18,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/ai_agents_intro.mp4",
+              "isFreePreview": true,
+              "orderIndex": 1,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            },
+            {
+              "id": "lsn_ai_2",
+              "sectionId": "sec_ai_1",
+              "courseId": "crs_ai_agent",
+              "title": "پیاده‌سازی ساختار ReAct با ابزارها",
+              "description": "کدنویسی توابع اجرایی پایتون متصل به مدل زبانی",
+              "contentType": "VIDEO",
+              "durationMinutes": 38,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/ai_react_loop_private.mp4",
+              "isFreePreview": false,
+              "orderIndex": 2,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crs_fullstack_ts",
+      "title": "دوره جامع فول‌استک با TypeScript و Node.js",
+      "slug": "fullstack-typescript-nodejs",
+      "shortDescription": "توسعه بک‌اند پرفورمنس با Express، احراز هویت امن JWT و تست‌های E2E",
+      "description": "از صفر تا پروداکشن، ساخت وب‌سرویس‌های امن، پایگاه داده و تست‌نویسی خودکار.",
+      "thumbnail": "https://images.unsplash.com/photo-1516116211229-5d306325db6c?w=1200&auto=format&fit=crop&q=80",
+      "videoPreviewUrl": "https://cdn.luminalearn.ir/videos/ts_setup.mp4",
+      "instructorId": "usr_instructor_1",
+      "categoryId": "cat_dev",
+      "tagIds": [
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "Backend"
+      ],
+      "level": "BEGINNER",
+      "durationHours": 18,
+      "language": "fa",
+      "status": "PUBLISHED",
+      "isFree": true,
+      "isVip": false,
+      "requiresSubscription": false,
+      "price": 0,
+      "originalPrice": 0,
+      "prerequisites": [
+        "علاقه‌مندی به برنامه‌نویسی وب"
+      ],
+      "whatYouWillLearn": [
+        "تایپ‌سیفتی در بک‌اند",
+        "معماری چندلایه",
+        "مدیریت خطای امن"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 19,
+      "enrolledStudentsCount": 310,
+      "publishedAt": "2026-09-15T15:48:01.433Z",
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z",
+      "sections": [
+        {
+          "id": "sec_ts_1",
+          "courseId": "crs_fullstack_ts",
+          "title": "فصل اول: راه‌اندازی و تایپ‌سیفتی در Node.js",
+          "orderIndex": 1,
+          "createdAt": "2026-09-15T15:48:01.433Z",
+          "updatedAt": "2026-09-15T15:48:01.433Z",
+          "lessons": [
+            {
+              "id": "lsn_ts_1",
+              "sectionId": "sec_ts_1",
+              "courseId": "crs_fullstack_ts",
+              "title": "تنظیم محیط توسعه تایپ‌اسکریپت و tsconfig",
+              "description": "بهترین تنظیمات کامپایلر برای بک‌اند مدرن",
+              "contentType": "VIDEO",
+              "durationMinutes": 14,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/ts_setup.mp4",
+              "isFreePreview": true,
+              "orderIndex": 1,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            },
+            {
+              "id": "lsn_ts_2",
+              "sectionId": "sec_ts_1",
+              "courseId": "crs_fullstack_ts",
+              "title": "ساخت سرویس‌های لایه‌ای و معماری تمیز",
+              "description": "جداسازی کنترولر، سرویس و ریپازیتوری",
+              "contentType": "VIDEO",
+              "durationMinutes": 30,
+              "videoUrl": "https://cdn.luminalearn.ir/videos/ts_clean_arch_private.mp4",
+              "isFreePreview": false,
+              "orderIndex": 2,
+              "resources": [],
+              "createdAt": "2026-09-15T15:48:01.433Z",
+              "updatedAt": "2026-09-15T15:48:01.433Z"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "digitalProducts": [
+    {
+      "id": "prod_figma_kit",
+      "title": "کیت جامع طراحی UI و سیستم دیزاین فیگما",
+      "slug": "figma-ui-kit-pro",
+      "shortDescription": "بیش از ۵۰۰ کامپوننت استاندارد با پشتیبانی از Auto Layout و متغیرهای مدرن",
+      "description": "کیت کامل دیزاین سیستم، استایل‌های رنگ و تایپوگرافی، آیکون‌ها و کامپوننت‌های آماده برای طراحان محصول.",
+      "thumbnail": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
+      "fileType": "ZIP",
+      "fileSize": "45.2 MB",
+      "storageKey": "products/figma-ui-kit-pro.zip",
+      "version": "v2.4.0",
+      "isFree": false,
+      "price": 180000,
+      "downloadCount": 347,
+      "associatedCourseId": "crs_figma_ui",
+      "tags": [
+        "Figma",
+        "UI Kit",
+        "Design System"
+      ],
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z"
+    },
+    {
+      "id": "prod_ts_cheatsheet",
+      "title": "چیت‌شیت جامع تایپ‌اسکریپت و الگوهای طراحی",
+      "slug": "typescript-cheatsheet-pdf",
+      "shortDescription": "راهنمای سریع و مرجع کامل دستورات و Type Utilityهای پیشرفته در TypeScript",
+      "description": "جزوه خلاصه و کاربردی تایپ‌های جنریک، شرطی، Mapped Types و بهترین الگوهای کلین کد.",
+      "thumbnail": "https://images.unsplash.com/photo-1516116211229-5d306325db6c?w=600&auto=format&fit=crop&q=80",
+      "fileType": "PDF",
+      "fileSize": "8.5 MB",
+      "storageKey": "products/typescript-cheatsheet.pdf",
+      "version": "v1.2",
+      "isFree": true,
+      "price": 0,
+      "downloadCount": 1250,
+      "associatedCourseId": "crs_fullstack_ts",
+      "tags": [
+        "TypeScript",
+        "CheatSheet",
+        "PDF"
+      ],
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z"
+    },
+    {
+      "id": "prod_react_starter",
+      "title": "قالب استارتر فول‌استک React 19 و Next.js 15",
+      "slug": "react19-nextjs15-starter-template",
+      "shortDescription": "کد منبع پروژه آماده همراه با Tailwind CSS v4، احراز هویت و پایگاه داده محلی",
+      "description": "بویلرپلیت حرفه‌ای جهت شروع سریع پروژه‌های واقعی با بهترین معماری و ساختار پوشه‌بندی استاندارد.",
+      "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80",
+      "fileType": "ZIP",
+      "fileSize": "14.8 MB",
+      "storageKey": "products/react19-starter.zip",
+      "version": "v1.0.0",
+      "isFree": false,
+      "price": 240000,
+      "downloadCount": 180,
+      "associatedCourseId": "crs_react_pro",
+      "tags": [
+        "React",
+        "Next.js",
+        "Boilerplate"
+      ],
+      "createdAt": "2026-09-15T15:48:01.433Z",
+      "updatedAt": "2026-09-15T15:48:01.433Z"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "enr_1789486481502_vw2m",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486481488_ypot",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T15:34:41.502Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T15:34:41.504Z"
+    },
+    {
+      "id": "enr_1789486486776_9iyj",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486481488_ypot",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T15:34:46.776Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T15:34:46.777Z"
+    },
+    {
+      "id": "enr_1789486657039_qji8",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486481488_ypot",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T15:37:37.039Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T15:37:37.040Z"
+    },
+    {
+      "id": "enr_1789487281729_zrd3",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T15:48:01.729Z",
+      "isActive": false,
+      "lastLessonId": "lsn_ts_1",
+      "lastPositionSeconds": 300,
+      "completedLessonIds": [
+        "lsn_ts_1"
+      ],
+      "updatedAt": "2026-09-15T19:33:10.609Z",
+      "isArchived": false
+    },
+    {
+      "id": "enr_1789500337317_g6n8",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T19:25:37.317Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T19:25:37.547Z"
+    },
+    {
+      "id": "enr_1789500615524_l8r5",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T19:30:15.524Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T19:30:15.739Z"
+    },
+    {
+      "id": "enr_1789500757657_e65q",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T19:32:37.657Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T19:32:38.693Z"
+    },
+    {
+      "id": "enr_1789500790609_qvoz",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-15T19:33:10.609Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-15T19:33:11.787Z"
+    }
+  ],
+  "lessonProgress": [
+    {
+      "id": "lp_1789486251106_fb1q",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486251104_iuut",
+      "lessonId": "lsn_1",
+      "isCompleted": true,
+      "lastPositionSeconds": 300,
+      "timeSpentSeconds": 300,
+      "completedAt": "2026-09-15T15:30:51.106Z",
+      "updatedAt": "2026-09-15T15:37:37.026Z"
+    },
+    {
+      "id": "lp_1789487281730_80vh",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "lessonId": "lsn_ts_1",
+      "isCompleted": true,
+      "lastPositionSeconds": 300,
+      "timeSpentSeconds": 300,
+      "completedAt": "2026-09-15T15:48:01.730Z",
+      "updatedAt": "2026-09-15T19:33:10.609Z"
+    },
+    {
+      "id": "lp_1789487281735_2ht9",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_react_pro",
+      "lessonId": "lsn_1_1",
+      "isCompleted": true,
+      "lastPositionSeconds": 45,
+      "timeSpentSeconds": 124,
+      "completedAt": "2026-09-15T15:48:01.735Z",
+      "updatedAt": "2026-09-15T19:33:10.614Z"
+    }
+  ],
+  "courseProgress": [
+    {
+      "id": "cp_1789486251106_11df",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486251104_iuut",
+      "progressPercent": 0,
+      "completedLessonsCount": 1,
+      "totalLessonsCount": 0,
+      "isCompleted": false,
+      "certificateIssued": false,
+      "updatedAt": "2026-09-15T15:37:37.026Z",
+      "lastWatchedLessonId": "lsn_1"
+    },
+    {
+      "id": "cp_1789486481502_nsz4",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_1789486481488_ypot",
+      "progressPercent": 0,
+      "completedLessonsCount": 0,
+      "totalLessonsCount": 1,
+      "isCompleted": false,
+      "certificateIssued": false,
+      "updatedAt": "2026-09-15T15:34:41.502Z"
+    },
+    {
+      "id": "cp_1789487281730_cjoh",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "progressPercent": 50,
+      "completedLessonsCount": 1,
+      "totalLessonsCount": 2,
+      "isCompleted": false,
+      "certificateIssued": false,
+      "updatedAt": "2026-09-15T19:33:10.609Z",
+      "lastWatchedLessonId": "lsn_ts_1"
+    },
+    {
+      "id": "cp_1789487281733_437v",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_react_pro",
+      "progressPercent": 33,
+      "completedLessonsCount": 1,
+      "totalLessonsCount": 3,
+      "isCompleted": false,
+      "certificateIssued": false,
+      "updatedAt": "2026-09-15T19:33:10.614Z",
+      "lastWatchedLessonId": "lsn_1_1"
+    }
+  ],
+  "lessonNotes": [],
+  "reviews": [],
+  "homepageSections": [
+    {
+      "id": "sec_hero",
+      "sectionType": "Hero",
+      "title": "بنر اصلی به‌روزشده توسط Site Builder",
+      "subtitle": "تیتر، دکمه‌های اقدام و نشان‌های دستاورد",
+      "orderIndex": 1,
+      "isEnabled": true,
+      "content": {
+        "badge": "پلتفرم نسل آینده آموزش آنلاین",
+        "title": "مرجع یادگیری مهارت‌های تخصصی و منابع دیجیتال",
+        "description": "دوره‌های جامع پروژه‌محور با سرفصل‌های مطابق استانداردهای بین‌المللی همراه با سورس‌کد، فایل‌های فیگما و پشتیبانی تخصصی اساتید.",
+        "primaryBtnText": "کاوش تمام دوره‌ها",
+        "primaryBtnLink": "/catalog",
+        "secondaryBtnText": "مشاهده منابع رایگان",
+        "secondaryBtnLink": "/catalog?free=true",
+        "statsCountStudents": "۱۲,۰۰۰+",
+        "statsCountCourses": "۴۵+",
+        "statsSatisfaction": "۹۸.۶٪"
+      },
+      "updatedAt": "2026-09-15T19:33:10.610Z"
+    },
+    {
+      "id": "sec_categories",
+      "sectionType": "Categories",
+      "title": "دسته‌بندی‌های موضوعی",
+      "subtitle": "دسترسی سریع به حوزه‌های تخصصی",
+      "orderIndex": 2,
+      "isEnabled": true,
+      "content": {
+        "heading": "حوزه‌های آموزشی پرطرفدار",
+        "subheading": "مسیر یادگیری حرفه‌ای خود را از میان دسته‌بندی‌های تخصصی انتخاب کنید."
+      },
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "sec_featured",
+      "sectionType": "FeaturedCourses",
+      "title": "دوره‌های ویژه و منتخب",
+      "subtitle": "پربازدیدترین و کاربردی‌ترین دوره‌ها",
+      "orderIndex": 3,
+      "isEnabled": true,
+      "content": {
+        "heading": "جدیدترین دوره‌های تخصصی",
+        "subheading": "پروژه‌محور، به‌روزرسانی‌شده و همراه با گواهینامه معتبر پایان دوره."
+      },
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "sec_valueprops",
+      "sectionType": "CTA",
+      "title": "مزایای آکادمی لومینا",
+      "orderIndex": 4,
+      "isEnabled": true,
+      "content": {
+        "heading": "چرا آکادمی لومینا لرن؟",
+        "subheading": "ویژگی‌هایی که تجربه یادگیری شما را دگرگون می‌کنند."
+      },
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "sec_testimonials",
+      "sectionType": "Testimonials",
+      "title": "نظرات و فیدبک دانشجویان",
+      "orderIndex": 5,
+      "isEnabled": true,
+      "content": {
+        "heading": "تجربه دانشجویان لومینا",
+        "subheading": "آنچه فارغ‌التحصیلان دوره‌ها درباره پیشرفت شغلی خود می‌گویند."
+      },
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    },
+    {
+      "id": "sec_instructors",
+      "sectionType": "Instructors",
+      "title": "کادر اساتید و دعوت به تدریس",
+      "orderIndex": 6,
+      "isEnabled": true,
+      "content": {
+        "heading": "تدریس در لومینا لرن",
+        "subheading": "دانش و تجربه خود را با هزاران مشتاق یادگیری به اشتراک بگذارید."
+      },
+      "updatedAt": "2026-09-05T17:40:40.699Z"
+    }
+  ],
+  "navigationItems": [
+    {
+      "id": "nav_1",
+      "menuLocation": "HEADER_MAIN",
+      "label": "صفحه اصلی",
+      "labelEn": "Home",
+      "url": "/",
+      "orderIndex": 1,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_2",
+      "menuLocation": "HEADER_MAIN",
+      "label": "دوره‌های آموزشی",
+      "labelEn": "Courses",
+      "url": "/catalog",
+      "orderIndex": 2,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_3",
+      "menuLocation": "HEADER_MAIN",
+      "label": "هوش مصنوعی",
+      "labelEn": "AI & Data",
+      "url": "/catalog?cat=ai-data",
+      "orderIndex": 3,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_4",
+      "menuLocation": "HEADER_MAIN",
+      "label": "طراحی UI/UX",
+      "labelEn": "UI/UX Design",
+      "url": "/catalog?cat=ui-ux-design",
+      "orderIndex": 4,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_5",
+      "menuLocation": "HEADER_MAIN",
+      "label": "مرکز دانلود فایل‌ها",
+      "labelEn": "Downloads",
+      "url": "/dashboard?tab=downloads",
+      "orderIndex": 5,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_6",
+      "menuLocation": "FOOTER_COLUMN_1",
+      "label": "درباره لومینا لرن",
+      "url": "/about",
+      "orderIndex": 1,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_7",
+      "menuLocation": "FOOTER_COLUMN_1",
+      "label": "تدریس در آکادمی",
+      "url": "/dashboard?tab=instructor-request",
+      "orderIndex": 2,
+      "isEnabled": true,
+      "targetBlank": false
+    },
+    {
+      "id": "nav_8",
+      "menuLocation": "FOOTER_COLUMN_1",
+      "label": "قوانین و حریم خصوصی",
+      "url": "/privacy",
+      "orderIndex": 3,
+      "isEnabled": true,
+      "targetBlank": false
+    }
+  ],
+  "pages": [],
+  "blogPosts": [],
+  "seoMetadata": [
+    {
+      "id": "seo_home",
+      "entityType": "PAGE",
+      "entityId": "home",
+      "title": "لومینا لرن | مرجع آموزش‌های تخصصی برنامه‌نویسی، هوش مصنوعی و طراحی",
+      "description": "آکادمی لومینا لرن؛ پلتفرم جامع آموزش آنلاین مهارت‌های مدرن وب، React، فیگما و هوش مصنوعی با پروژه‌های عملی و فایل‌های دانلودی رایگان.",
+      "canonical": "https://luminalearn.ir/",
+      "robots": "index, follow",
+      "ogTitle": "لومینا لرن | آکادمی مهارت‌های مدرن",
+      "ogDescription": "دوره‌های جامع هوش مصنوعی، فرانت‌اند و دیزاین سیستم به همراه سورس‌کد و مدارک بین‌المللی.",
+      "ogImage": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "seo_crs_react",
+      "entityType": "COURSE",
+      "entityId": "crs_react_pro",
+      "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور | لومینا لرن",
+      "description": "آموزش کامل ری‌اکت ۱۹ و نکست‌جی‌اس ۱۵ با تایپ‌اسکریپت و پروژه‌های واقعی با مدرک پایان دوره.",
+      "canonical": "https://luminalearn.ir/courses/react-19-nextjs-masterclass",
+      "robots": "index, follow",
+      "ogTitle": "مسترکلاس React 19 و Next.js 15",
+      "ogImage": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&auto=format&fit=crop&q=80"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit_clean_slate",
+      "userId": "usr_admin_2",
+      "userEmail": "admin@lumina.com",
+      "action": "PRODUCTION_DATA_WIPE_CLEAN_SLATE",
+      "entity": "DATABASE",
+      "changes": {
+        "message": "All demo content, courses, test users, and transactions wiped for production."
+      },
+      "createdAt": "2026-09-14T10:55:09.814Z"
+    },
+    {
+      "id": "audit_1789486299047_ubiq",
+      "action": "LOGIN",
+      "entity": "USER",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+      "changes": {
+        "emailOrPhone": "admin@lumina.com",
+        "password": "123456"
+      },
+      "createdAt": "2026-09-15T15:31:39.047Z"
+    },
+    {
+      "id": "audit_1789487205035_7dv1",
+      "action": "LOGIN",
+      "entity": "USER",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "node",
+      "changes": {
+        "emailOrPhone": "maziarhosseini232@gmail.com",
+        "password": "123456"
+      },
+      "createdAt": "2026-09-15T15:46:45.035Z"
+    },
+    {
+      "id": "audit_1789500793267_0bup",
+      "action": "LOGIN",
+      "entity": "USER",
+      "ipAddress": "169.254.169.126",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+      "changes": {
+        "emailOrPhone": "admin@lumina.com",
+        "password": "123456"
+      },
+      "createdAt": "2026-09-15T19:33:13.267Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_1789486251119_0kz3",
+      "orderNumber": "LUM-10401",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_1789486251104_iuut",
+          "title": "دوره تستی جامع تایپ‌اسکریپت پیشرفته",
+          "price": 250000,
+          "originalPrice": 250000,
+          "instructorId": "usr_admin_1",
+          "instructorName": "مازیار حسینی (مدیر ارشد لومینا)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:30:51.119Z",
+      "updatedAt": "2026-09-15T15:30:51.119Z",
+      "trackingCode": "TRK_431247",
+      "paidAt": "2026-09-15T15:30:51.119Z"
+    },
+    {
+      "id": "ord_1789486251199_rr4v",
+      "orderNumber": "LUM-10402",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:30:51.199Z",
+      "updatedAt": "2026-09-15T15:30:51.199Z",
+      "trackingCode": "TRK_111426",
+      "paidAt": "2026-09-15T15:30:51.199Z"
+    },
+    {
+      "id": "ord_1789486330227_pp4m",
+      "orderNumber": "LUM-10403",
+      "userId": "usr_admin_2",
+      "userName": "مدیر سیستم لومینا",
+      "userEmail": "admin@lumina.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_1m",
+      "durationInMonths": 1,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_1m",
+          "durationInMonths": 1,
+          "title": "اشتراک ویژه VIP (اشتراک ۱ ماهه طلایی (VIP))",
+          "price": 290000,
+          "originalPrice": 390000
+        }
+      ],
+      "subtotal": 290000,
+      "discountAmount": 0,
+      "totalAmount": 290000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:32:10.227Z",
+      "updatedAt": "2026-09-15T15:32:12.824Z",
+      "trackingCode": "REF_363139359",
+      "paidAt": "2026-09-15T15:32:12.824Z"
+    },
+    {
+      "id": "ord_1789486343564_sj4k",
+      "orderNumber": "LUM-10404",
+      "userId": "usr_admin_2",
+      "userName": "مدیر سیستم لومینا",
+      "userEmail": "admin@lumina.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_1m",
+      "durationInMonths": 1,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_1m",
+          "durationInMonths": 1,
+          "title": "اشتراک ویژه VIP (اشتراک ۱ ماهه طلایی (VIP))",
+          "price": 290000,
+          "originalPrice": 390000
+        }
+      ],
+      "subtotal": 290000,
+      "discountAmount": 0,
+      "totalAmount": 290000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:32:23.564Z",
+      "updatedAt": "2026-09-15T15:32:30.364Z",
+      "trackingCode": "REF_818775591",
+      "paidAt": "2026-09-15T15:32:30.364Z"
+    },
+    {
+      "id": "ord_1789486365164_4jg2",
+      "orderNumber": "LUM-10405",
+      "userId": "usr_admin_2",
+      "userName": "مدیر سیستم لومینا",
+      "userEmail": "admin@lumina.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:32:45.164Z",
+      "updatedAt": "2026-09-15T15:32:46.883Z",
+      "trackingCode": "REF_490989673",
+      "paidAt": "2026-09-15T15:32:46.883Z"
+    },
+    {
+      "id": "ord_1789486381258_cu4v",
+      "orderNumber": "LUM-10406",
+      "userId": "usr_admin_2",
+      "userName": "مدیر سیستم لومینا",
+      "userEmail": "admin@lumina.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_6m",
+      "durationInMonths": 6,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_6m",
+          "durationInMonths": 6,
+          "title": "اشتراک ویژه VIP (اشتراک ۶ ماهه الماس (VIP محبوب‌ترین))",
+          "price": 1290000,
+          "originalPrice": 1850000
+        }
+      ],
+      "subtotal": 1290000,
+      "discountAmount": 0,
+      "totalAmount": 1290000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:33:01.258Z",
+      "updatedAt": "2026-09-15T15:33:03.087Z",
+      "trackingCode": "REF_779992818",
+      "paidAt": "2026-09-15T15:33:03.087Z"
+    },
+    {
+      "id": "ord_1789486481506_rk5e",
+      "orderNumber": "LUM-10407",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_1789486251104_iuut",
+          "title": "دوره تستی جامع تایپ‌اسکریپت پیشرفته",
+          "price": 250000,
+          "originalPrice": 250000,
+          "instructorId": "usr_admin_1",
+          "instructorName": "مازیار حسینی (مدیر ارشد لومینا)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:34:41.506Z",
+      "updatedAt": "2026-09-15T15:34:41.506Z",
+      "trackingCode": "TRK_534886",
+      "paidAt": "2026-09-15T15:34:41.506Z"
+    },
+    {
+      "id": "ord_1789486481523_08s6",
+      "orderNumber": "LUM-10408",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:34:41.523Z",
+      "updatedAt": "2026-09-15T15:34:41.523Z",
+      "trackingCode": "TRK_684830",
+      "paidAt": "2026-09-15T15:34:41.523Z"
+    },
+    {
+      "id": "ord_1789486486779_6qjz",
+      "orderNumber": "LUM-10409",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_1789486251104_iuut",
+          "title": "دوره تستی جامع تایپ‌اسکریپت پیشرفته",
+          "price": 250000,
+          "originalPrice": 250000,
+          "instructorId": "usr_admin_1",
+          "instructorName": "مازیار حسینی (مدیر ارشد لومینا)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:34:46.779Z",
+      "updatedAt": "2026-09-15T15:34:46.780Z",
+      "trackingCode": "TRK_115744",
+      "paidAt": "2026-09-15T15:34:46.780Z"
+    },
+    {
+      "id": "ord_1789486486797_nxsh",
+      "orderNumber": "LUM-10410",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:34:46.797Z",
+      "updatedAt": "2026-09-15T15:34:46.797Z",
+      "trackingCode": "TRK_536358",
+      "paidAt": "2026-09-15T15:34:46.797Z"
+    },
+    {
+      "id": "ord_1789486657042_r5se",
+      "orderNumber": "LUM-10411",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_1789486251104_iuut",
+          "title": "دوره تستی جامع تایپ‌اسکریپت پیشرفته",
+          "price": 250000,
+          "originalPrice": 250000,
+          "instructorId": "usr_admin_1",
+          "instructorName": "مازیار حسینی (مدیر ارشد لومینا)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:37:37.042Z",
+      "updatedAt": "2026-09-15T15:37:37.043Z",
+      "trackingCode": "TRK_533598",
+      "paidAt": "2026-09-15T15:37:37.043Z"
+    },
+    {
+      "id": "ord_1789486657060_9uj9",
+      "orderNumber": "LUM-10412",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:37:37.060Z",
+      "updatedAt": "2026-09-15T15:37:37.060Z",
+      "trackingCode": "TRK_577220",
+      "paidAt": "2026-09-15T15:37:37.060Z"
+    },
+    {
+      "id": "ord_1789487281957_7bb3",
+      "orderNumber": "LUM-10413",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:48:01.957Z",
+      "updatedAt": "2026-09-15T15:48:01.957Z",
+      "trackingCode": "TRK_809808",
+      "paidAt": "2026-09-15T15:48:01.957Z"
+    },
+    {
+      "id": "ord_1789487281978_q72v",
+      "orderNumber": "LUM-10414",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T15:48:01.978Z",
+      "updatedAt": "2026-09-15T15:48:01.978Z",
+      "trackingCode": "TRK_171789",
+      "paidAt": "2026-09-15T15:48:01.978Z"
+    },
+    {
+      "id": "ord_1789500337551_k9yi",
+      "orderNumber": "LUM-10415",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:25:37.550Z",
+      "updatedAt": "2026-09-15T19:25:37.552Z",
+      "trackingCode": "TRK_591369",
+      "paidAt": "2026-09-15T19:25:37.552Z"
+    },
+    {
+      "id": "ord_1789500337686_lhyr",
+      "orderNumber": "LUM-10416",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:25:37.686Z",
+      "updatedAt": "2026-09-15T19:25:37.686Z",
+      "trackingCode": "TRK_452369",
+      "paidAt": "2026-09-15T19:25:37.686Z"
+    },
+    {
+      "id": "ord_1789500615742_igl4",
+      "orderNumber": "LUM-10417",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:30:15.742Z",
+      "updatedAt": "2026-09-15T19:30:15.743Z",
+      "trackingCode": "TRK_976995",
+      "paidAt": "2026-09-15T19:30:15.743Z"
+    },
+    {
+      "id": "ord_1789500615768_4qbt",
+      "orderNumber": "LUM-10418",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:30:15.768Z",
+      "updatedAt": "2026-09-15T19:30:15.768Z",
+      "trackingCode": "TRK_907052",
+      "paidAt": "2026-09-15T19:30:15.768Z"
+    },
+    {
+      "id": "ord_1789500758697_n75e",
+      "orderNumber": "LUM-10419",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:32:38.697Z",
+      "updatedAt": "2026-09-15T19:32:38.697Z",
+      "trackingCode": "TRK_617927",
+      "paidAt": "2026-09-15T19:32:38.697Z"
+    },
+    {
+      "id": "ord_1789500758728_36bd",
+      "orderNumber": "LUM-10420",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:32:38.728Z",
+      "updatedAt": "2026-09-15T19:32:38.728Z",
+      "trackingCode": "TRK_728108",
+      "paidAt": "2026-09-15T19:32:38.728Z"
+    },
+    {
+      "id": "ord_1789500791790_als1",
+      "orderNumber": "LUM-10421",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:33:11.790Z",
+      "updatedAt": "2026-09-15T19:33:11.791Z",
+      "trackingCode": "TRK_252057",
+      "paidAt": "2026-09-15T19:33:11.790Z"
+    },
+    {
+      "id": "ord_1789500791809_ffxs",
+      "orderNumber": "LUM-10422",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-15T19:33:11.809Z",
+      "updatedAt": "2026-09-15T19:33:11.810Z",
+      "trackingCode": "TRK_228749",
+      "paidAt": "2026-09-15T19:33:11.810Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_1789486251119_aau5",
+      "orderId": "ord_1789486251119_0kz3",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486251119_oybv7",
+      "trackingCode": "TRK_431247",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:30:51.119Z",
+      "createdAt": "2026-09-15T15:30:51.119Z",
+      "updatedAt": "2026-09-15T15:30:51.119Z"
+    },
+    {
+      "id": "pay_1789486251199_vcz7",
+      "orderId": "ord_1789486251199_rr4v",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486251199_22jen",
+      "trackingCode": "TRK_111426",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:30:51.199Z",
+      "createdAt": "2026-09-15T15:30:51.199Z",
+      "updatedAt": "2026-09-15T15:30:51.199Z"
+    },
+    {
+      "id": "pay_1789486332824_geml",
+      "orderId": "ord_1789486330227_pp4m",
+      "userId": "usr_admin_2",
+      "amount": 290000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486330227_ptqyi",
+      "trackingCode": "REF_363139359",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:32:12.824Z",
+      "createdAt": "2026-09-15T15:32:12.824Z",
+      "updatedAt": "2026-09-15T15:32:12.824Z"
+    },
+    {
+      "id": "pay_1789486350364_58b0",
+      "orderId": "ord_1789486343564_sj4k",
+      "userId": "usr_admin_2",
+      "amount": 290000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486343565_7nm3q",
+      "trackingCode": "REF_818775591",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:32:30.364Z",
+      "createdAt": "2026-09-15T15:32:30.364Z",
+      "updatedAt": "2026-09-15T15:32:30.364Z"
+    },
+    {
+      "id": "pay_1789486366883_mgso",
+      "orderId": "ord_1789486365164_4jg2",
+      "userId": "usr_admin_2",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486365164_ye7xq",
+      "trackingCode": "REF_490989673",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:32:46.883Z",
+      "createdAt": "2026-09-15T15:32:46.883Z",
+      "updatedAt": "2026-09-15T15:32:46.883Z"
+    },
+    {
+      "id": "pay_1789486383087_u8iz",
+      "orderId": "ord_1789486381258_cu4v",
+      "userId": "usr_admin_2",
+      "amount": 1290000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486381258_n6rsh",
+      "trackingCode": "REF_779992818",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:33:03.087Z",
+      "createdAt": "2026-09-15T15:33:03.087Z",
+      "updatedAt": "2026-09-15T15:33:03.087Z"
+    },
+    {
+      "id": "pay_1789486481506_szhs",
+      "orderId": "ord_1789486481506_rk5e",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486481506_j76y9",
+      "trackingCode": "TRK_534886",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:34:41.506Z",
+      "createdAt": "2026-09-15T15:34:41.506Z",
+      "updatedAt": "2026-09-15T15:34:41.506Z"
+    },
+    {
+      "id": "pay_1789486481523_sect",
+      "orderId": "ord_1789486481523_08s6",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486481523_2fnt1",
+      "trackingCode": "TRK_684830",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:34:41.523Z",
+      "createdAt": "2026-09-15T15:34:41.523Z",
+      "updatedAt": "2026-09-15T15:34:41.523Z"
+    },
+    {
+      "id": "pay_1789486486780_xlnt",
+      "orderId": "ord_1789486486779_6qjz",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486486780_tl77w",
+      "trackingCode": "TRK_115744",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:34:46.780Z",
+      "createdAt": "2026-09-15T15:34:46.780Z",
+      "updatedAt": "2026-09-15T15:34:46.780Z"
+    },
+    {
+      "id": "pay_1789486486797_gx0f",
+      "orderId": "ord_1789486486797_nxsh",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486486797_5nqo7",
+      "trackingCode": "TRK_536358",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:34:46.797Z",
+      "createdAt": "2026-09-15T15:34:46.797Z",
+      "updatedAt": "2026-09-15T15:34:46.797Z"
+    },
+    {
+      "id": "pay_1789486657043_e7za",
+      "orderId": "ord_1789486657042_r5se",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486657042_ig2fq",
+      "trackingCode": "TRK_533598",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:37:37.043Z",
+      "createdAt": "2026-09-15T15:37:37.043Z",
+      "updatedAt": "2026-09-15T15:37:37.043Z"
+    },
+    {
+      "id": "pay_1789486657060_pkmi",
+      "orderId": "ord_1789486657060_9uj9",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789486657060_0p7s0",
+      "trackingCode": "TRK_577220",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:37:37.060Z",
+      "createdAt": "2026-09-15T15:37:37.060Z",
+      "updatedAt": "2026-09-15T15:37:37.060Z"
+    },
+    {
+      "id": "pay_1789487281957_27oq",
+      "orderId": "ord_1789487281957_7bb3",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789487281957_r0tyd",
+      "trackingCode": "TRK_809808",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:48:01.957Z",
+      "createdAt": "2026-09-15T15:48:01.957Z",
+      "updatedAt": "2026-09-15T15:48:01.957Z"
+    },
+    {
+      "id": "pay_1789487281978_9zr3",
+      "orderId": "ord_1789487281978_q72v",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789487281978_6fmv3",
+      "trackingCode": "TRK_171789",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T15:48:01.978Z",
+      "createdAt": "2026-09-15T15:48:01.978Z",
+      "updatedAt": "2026-09-15T15:48:01.978Z"
+    },
+    {
+      "id": "pay_1789500337552_68kf",
+      "orderId": "ord_1789500337551_k9yi",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500337551_boplo",
+      "trackingCode": "TRK_591369",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:25:37.552Z",
+      "createdAt": "2026-09-15T19:25:37.552Z",
+      "updatedAt": "2026-09-15T19:25:37.552Z"
+    },
+    {
+      "id": "pay_1789500337686_ldwn",
+      "orderId": "ord_1789500337686_lhyr",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500337686_gkfyt",
+      "trackingCode": "TRK_452369",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:25:37.686Z",
+      "createdAt": "2026-09-15T19:25:37.686Z",
+      "updatedAt": "2026-09-15T19:25:37.686Z"
+    },
+    {
+      "id": "pay_1789500615743_57ft",
+      "orderId": "ord_1789500615742_igl4",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500615743_d46uc",
+      "trackingCode": "TRK_976995",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:30:15.743Z",
+      "createdAt": "2026-09-15T19:30:15.743Z",
+      "updatedAt": "2026-09-15T19:30:15.743Z"
+    },
+    {
+      "id": "pay_1789500615768_yr9n",
+      "orderId": "ord_1789500615768_4qbt",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500615768_91m3z",
+      "trackingCode": "TRK_907052",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:30:15.768Z",
+      "createdAt": "2026-09-15T19:30:15.768Z",
+      "updatedAt": "2026-09-15T19:30:15.768Z"
+    },
+    {
+      "id": "pay_1789500758697_63b3",
+      "orderId": "ord_1789500758697_n75e",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500758697_slinh",
+      "trackingCode": "TRK_617927",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:32:38.697Z",
+      "createdAt": "2026-09-15T19:32:38.697Z",
+      "updatedAt": "2026-09-15T19:32:38.697Z"
+    },
+    {
+      "id": "pay_1789500758728_ngje",
+      "orderId": "ord_1789500758728_36bd",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500758728_6kfi1",
+      "trackingCode": "TRK_728108",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:32:38.728Z",
+      "createdAt": "2026-09-15T19:32:38.728Z",
+      "updatedAt": "2026-09-15T19:32:38.728Z"
+    },
+    {
+      "id": "pay_1789500791791_q10g",
+      "orderId": "ord_1789500791790_als1",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500791790_k8zr5",
+      "trackingCode": "TRK_252057",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:33:11.790Z",
+      "createdAt": "2026-09-15T19:33:11.791Z",
+      "updatedAt": "2026-09-15T19:33:11.791Z"
+    },
+    {
+      "id": "pay_1789500791810_5y0w",
+      "orderId": "ord_1789500791809_ffxs",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789500791809_lg45o",
+      "trackingCode": "TRK_228749",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-15T19:33:11.810Z",
+      "createdAt": "2026-09-15T19:33:11.810Z",
+      "updatedAt": "2026-09-15T19:33:11.810Z"
+    }
+  ],
+  "coupons": [],
+  "paymentTransactions": [
+    {
+      "id": "txn_1789486251119_9zwn",
+      "orderId": "ord_1789486251119_0kz3",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10401 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486251119_oybv7",
+      "createdAt": "2026-09-15T15:30:51.119Z"
+    },
+    {
+      "id": "txn_1789486251199_r6fn",
+      "orderId": "ord_1789486251199_rr4v",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10402 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486251199_22jen",
+      "createdAt": "2026-09-15T15:30:51.199Z"
+    },
+    {
+      "id": "txn_1789486332824_9mpv",
+      "orderId": "ord_1789486330227_pp4m",
+      "userId": "usr_admin_2",
+      "type": "PAYMENT",
+      "amount": 290000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10403 به مبلغ ۲۹۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486330227_ptqyi",
+      "createdAt": "2026-09-15T15:32:12.824Z"
+    },
+    {
+      "id": "txn_1789486350365_uk0i",
+      "orderId": "ord_1789486343564_sj4k",
+      "userId": "usr_admin_2",
+      "type": "PAYMENT",
+      "amount": 290000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10404 به مبلغ ۲۹۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486343565_7nm3q",
+      "createdAt": "2026-09-15T15:32:30.364Z"
+    },
+    {
+      "id": "txn_1789486366883_8y4r",
+      "orderId": "ord_1789486365164_4jg2",
+      "userId": "usr_admin_2",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10405 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486365164_ye7xq",
+      "createdAt": "2026-09-15T15:32:46.883Z"
+    },
+    {
+      "id": "txn_1789486383087_p1vo",
+      "orderId": "ord_1789486381258_cu4v",
+      "userId": "usr_admin_2",
+      "type": "PAYMENT",
+      "amount": 1290000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10406 به مبلغ ۱٬۲۹۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486381258_n6rsh",
+      "createdAt": "2026-09-15T15:33:03.087Z"
+    },
+    {
+      "id": "txn_1789486481506_ic7u",
+      "orderId": "ord_1789486481506_rk5e",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10407 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486481506_j76y9",
+      "createdAt": "2026-09-15T15:34:41.506Z"
+    },
+    {
+      "id": "txn_1789486481523_zz0e",
+      "orderId": "ord_1789486481523_08s6",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10408 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486481523_2fnt1",
+      "createdAt": "2026-09-15T15:34:41.523Z"
+    },
+    {
+      "id": "txn_1789486486780_impx",
+      "orderId": "ord_1789486486779_6qjz",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10409 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486486780_tl77w",
+      "createdAt": "2026-09-15T15:34:46.780Z"
+    },
+    {
+      "id": "txn_1789486486797_tyfk",
+      "orderId": "ord_1789486486797_nxsh",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10410 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486486797_5nqo7",
+      "createdAt": "2026-09-15T15:34:46.797Z"
+    },
+    {
+      "id": "txn_1789486657043_k2hw",
+      "orderId": "ord_1789486657042_r5se",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10411 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486657042_ig2fq",
+      "createdAt": "2026-09-15T15:37:37.043Z"
+    },
+    {
+      "id": "txn_1789486657060_gmas",
+      "orderId": "ord_1789486657060_9uj9",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10412 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789486657060_0p7s0",
+      "createdAt": "2026-09-15T15:37:37.060Z"
+    },
+    {
+      "id": "txn_1789487281957_39to",
+      "orderId": "ord_1789487281957_7bb3",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10413 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789487281957_r0tyd",
+      "createdAt": "2026-09-15T15:48:01.957Z"
+    },
+    {
+      "id": "txn_1789487281978_t4oo",
+      "orderId": "ord_1789487281978_q72v",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10414 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789487281978_6fmv3",
+      "createdAt": "2026-09-15T15:48:01.978Z"
+    },
+    {
+      "id": "txn_1789500337552_78zp",
+      "orderId": "ord_1789500337551_k9yi",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10415 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500337551_boplo",
+      "createdAt": "2026-09-15T19:25:37.552Z"
+    },
+    {
+      "id": "txn_1789500337686_ot3o",
+      "orderId": "ord_1789500337686_lhyr",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10416 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500337686_gkfyt",
+      "createdAt": "2026-09-15T19:25:37.686Z"
+    },
+    {
+      "id": "txn_1789500615743_a6n6",
+      "orderId": "ord_1789500615742_igl4",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10417 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500615743_d46uc",
+      "createdAt": "2026-09-15T19:30:15.743Z"
+    },
+    {
+      "id": "txn_1789500615768_hyf0",
+      "orderId": "ord_1789500615768_4qbt",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10418 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500615768_91m3z",
+      "createdAt": "2026-09-15T19:30:15.768Z"
+    },
+    {
+      "id": "txn_1789500758698_13h5",
+      "orderId": "ord_1789500758697_n75e",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10419 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500758697_slinh",
+      "createdAt": "2026-09-15T19:32:38.697Z"
+    },
+    {
+      "id": "txn_1789500758729_68lt",
+      "orderId": "ord_1789500758728_36bd",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10420 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500758728_6kfi1",
+      "createdAt": "2026-09-15T19:32:38.728Z"
+    },
+    {
+      "id": "txn_1789500791791_pjvu",
+      "orderId": "ord_1789500791790_als1",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10421 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500791790_k8zr5",
+      "createdAt": "2026-09-15T19:33:11.791Z"
+    },
+    {
+      "id": "txn_1789500791810_yf8k",
+      "orderId": "ord_1789500791809_ffxs",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10422 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789500791809_lg45o",
+      "createdAt": "2026-09-15T19:33:11.810Z"
+    }
+  ],
+  "subscriptionPlans": [
+    {
+      "id": "plan_vip_1m",
+      "title": "اشتراک ۱ ماهه طلایی (VIP)",
+      "durationInMonths": 1,
+      "price": 390000,
+      "discountedPrice": 290000,
+      "features": [
+        "دسترسی نامحدود به تمامی دوره‌های پلتفرم",
+        "مشاهده و دانلود ویدیوهای باکیفیت Full HD",
+        "سورس‌کد و فایل‌های تمرینی جلسات",
+        "پشتیبانی آنلاین و پاسخ به سوالات"
+      ],
+      "isPopular": false,
+      "isActive": true,
+      "createdAt": "2026-09-14T06:32:56.353Z",
+      "updatedAt": "2026-09-14T06:32:56.353Z"
+    },
+    {
+      "id": "plan_vip_3m",
+      "title": "اشتراک ۳ ماهه نقره‌ای (VIP)",
+      "durationInMonths": 3,
+      "price": 990000,
+      "discountedPrice": 750000,
+      "features": [
+        "دسترسی نامحدود به تمامی دوره‌های پلتفرم",
+        "مشاهده و دانلود ویدیوهای باکیفیت Full HD",
+        "سورس‌کد و فایل‌های تمرینی جلسات",
+        "پشتیبانی آنلاین و پاسخ به سوالات اساتید",
+        "صدور گواهی‌نامه رسمی پایان دوره"
+      ],
+      "isPopular": false,
+      "isActive": true,
+      "createdAt": "2026-09-14T06:32:56.353Z",
+      "updatedAt": "2026-09-14T06:32:56.353Z"
+    },
+    {
+      "id": "plan_vip_6m",
+      "title": "اشتراک ۶ ماهه الماس (VIP محبوب‌ترین)",
+      "durationInMonths": 6,
+      "price": 1850000,
+      "discountedPrice": 1290000,
+      "features": [
+        "دسترسی نامحدود به تمامی دوره‌ها و وبینارها",
+        "مشاهده و دانلود بدون محدودیت با بالاترین کیفیت",
+        "دسترسی زودهنگام به دوره‌ها و آپدیت‌های جدید",
+        "سورس‌کد و فایل‌های لایه باز تمرینی",
+        "پشتیبانی VIP مستقیم توسط منتورها",
+        "صدور مدرک بین‌المللی دیجیتال با QR Code"
+      ],
+      "isPopular": true,
+      "isActive": true,
+      "createdAt": "2026-09-14T06:32:56.353Z",
+      "updatedAt": "2026-09-14T06:32:56.353Z"
+    },
+    {
+      "id": "plan_vip_9m",
+      "title": "اشتراک ۹ ماهه جامع (VIP ویژه حرفه‌ای‌ها)",
+      "durationInMonths": 9,
+      "price": 2600000,
+      "discountedPrice": 1790000,
+      "features": [
+        "دسترسی نامحدود به کل آرشیو آموزش‌ها برای ۹ ماه",
+        "امکان دانلود تمام سورس‌ها، فایل‌های پروژه و اسلایدها",
+        "مشاوره اختصاصی مسیر شغلی و بررسی پورتفولیو",
+        "پشتیبانی اولویت‌دار VIP ۲۴/۷",
+        "صدور تمامی مدارک دوره‌ها همراه با استعلام آنلاین"
+      ],
+      "isPopular": false,
+      "isActive": true,
+      "createdAt": "2026-09-14T06:32:56.353Z",
+      "updatedAt": "2026-09-14T06:32:56.353Z"
+    }
+  ]
+}

@@ -6,6 +6,10 @@ import { Award, ArrowLeft, ArrowRight } from 'lucide-react';
 export const InstructorSpotlight: React.FC = () => {
   const { instructors, navigate, t, language, isRTL } = useApp();
 
+  if (instructors.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-16 bg-[#EAF8F5]/60 dark:bg-[#061c24] border-t border-b border-[#ccede5]/70 dark:border-teal-900/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -24,8 +24,13 @@ import {
   Info,
   Laptop,
   Smartphone,
-  Copy
+  Copy,
+  Gift,
+  CreditCard,
+  Tag,
+  Crown
 } from 'lucide-react';
+import { api } from '../../../services/api';
 import { Course, CourseModule, CourseStatus, CourseLevel } from '../../../types';
 import { toPersianDigits, formatTomanPrice } from '../../../utils/persian';
 import { CurriculumBuilder } from './CurriculumBuilder';
@@ -142,10 +147,15 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
   );
   const [newAudience, setNewAudience] = useState('');
 
-  // Pricing
-  const [isFree, setIsFree] = useState(initialCourse ? initialCourse.price === 0 : false);
-  const [price, setPrice] = useState(initialCourse?.price || 1280000);
-  const [originalPrice, setOriginalPrice] = useState(initialCourse?.originalPrice || 1680000);
+  // Access & Subscription Status (VIP vs Free)
+  const [isVipRequired, setIsVipRequired] = useState<boolean>(() => {
+    if (!initialCourse) return true;
+    if (initialCourse.isFree && !initialCourse.isVip && !initialCourse.requiresSubscription) {
+      return false;
+    }
+    return true;
+  });
+  const [isSavingPricing, setIsSavingPricing] = useState(false);
 
   // Settings
   const [isLifetimeAccess, setIsLifetimeAccess] = useState(
@@ -195,9 +205,9 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
     { label: 'کاور اصلی دوره انتخاب شده است', valid: !!thumbnail },
     { label: 'حداقل ۱ فصل و ۳ جلسه آموزشی تعریف شده است', valid: modules.length >= 1 && totalLessons >= 3 },
     { label: 'حداقل یک جلسه رایگان برای پیش‌نمایش تعیین شده است', valid: modules.some(m => m.lessons.some(l => l.isPreviewFree)) },
-    { label: 'قیمت‌گذاری یا وضعیت رایگان مشخص شده است', valid: isFree || price > 0 },
+    { label: 'وضعیت دسترسی و اشتراک دوره مشخص شده است', valid: true },
     { label: 'اهداف یادگیری و پیش‌نیازها درج شده است', valid: whatYouWillLearn.length >= 2 }
-  ], [title, thumbnail, modules, totalLessons, isFree, price, whatYouWillLearn]);
+  ], [title, thumbnail, modules, totalLessons, isVipRequired, whatYouWillLearn]);
 
   const isValidForPublish = validationChecks.every(c => c.valid);
 
@@ -210,6 +220,7 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
   }, [title, isEditing]);
 
   const constructCoursePayload = (status: CourseStatus): Course => {
+    const isFree = !isVipRequired;
     return {
       id: initialCourse?.id || `course-${Math.random().toString(36).substring(2, 9)}`,
       slug: slug || `course-${Date.now()}`,
@@ -225,9 +236,14 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
       instructorName: currentInstructor?.name || 'مدرس پلتفرم',
       instructorAvatar: currentInstructor?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600',
       instructorTitle: currentInstructor?.title || 'مدرس تخصصی',
-      price: isFree ? 0 : Number(price) || 0,
-      originalPrice: isFree ? 0 : Number(originalPrice) || Number(price) || 0,
-      discountPercentage: (!isFree && originalPrice > price) ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0,
+      price: 0,
+      originalPrice: 0,
+      isFree,
+      isVip: isVipRequired,
+      requiresSubscription: isVipRequired,
+      accessType: isFree ? 'FREE' : 'PAID',
+      currency: 'IRT',
+      discountPercentage: 0,
       rating: initialCourse?.rating || 5.0,
       reviewCount: initialCourse?.reviewCount || 0,
       studentCount: initialCourse?.studentCount || 0,
@@ -292,13 +308,57 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
     onSaveAndClose();
   };
 
+  const handleQuickSavePricing = async () => {
+    setIsSavingPricing(true);
+    try {
+      const isFree = !isVipRequired;
+      const isVip = isVipRequired;
+
+      if (isEditing && initialCourse) {
+        await api.commerce.updateCoursePricing(initialCourse.id, {
+          isFree,
+          price: 0,
+          originalPrice: 0
+        });
+        updateCourse(initialCourse.id, {
+          isFree,
+          isVip,
+          requiresSubscription: isVip,
+          accessType: isFree ? 'FREE' : 'PAID',
+          price: 0,
+          originalPrice: 0,
+          discountPercentage: 0
+        });
+        addToast({
+          title: 'وضعیت دسترسی دوره ذخیره شد',
+          message: `دوره «${initialCourse.title}» بر روی وضعیت «${isVipRequired ? 'نیازمند اشتراک ویژه (VIP)' : 'رایگان'}» تنظیم و ذخیره شد.`,
+          type: 'success'
+        });
+      } else {
+        addToast({
+          title: 'تنظیمات دسترسی لحاظ شد',
+          message: `وضعیت دسترسی دوره بر روی «${isVipRequired ? 'نیازمند اشتراک ویژه (VIP)' : 'رایگان'}» تنظیم شد.`,
+          type: 'info'
+        });
+      }
+    } catch (err: any) {
+      addToast({
+        title: 'خطا در ثبت وضعیت دسترسی دوره',
+        message: err.message || 'مشکلی در به‌روزرسانی پیش آمد.',
+        type: 'error'
+      });
+    } finally {
+      setIsSavingPricing(false);
+    }
+  };
+
   const tabs: { id: WizardTab; label: string; icon: React.FC<{ size?: number; className?: string }> }[] = [
     { id: 'basic', label: 'اطلاعات اصلی', icon: FileText },
     { id: 'media', label: 'کاور و ویدیو', icon: ImageIcon },
     { id: 'curriculum', label: 'سازنده سرفصل‌ها', icon: Layers },
     { id: 'bulk-upload', label: 'بارگذاری گروهی', icon: UploadCloud },
     { id: 'media-library', label: 'کتابخانه رسانه‌ها', icon: FolderOpen },
-    { id: 'pricing', label: 'قیمت‌گذاری', icon: DollarSign },
+    { id: 'pricing', label: 'وضعیت دسترسی و VIP', icon: Crown },
     { id: 'settings', label: 'تنظیمات و دسترسی', icon: SettingsIcon },
     { id: 'seo', label: 'سئو و متا', icon: Globe },
     { id: 'publish', label: 'پیش‌نمایش و انتشار', icon: Send }
@@ -880,100 +940,128 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
               onClick={() => setActiveTab('pricing')}
               className="px-5 py-2.5 rounded-xl bg-[#0b3b49] dark:bg-[#5eead4] text-white dark:text-[#06242e] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
             >
-              <span>مرحله بعد: قیمت‌گذاری</span>
+              <span>مرحله بعد: وضعیت دسترسی و VIP</span>
               <ArrowLeft size={16} />
             </button>
           </div>
         </div>
       )}
 
-      {/* Tab 6: Pricing */}
+      {/* Tab 6: Access & Subscription Status */}
       {activeTab === 'pricing' && (
         <div className="p-6 rounded-2xl bg-white dark:bg-[#06242e] border border-[#ccede5] dark:border-teal-900/60 shadow-xs space-y-6 text-xs">
-          <div>
-            <h3 className="font-extrabold text-sm text-[#06242e] dark:text-white">
-              قیمت‌گذاری و تخفیف‌ها
-            </h3>
-            <p className="text-[11px] text-[#527683] dark:text-[#8ab5be] mt-0.5">
-              مبالغ به تومان محاسبه و تسویه می‌گردند.
-            </p>
-          </div>
-
-          {/* Free Toggle */}
-          <div className="p-4 rounded-2xl bg-[#def4ee]/50 dark:bg-[#0e3b47]/40 border border-[#ccede5] dark:border-teal-900/60 flex items-center justify-between">
+          
+          {/* Header with Quick Save */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#ccede5]/60 dark:border-teal-900/40 pb-4">
             <div>
-              <div className="font-bold text-sm text-[#0b3b49] dark:text-[#5eead4]">
-                دوره کاملاً رایگان (Free Access)
-              </div>
-              <div className="text-[11px] text-[#527683] dark:text-[#8ab5be] mt-0.5">
-                تمامی کاربران بدون پرداخت هزینه می‌توانند در این دوره ثبت‌نام کنند.
-              </div>
+              <h3 className="font-extrabold text-sm text-[#06242e] dark:text-white flex items-center gap-2">
+                <Crown size={16} className="text-[#0d9488]" />
+                <span>وضعیت دسترسی و اشتراک ویژه (VIP)</span>
+              </h3>
+              <p className="text-[11px] text-[#527683] dark:text-[#8ab5be] mt-0.5">
+                تنظیم نحوه دسترسی دانشجویان به محتوای دوره بر اساس مدل اشتراکی پلتفرم
+              </p>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={isFree}
-                onChange={e => setIsFree(e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="w-11 h-6 bg-slate-300 peer-focus:outline-hidden rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0d9488]"></div>
-            </label>
+
+            <button
+              type="button"
+              onClick={handleQuickSavePricing}
+              disabled={isSavingPricing}
+              className="px-4 py-2 rounded-xl bg-[#0b3b49] dark:bg-[#5eead4] text-white dark:text-[#06242e] font-black text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50"
+            >
+              <Save size={14} />
+              <span>{isSavingPricing ? 'در حال ثبت وضعیت...' : 'ذخیره آنی وضعیت دسترسی'}</span>
+            </button>
           </div>
 
-          {!isFree && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="font-bold text-[#06242e] dark:text-white">
-                  قیمت فروش نهایی (تومان) <span className="text-rose-500">*</span>
+          {/* Access Status Toggle Card */}
+          <div className="p-6 rounded-2xl bg-slate-50/80 dark:bg-[#07242d] border border-[#ccede5] dark:border-teal-900/60 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <label className="font-black text-sm text-[#06242e] dark:text-white flex items-center gap-2">
+                  <span>وضعیت دسترسی: رایگان / نیازمند اشتراک ویژه (VIP)</span>
                 </label>
-                <input
-                  type="number"
-                  value={price}
-                  onChange={e => setPrice(Number(e.target.value))}
-                  min={0}
-                  step={10000}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white font-bold"
-                />
-                <div className="text-[11px] text-[#0d9488] dark:text-[#5eead4] font-bold">
-                  {formatTomanPrice(price)}
-                </div>
+                <p className="text-[11px] text-[#527683] dark:text-[#8ab5be]">
+                  برای تغییر وضعیت دوره میان دسترسی عمومی رایگان یا اختصاصی کاربران VIP، کلید را تغییر دهید.
+                </p>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-[#06242e] dark:text-white">
-                  قیمت اصلی قبل از تخفیف (تومان)
-                </label>
-                <input
-                  type="number"
-                  value={originalPrice}
-                  onChange={e => setOriginalPrice(Number(e.target.value))}
-                  min={0}
-                  step={10000}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white font-bold"
-                />
-                {originalPrice > price && (
-                  <div className="text-[11px] text-rose-500 font-bold">
-                    {toPersianDigits(Math.round(((originalPrice - price) / originalPrice) * 100))}٪ تخفیف اعمال شده
-                  </div>
-                )}
-              </div>
+              {/* The Toggle Switch */}
+              <button
+                type="button"
+                role="switch"
+                aria-checked={isVipRequired}
+                onClick={() => setIsVipRequired(!isVipRequired)}
+                className={`relative inline-flex h-9 w-18 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
+                  isVipRequired ? 'bg-[#0d9488]' : 'bg-slate-300 dark:bg-slate-600'
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-8 w-8 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out flex items-center justify-center ${
+                    isVipRequired ? '-translate-x-9' : 'translate-x-0'
+                  }`}
+                >
+                  {isVipRequired ? (
+                    <Crown size={15} className="text-[#0d9488]" />
+                  ) : (
+                    <Sparkles size={15} className="text-slate-400" />
+                  )}
+                </span>
+              </button>
             </div>
-          )}
 
-          <div className="flex justify-between pt-4 border-t border-[#ccede5]/60 dark:border-teal-900/40">
+            {/* Visual Status Feedback */}
+            <div className="pt-2">
+              {isVipRequired ? (
+                <div className="p-4 rounded-xl bg-teal-50/80 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800/80 text-teal-900 dark:text-teal-200 space-y-2">
+                  <div className="flex items-center gap-2 font-black text-xs text-[#0d9488] dark:text-[#5eead4]">
+                    <Crown size={16} />
+                    <span>وضعیت فعلی: نیازمند اشتراک ویژه (VIP)</span>
+                  </div>
+                  <p className="text-[11px] text-teal-800 dark:text-teal-300 leading-relaxed">
+                    این دوره اختصاصی است و تنها دانشجویانی که دارای اشتراک ویژه فعال (۱، ۳، ۶ یا ۹ ماهه) هستند، به تمامی جلسات، ویدیوها و منابع تکمیلی دسترسی دارند. جلساتی با برچسب «پیش‌نمایش رایگان» برای همه اعضا باز خواهد بود.
+                  </p>
+                </div>
+              ) : (
+                <div className="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-emerald-900 dark:text-emerald-200 space-y-2">
+                  <div className="flex items-center gap-2 font-black text-xs text-emerald-700 dark:text-emerald-400">
+                    <CheckCircle2 size={16} />
+                    <span>وضعیت فعلی: کاملاً رایگان (Free Access)</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-800 dark:text-emerald-300 leading-relaxed">
+                    این دوره برای تمامی کاربران عمومی پلتفرم رایگان است. هر کاربری بدون نیاز به خرید اشتراک یا پرداخت وجه، می‌تواند در دوره ثبت‌نام کرده و محتوای آموزشی را مشاهده نماید.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="flex justify-between items-center pt-4 border-t border-[#ccede5]/60 dark:border-teal-900/40">
             <button
               onClick={() => setActiveTab('media-library')}
-              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-[#09222b] text-[#06242e] dark:text-white font-bold"
+              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-[#09222b] text-[#06242e] dark:text-white font-bold cursor-pointer hover:bg-slate-200"
             >
               مرحله قبل
             </button>
-            <button
-              onClick={() => setActiveTab('settings')}
-              className="px-5 py-2.5 rounded-xl bg-[#0b3b49] dark:bg-[#5eead4] text-white dark:text-[#06242e] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>مرحله بعد: تنظیمات و دسترسی</span>
-              <ArrowLeft size={16} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleQuickSavePricing}
+                disabled={isSavingPricing}
+                className="px-4 py-2 rounded-xl bg-teal-100 dark:bg-teal-900/60 text-[#0d9488] dark:text-[#5eead4] font-black text-xs flex items-center gap-1.5 cursor-pointer hover:bg-teal-200"
+              >
+                <Save size={14} />
+                <span>ذخیره وضعیت</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('settings')}
+                className="px-5 py-2 rounded-xl bg-[#0b3b49] dark:bg-[#5eead4] text-white dark:text-[#06242e] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>مرحله بعد: تنظیمات</span>
+                <ArrowLeft size={14} />
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1280,8 +1368,17 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
               <div className="rounded-2xl bg-white dark:bg-[#082834] border border-[#ccede5] dark:border-teal-900 overflow-hidden shadow-md">
                 <div className="aspect-video relative">
                   <img src={thumbnail} alt={title} className="w-full h-full object-cover" />
-                  <div className="absolute top-2 start-2 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-extrabold shadow-sm">
-                    {isFree ? 'رایگان' : formatTomanPrice(price)}
+                  <div className={`absolute top-2 start-2 px-2.5 py-1 rounded-full text-white text-[10px] font-extrabold shadow-sm flex items-center gap-1 ${
+                    isVipRequired ? 'bg-[#0d9488]' : 'bg-emerald-600'
+                  }`}>
+                    {isVipRequired ? (
+                      <>
+                        <Crown size={11} />
+                        <span>اشتراک VIP</span>
+                      </>
+                    ) : (
+                      <span>رایگان</span>
+                    )}
                   </div>
                 </div>
                 <div className="p-4 space-y-2">

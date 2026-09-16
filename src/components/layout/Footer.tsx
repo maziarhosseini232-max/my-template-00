@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ArrowLeft, ShieldCheck, Award, Lock } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Award, Lock, Mail, Phone, MapPin, Send, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
 import { toPersianDigits } from '../../utils/persian';
 
 export const Footer: React.FC = () => {
-  const { navigate, categories, addToast, t, language } = useApp();
+  const { navigate, categories, addToast, t, language, siteSettings } = useApp();
   const [email, setEmail] = useState('');
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -37,18 +37,74 @@ export const Footer: React.FC = () => {
               </div>
               <div className="flex items-baseline gap-1.5">
                 <span className="font-extrabold tracking-tight text-xl text-white">
-                  {language === 'fa' ? 'آکادمی تخصصی لومینا' : 'MASTERPRO'}
+                  {siteSettings?.siteName || (language === 'fa' ? 'آکادمی تخصصی لومینا' : 'MASTERPRO')}
                 </span>
                 <span className="text-[10px] font-bold text-[#5eead4] uppercase tracking-widest">
-                  {language === 'fa' ? 'LUMINA' : 'LUMINA'}
+                  {siteSettings?.siteNameEn || 'LUMINA'}
                 </span>
               </div>
             </div>
             <p className="text-sm text-[#8ab5be] max-w-md leading-relaxed">
-              {language === 'fa' 
+              {siteSettings?.footerText || (language === 'fa' 
                 ? 'پلتفرم جامع آموزش ویدیویی مهارت‌های خلاق، طراحی محصول، برنامه‌نویسی و هوش مصنوعی با تدریس برترین اساتید صنعت.'
-                : 'The premier online course marketplace designed for ambitious learners, software architects, and creative founders.'}
+                : 'The premier online course marketplace designed for ambitious learners, software architects, and creative founders.')}
             </p>
+
+            {/* Contact Details & Social Links */}
+            {(siteSettings?.contactPhone || siteSettings?.contactEmail || siteSettings?.address || siteSettings?.socialLinks) && (
+              <div className="space-y-2 pt-1 text-xs text-[#8ab5be]">
+                {siteSettings.address && (
+                  <div className="flex items-center gap-2">
+                    <MapPin size={14} className="text-[#5eead4] shrink-0" />
+                    <span>{siteSettings.address}</span>
+                  </div>
+                )}
+                <div className="flex flex-wrap gap-4">
+                  {siteSettings.contactPhone && (
+                    <div className="flex items-center gap-1.5" dir="ltr">
+                      <Phone size={14} className="text-[#5eead4] shrink-0" />
+                      <span>{siteSettings.contactPhone}</span>
+                    </div>
+                  )}
+                  {siteSettings.contactEmail && (
+                    <div className="flex items-center gap-1.5">
+                      <Mail size={14} className="text-[#5eead4] shrink-0" />
+                      <span>{siteSettings.contactEmail}</span>
+                    </div>
+                  )}
+                </div>
+
+                {siteSettings.socialLinks && Object.values(siteSettings.socialLinks).some(Boolean) && (
+                  <div className="flex items-center gap-3 pt-2">
+                    {siteSettings.socialLinks.instagram && (
+                      <a href={siteSettings.socialLinks.instagram} target="_blank" rel="noreferrer" className="w-7 h-7 rounded-lg bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] flex items-center justify-center transition-colors text-white">
+                        <Instagram size={14} />
+                      </a>
+                    )}
+                    {siteSettings.socialLinks.telegram && (
+                      <a href={siteSettings.socialLinks.telegram} target="_blank" rel="noreferrer" className="w-7 h-7 rounded-lg bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] flex items-center justify-center transition-colors text-white">
+                        <Send size={14} />
+                      </a>
+                    )}
+                    {siteSettings.socialLinks.linkedin && (
+                      <a href={siteSettings.socialLinks.linkedin} target="_blank" rel="noreferrer" className="w-7 h-7 rounded-lg bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] flex items-center justify-center transition-colors text-white">
+                        <Linkedin size={14} />
+                      </a>
+                    )}
+                    {siteSettings.socialLinks.youtube && (
+                      <a href={siteSettings.socialLinks.youtube} target="_blank" rel="noreferrer" className="w-7 h-7 rounded-lg bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] flex items-center justify-center transition-colors text-white">
+                        <Youtube size={14} />
+                      </a>
+                    )}
+                    {siteSettings.socialLinks.twitter && (
+                      <a href={siteSettings.socialLinks.twitter} target="_blank" rel="noreferrer" className="w-7 h-7 rounded-lg bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] flex items-center justify-center transition-colors text-white">
+                        <Twitter size={14} />
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
             <div className="flex flex-wrap items-center gap-4 text-xs text-[#ccede5] pt-2">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck size={16} className="text-[#5eead4]" />
@@ -156,11 +212,6 @@ export const Footer: React.FC = () => {
                   {t('instructorStudio')}
                 </button>
               </li>
-              <li>
-                <button onClick={() => navigate('admin')} className="hover:text-[#5eead4] transition-colors cursor-pointer">
-                  {t('adminDashboard')}
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -188,9 +239,9 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8ab5be]">
           <div>
-            {language === 'fa'
+            {siteSettings?.copyrightText || (language === 'fa'
               ? `© ۱۴۰۴ آکادمی لومینا لرن. تمامی حقوق مادی و معنوی محفوظ است.`
-              : `© ${new Date().getFullYear()} MasterPro Lumina Inc. All rights reserved.`}
+              : `© ${new Date().getFullYear()} MasterPro Lumina Inc. All rights reserved.`)}
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5 bg-[#0b3b49] px-2.5 py-1 rounded-full text-[11px] text-[#ccede5]">
