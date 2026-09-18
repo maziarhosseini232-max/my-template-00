@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "timestamp": "2026-09-15T19:33:13.768Z",
+  "timestamp": "2026-09-17T19:06:59.822Z",
   "siteSetting": {
     "id": "setting_1",
     "siteName": "لومینا لرن",
@@ -88,7 +88,7 @@
       "isPhoneVerified": false,
       "isActive": true,
       "createdAt": "2026-09-15T15:30:50.893Z",
-      "updatedAt": "2026-09-15T19:33:11.810Z",
+      "updatedAt": "2026-09-17T19:06:59.821Z",
       "headline": "توسعه‌دهنده فول‌استک",
       "shebaNumber": "123456789012345678901234"
     },
@@ -264,6 +264,36 @@
       "isActive": true,
       "createdAt": "2026-09-15T19:33:10.395Z",
       "updatedAt": "2026-09-15T19:33:10.395Z"
+    },
+    {
+      "id": "usr_1789670726685_r30q",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789670726684@example.com",
+      "passwordHash": "$2b$10$F2HpBNV0K442OZ7Y6COfLex41uGqnnVY3AYnCIll/mNHVnPfPRj8.",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-17T18:45:26.685Z",
+      "updatedAt": "2026-09-17T18:45:26.685Z"
+    },
+    {
+      "id": "usr_1789672018578_y4i4",
+      "name": "دانشجوی تستی",
+      "email": "test_student_1789672018578@example.com",
+      "passwordHash": "$2b$10$qZO9ZSDFzLndPdlcUromy.5.19t66fEBtpUfJ3zXM0pf8yyZ6dU36",
+      "roles": [
+        "STUDENT"
+      ],
+      "walletBalance": 0,
+      "isEmailVerified": false,
+      "isPhoneVerified": false,
+      "isActive": true,
+      "createdAt": "2026-09-17T19:06:58.578Z",
+      "updatedAt": "2026-09-17T19:06:58.578Z"
     }
   ],
   "roles": [
@@ -590,7 +620,7 @@
       ],
       "rating": 4.9,
       "reviewsCount": 42,
-      "enrolledStudentsCount": 161,
+      "enrolledStudentsCount": 163,
       "publishedAt": "2026-09-15T15:48:01.433Z",
       "createdAt": "2026-09-15T15:48:01.433Z",
       "updatedAt": "2026-09-15T15:48:01.433Z",
@@ -926,7 +956,7 @@
       "version": "v2.4.0",
       "isFree": false,
       "price": 180000,
-      "downloadCount": 347,
+      "downloadCount": 349,
       "associatedCourseId": "crs_figma_ui",
       "tags": [
         "Figma",
@@ -1026,7 +1056,7 @@
       "completedLessonIds": [
         "lsn_ts_1"
       ],
-      "updatedAt": "2026-09-15T19:33:10.609Z",
+      "updatedAt": "2026-09-17T19:06:58.779Z",
       "isArchived": false
     },
     {
@@ -1068,6 +1098,26 @@
       "isActive": false,
       "isArchived": false,
       "updatedAt": "2026-09-15T19:33:11.787Z"
+    },
+    {
+      "id": "enr_1789670726911_vxvw",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-17T18:45:26.911Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-17T18:45:28.042Z"
+    },
+    {
+      "id": "enr_1789672018779_6thw",
+      "userId": "usr_1789486250893_d1pu",
+      "courseId": "crs_fullstack_ts",
+      "accessType": "FREE",
+      "enrolledAt": "2026-09-17T19:06:58.778Z",
+      "isActive": false,
+      "isArchived": false,
+      "updatedAt": "2026-09-17T19:06:59.795Z"
     }
   ],
   "lessonProgress": [
@@ -1091,7 +1141,7 @@
       "lastPositionSeconds": 300,
       "timeSpentSeconds": 300,
       "completedAt": "2026-09-15T15:48:01.730Z",
-      "updatedAt": "2026-09-15T19:33:10.609Z"
+      "updatedAt": "2026-09-17T19:06:58.779Z"
     },
     {
       "id": "lp_1789487281735_2ht9",
@@ -1102,7 +1152,7 @@
       "lastPositionSeconds": 45,
       "timeSpentSeconds": 124,
       "completedAt": "2026-09-15T15:48:01.735Z",
-      "updatedAt": "2026-09-15T19:33:10.614Z"
+      "updatedAt": "2026-09-17T19:06:58.784Z"
     }
   ],
   "courseProgress": [
@@ -1138,7 +1188,7 @@
       "totalLessonsCount": 2,
       "isCompleted": false,
       "certificateIssued": false,
-      "updatedAt": "2026-09-15T19:33:10.609Z",
+      "updatedAt": "2026-09-17T19:06:58.779Z",
       "lastWatchedLessonId": "lsn_ts_1"
     },
     {
@@ -1150,7 +1200,7 @@
       "totalLessonsCount": 3,
       "isCompleted": false,
       "certificateIssued": false,
-      "updatedAt": "2026-09-15T19:33:10.614Z",
+      "updatedAt": "2026-09-17T19:06:58.784Z",
       "lastWatchedLessonId": "lsn_1_1"
     }
   ],
@@ -1176,7 +1226,7 @@
         "statsCountCourses": "۴۵+",
         "statsSatisfaction": "۹۸.۶٪"
       },
-      "updatedAt": "2026-09-15T19:33:10.610Z"
+      "updatedAt": "2026-09-17T19:06:58.779Z"
     },
     {
       "id": "sec_categories",
@@ -2025,6 +2075,120 @@
       "updatedAt": "2026-09-15T19:33:11.810Z",
       "trackingCode": "TRK_228749",
       "paidAt": "2026-09-15T19:33:11.810Z"
+    },
+    {
+      "id": "ord_1789670728046_pbbx",
+      "orderNumber": "LUM-10423",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-17T18:45:28.046Z",
+      "updatedAt": "2026-09-17T18:45:28.047Z",
+      "trackingCode": "TRK_881458",
+      "paidAt": "2026-09-17T18:45:28.047Z"
+    },
+    {
+      "id": "ord_1789670728119_olwh",
+      "orderNumber": "LUM-10424",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-17T18:45:28.119Z",
+      "updatedAt": "2026-09-17T18:45:28.119Z",
+      "trackingCode": "TRK_210546",
+      "paidAt": "2026-09-17T18:45:28.119Z"
+    },
+    {
+      "id": "ord_1789672019799_d8yu",
+      "orderNumber": "LUM-10425",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "COURSE",
+      "items": [
+        {
+          "courseId": "crs_react_pro",
+          "title": "دوره جامع React 19 و Next.js 15 پروژه‌محور",
+          "price": 250000,
+          "originalPrice": 490000,
+          "instructorId": "usr_instructor_1",
+          "instructorName": "مهندس علی رضایی (مدرس ارشد)"
+        }
+      ],
+      "subtotal": 250000,
+      "discountAmount": 0,
+      "totalAmount": 250000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-17T19:06:59.799Z",
+      "updatedAt": "2026-09-17T19:06:59.800Z",
+      "trackingCode": "TRK_537722",
+      "paidAt": "2026-09-17T19:06:59.800Z"
+    },
+    {
+      "id": "ord_1789672019821_gg8y",
+      "orderNumber": "LUM-10426",
+      "userId": "usr_1789486250893_d1pu",
+      "userName": "دانشجوی تستی",
+      "userEmail": "test_student_1789486250893@example.com",
+      "type": "SUBSCRIPTION",
+      "subscriptionPlanId": "plan_vip_3m",
+      "durationInMonths": 3,
+      "items": [
+        {
+          "subscriptionPlanId": "plan_vip_3m",
+          "durationInMonths": 3,
+          "title": "اشتراک ویژه VIP (اشتراک ۳ ماهه نقره‌ای (VIP))",
+          "price": 750000,
+          "originalPrice": 990000
+        }
+      ],
+      "subtotal": 750000,
+      "discountAmount": 0,
+      "totalAmount": 750000,
+      "status": "PAID",
+      "paymentMethod": "gateway",
+      "paymentGateway": "MOCK_GATEWAY",
+      "createdAt": "2026-09-17T19:06:59.821Z",
+      "updatedAt": "2026-09-17T19:06:59.821Z",
+      "trackingCode": "TRK_955624",
+      "paidAt": "2026-09-17T19:06:59.821Z"
     }
   ],
   "payments": [
@@ -2357,6 +2521,66 @@
       "paidAt": "2026-09-15T19:33:11.810Z",
       "createdAt": "2026-09-15T19:33:11.810Z",
       "updatedAt": "2026-09-15T19:33:11.810Z"
+    },
+    {
+      "id": "pay_1789670728047_4xit",
+      "orderId": "ord_1789670728046_pbbx",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789670728046_eowby",
+      "trackingCode": "TRK_881458",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-17T18:45:28.047Z",
+      "createdAt": "2026-09-17T18:45:28.047Z",
+      "updatedAt": "2026-09-17T18:45:28.047Z"
+    },
+    {
+      "id": "pay_1789670728119_vps4",
+      "orderId": "ord_1789670728119_olwh",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789670728119_7k320",
+      "trackingCode": "TRK_210546",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-17T18:45:28.119Z",
+      "createdAt": "2026-09-17T18:45:28.119Z",
+      "updatedAt": "2026-09-17T18:45:28.119Z"
+    },
+    {
+      "id": "pay_1789672019800_3484",
+      "orderId": "ord_1789672019799_d8yu",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 250000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789672019800_z8lru",
+      "trackingCode": "TRK_537722",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-17T19:06:59.800Z",
+      "createdAt": "2026-09-17T19:06:59.800Z",
+      "updatedAt": "2026-09-17T19:06:59.800Z"
+    },
+    {
+      "id": "pay_1789672019821_z7pr",
+      "orderId": "ord_1789672019821_gg8y",
+      "userId": "usr_1789486250893_d1pu",
+      "amount": 750000,
+      "currency": "IRT",
+      "gateway": "MOCK_GATEWAY",
+      "transactionId": "TXN_1789672019821_n0y80",
+      "trackingCode": "TRK_955624",
+      "status": "PAID",
+      "cardPanMasked": "۶۰۳۷-۹۹**-****-۵۴۲۱",
+      "paidAt": "2026-09-17T19:06:59.821Z",
+      "createdAt": "2026-09-17T19:06:59.821Z",
+      "updatedAt": "2026-09-17T19:06:59.821Z"
     }
   ],
   "coupons": [],
@@ -2624,6 +2848,54 @@
       "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10422 به مبلغ ۷۵۰٬۰۰۰ تومان",
       "referenceNumber": "TXN_1789500791809_lg45o",
       "createdAt": "2026-09-15T19:33:11.810Z"
+    },
+    {
+      "id": "txn_1789670728047_3obo",
+      "orderId": "ord_1789670728046_pbbx",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10423 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789670728046_eowby",
+      "createdAt": "2026-09-17T18:45:28.047Z"
+    },
+    {
+      "id": "txn_1789670728119_1gss",
+      "orderId": "ord_1789670728119_olwh",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10424 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789670728119_7k320",
+      "createdAt": "2026-09-17T18:45:28.119Z"
+    },
+    {
+      "id": "txn_1789672019800_9tzy",
+      "orderId": "ord_1789672019799_d8yu",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 250000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10425 به مبلغ ۲۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789672019800_z8lru",
+      "createdAt": "2026-09-17T19:06:59.800Z"
+    },
+    {
+      "id": "txn_1789672019821_j7su",
+      "orderId": "ord_1789672019821_gg8y",
+      "userId": "usr_1789486250893_d1pu",
+      "type": "PAYMENT",
+      "amount": 750000,
+      "currency": "IRT",
+      "status": "SUCCESS",
+      "description": "تایید پرداخت زرین‌پال شاپرک سفارش LUM-10426 به مبلغ ۷۵۰٬۰۰۰ تومان",
+      "referenceNumber": "TXN_1789672019821_n0y80",
+      "createdAt": "2026-09-17T19:06:59.821Z"
     }
   ],
   "subscriptionPlans": [

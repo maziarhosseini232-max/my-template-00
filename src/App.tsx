@@ -16,6 +16,7 @@ import { Footer } from './components/layout/Footer';
 import { SearchModal } from './components/search/SearchModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { ToastContainer } from './components/common/ToastContainer';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 // Homepage sections
 import { HeroSection } from './components/home/HeroSection';
@@ -175,9 +176,11 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </ErrorBoundary>
   );
 }
 

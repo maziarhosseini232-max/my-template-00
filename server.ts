@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
+import fs from 'fs';
 import apiRouter from './server/routes/index.js';
 import { seoController } from './server/controllers/seoController.js';
 import { errorHandler } from './server/middleware/errorHandler.js';
@@ -38,23 +38,31 @@ async function startServer() {
   app.get('/sitemap.xml', (req, res) => seoController.getSitemap(req, res));
   app.get('/robots.txt', (req, res) => seoController.getRobots(req, res));
 
-  // Run backend self-tests on bootstrap
-  try {
-    await runBackendTests();
-  } catch (err) {
-    console.error('Test execution error:', err);
+  // Run backend self-tests only if requested
+  if (process.env.RUN_BACKEND_TESTS === 'true') {
+    try {
+      await runBackendTests();
+    } catch (err) {
+      console.error('Test execution error:', err);
+    }
   }
 
+  const isProduction = process.env.NODE_ENV === 'production';
+  const distPath = path.join(process.cwd(), 'dist');
+
   // Vite middleware for development vs static in production
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isProduction) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    // Production: serve built static files from dist
     app.use(express.static(distPath));
+
+    // Client SPA fallback
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
@@ -64,7 +72,7 @@ async function startServer() {
   app.use(errorHandler);
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Lumina Learn Server running on http://0.0.0.0:${PORT}`);
+    console.log(`🚀 Lumina Learn Server running on http://0.0.0.0:${PORT} [mode: ${isProduction ? 'production' : 'development'}]`);
   });
 }
 
