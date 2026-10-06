@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction && !process.env.JWT_SECRET) {
@@ -18,7 +20,17 @@ export const config = {
     sandbox: process.env.ZARINPAL_SANDBOX !== 'false',
   },
   storage: {
-    driver: 'local', // 'local' | 's3' | 'r2'
+    driver: (process.env.STORAGE_DRIVER as 'local' | 's3') || 's3',
     localUploadDir: 'uploads',
+    s3: {
+      endpoint: (process.env.S3_ENDPOINT || 'https://c984071.parspack.net').replace(/^S3_ENDPOINT=/, '').trim(),
+      accessKey: (process.env.S3_ACCESS_KEY || '8pX21xsaAN8atKAT').replace(/^S3_ACCESS_KEY=/, '').trim(),
+      secretKey: (process.env.S3_SECRET_KEY || 'n9ZbWkSReYx42vfp8nY04PIMaPgReibK').replace(/^S3_SECRET_KEY=/, '').trim(),
+      bucket: (process.env.S3_BUCKET || 'c984071').replace(/^S3_BUCKET=/, '').trim(),
+      region: (process.env.S3_REGION || 'us-east-1').replace(/^S3_REGION=/, '').trim(),
+      forcePathStyle: process.env.S3_FORCE_PATH_STYLE !== 'false',
+      publicUrlPrefix: (process.env.S3_PUBLIC_URL_PREFIX || 'https://c984071.parspack.net').replace(/^S3_PUBLIC_URL_PREFIX=/, '').trim(),
+    }
   }
 };
+

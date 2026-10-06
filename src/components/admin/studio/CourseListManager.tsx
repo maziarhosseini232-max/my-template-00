@@ -22,7 +22,8 @@ import {
   MoreVertical,
   GraduationCap,
   Sparkles,
-  DollarSign
+  DollarSign,
+  RefreshCw
 } from 'lucide-react';
 import { toPersianDigits, formatTomanPrice } from '../../../utils/persian';
 import { Course, CourseStatus } from '../../../types';
@@ -50,6 +51,8 @@ export const CourseListManager: React.FC<CourseListManagerProps> = ({
     deleteCourse, 
     duplicateCourse, 
     exportCoursePackage,
+    wipeAllTestData,
+    refreshCourses,
     addToast 
   } = useApp();
 
@@ -61,6 +64,8 @@ export const CourseListManager: React.FC<CourseListManagerProps> = ({
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [showWipeModal, setShowWipeModal] = useState(false);
+  const [isWiping, setIsWiping] = useState(false);
 
   // Filtering
   const filteredCourses = useMemo(() => {
@@ -151,7 +156,16 @@ export const CourseListManager: React.FC<CourseListManagerProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setShowWipeModal(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900 text-xs font-bold transition-colors cursor-pointer"
+            title="حذف کلیه داده‌های تستی کاتالوگ و شروع از صفر"
+          >
+            <Trash2 size={15} />
+            <span>پاکسازی داده‌های تست</span>
+          </button>
+
           <button
             onClick={onOpenImport}
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-[#06242e] border border-[#ccede5] dark:border-teal-900 text-[#06242e] dark:text-slate-200 text-xs font-bold hover:bg-[#f0fbf8] dark:hover:bg-[#092b36] transition-colors cursor-pointer"
@@ -607,6 +621,66 @@ export const CourseListManager: React.FC<CourseListManagerProps> = ({
                 className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold transition-colors cursor-pointer"
               >
                 تایید و حذف دائمی
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Wipe All Test Data Confirmation Modal */}
+      {showWipeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+          <div className="bg-white dark:bg-[#06242e] rounded-3xl max-w-md w-full p-6 border border-rose-200 dark:border-rose-900 shadow-2xl space-y-4 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-rose-50 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto shadow-inner">
+              <Trash2 size={28} />
+            </div>
+            <div className="space-y-1.5">
+              <h4 className="font-black text-base text-[#06242e] dark:text-white">
+                پاکسازی کامل داده‌های تستی آکادمی
+              </h4>
+              <p className="text-xs text-[#527683] dark:text-[#8ab5be] leading-relaxed">
+                این عملیات تمامی دوره‌های آزمایشی، سرفصل‌های دمو، نظرات تستی و کاتالوگ را حذف کرده و سایت را به حالت واقعی و آماده انتشار برای محتوای اختصاصی شما تبدیل می‌کند.
+              </p>
+              <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 text-[11px] text-amber-800 dark:text-amber-300 font-bold text-start">
+                ⚠️ حساب کاربری شما (مدیر ارشد) و تنظیمات ظاهری سایت دست‌نخورده باقی می‌مانند.
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-3 pt-2">
+              <button
+                disabled={isWiping}
+                onClick={() => setShowWipeModal(false)}
+                className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-[#09222b] text-[#06242e] dark:text-white text-xs font-bold transition-colors cursor-pointer"
+              >
+                انصراف
+              </button>
+              <button
+                disabled={isWiping}
+                onClick={async () => {
+                  setIsWiping(true);
+                  try {
+                    await wipeAllTestData();
+                    setShowWipeModal(false);
+                    if (refreshCourses) {
+                      await refreshCourses();
+                    }
+                  } finally {
+                    setIsWiping(false);
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white text-xs font-extrabold shadow-md transition-colors cursor-pointer"
+              >
+                {isWiping ? (
+                  <>
+                    <RefreshCw size={14} className="animate-spin" />
+                    <span>در حال پاکسازی دیتابیس...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={14} />
+                    <span>تایید و پاکسازی کامل</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

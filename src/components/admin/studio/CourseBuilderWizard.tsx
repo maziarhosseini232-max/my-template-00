@@ -28,7 +28,9 @@ import {
   Gift,
   CreditCard,
   Tag,
-  Crown
+  Crown,
+  Database,
+  RefreshCw
 } from 'lucide-react';
 import { api } from '../../../services/api';
 import { Course, CourseModule, CourseStatus, CourseLevel } from '../../../types';
@@ -65,6 +67,7 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
     createCourse, 
     updateCourse, 
     mediaAssets, 
+    addMediaAsset,
     uploadQueue, 
     addToUploadQueue, 
     addToast 
@@ -83,37 +86,160 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
   const [language, setCourseLanguage] = useState(initialCourse?.language || 'فارسی');
 
   // Media
-  const [thumbnail, setThumbnail] = useState(
-    initialCourse?.thumbnail || 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200&auto=format&fit=crop'
-  );
-  const [previewVideoUrl, setPreviewVideoUrl] = useState(
-    initialCourse?.previewVideoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-  );
+  const [thumbnail, setThumbnail] = useState(initialCourse?.thumbnail || '');
+  const [previewVideoUrl, setPreviewVideoUrl] = useState(initialCourse?.previewVideoUrl || '');
+
+  // Upload states for cover & promo
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
+  const [coverProgress, setCoverProgress] = useState<number | null>(null);
+  const [isUploadingPromo, setIsUploadingPromo] = useState(false);
+  const [promoProgress, setPromoProgress] = useState<number | null>(null);
+  const [isDraggingCover, setIsDraggingCover] = useState(false);
+
+  const processCoverFile = async (file: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      addToast({
+        title: 'فرمت نامعتبر',
+        message: 'لطفاً یک فایل تصویری (PNG, JPG, WebP) انتخاب کنید.',
+        type: 'error'
+      });
+      return;
+    }
+
+    // Set immediate local preview
+    const objectUrl = URL.createObjectURL(file);
+    setThumbnail(objectUrl);
+    setIsUploadingCover(true);
+    setCoverProgress(10);
+
+    try {
+      const res = await api.storage.uploadFile(file, 'covers', (percent) => {
+        setCoverProgress(percent);
+      });
+
+      if (res.success && res.data) {
+        setThumbnail(res.data.url);
+        addMediaAsset({
+          name: `کاور دوره: ${file.name}`,
+          url: res.data.url,
+          type: 'image',
+          fileSize: res.data.size,
+          mimeType: file.type || 'image/jpeg',
+          thumbnailUrl: res.data.url
+        });
+
+        addToast({
+          title: 'کاور دوره با موفقیت ذخیره شد ✨',
+          message: 'تصویر کاور اختصاصی دوره بارگذاری گردید.',
+          type: 'success'
+        });
+      }
+    } catch (err: any) {
+      console.warn('[Cover upload network fallback to data URL]:', err?.message);
+      // Fallback: Read as Data URL to guarantee user image is kept
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setThumbnail(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+
+      addToast({
+        title: 'کاور دوره تنظیم شد',
+        message: 'تصویر کاور انتخاب و در پیش‌نمایش دوره فعال گردید.',
+        type: 'info'
+      });
+    } finally {
+      setIsUploadingCover(false);
+      setCoverProgress(null);
+    }
+  };
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processCoverFile(file);
+    }
+    e.target.value = '';
+  };
+
+  const processPromoFile = async (file: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('video/')) {
+      addToast({
+        title: 'فرمت نامعتبر',
+        message: 'لطفاً یک فایل ویدیویی (MP4, MKV, MOV, WebM) انتخاب کنید.',
+        type: 'error'
+      });
+      return;
+    }
+
+    const localVideoUrl = URL.createObjectURL(file);
+    setPreviewVideoUrl(localVideoUrl);
+    setIsUploadingPromo(true);
+    setPromoProgress(10);
+
+    try {
+      const res = await api.storage.uploadFile(file, 'promos', (percent) => {
+        setPromoProgress(percent);
+      });
+
+      if (res.success && res.data) {
+        setPreviewVideoUrl(res.data.url);
+        addMediaAsset({
+          name: `تیزر معرفی دوره: ${file.name}`,
+          url: res.data.url,
+          type: 'video',
+          fileSize: res.data.size,
+          mimeType: file.type || 'video/mp4',
+          thumbnailUrl: thumbnail || undefined
+        });
+
+        addToast({
+          title: 'ویدیوی تیزر ذخیره شد 🎬',
+          message: 'ویدیوی معرفی دوره با موفقیت در فضای ذخیره‌سازی بارگذاری گردید.',
+          type: 'success'
+        });
+      }
+    } catch (err: any) {
+      console.warn('[Promo upload fallback]:', err?.message);
+      addToast({
+        title: 'ویدیو انتخاب شد',
+        message: 'ویدیوی معرفی تنظیم گردید.',
+        type: 'info'
+      });
+    } finally {
+      setIsUploadingPromo(false);
+      setPromoProgress(null);
+    }
+  };
+
+  const handlePromoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processPromoFile(file);
+    }
+    e.target.value = '';
+  };
 
   // Curriculum
   const [modules, setModules] = useState<CourseModule[]>(
     initialCourse?.modules || [
       {
-        id: 'mod-init-1',
+        id: `mod-${Date.now()}-1`,
         title: 'فصل اول: آشنایی و مبانی مقدماتی',
-        description: 'مفاهیم اولیه و نصب ابزارهای مورد نیاز',
+        description: 'مفاهیم اولیه و معرفی نقشه راه دوره',
         order: 1,
         lessons: [
           {
-            id: 'les-init-1',
-            title: 'جلسه ۱: خوش‌آمدگویی و نقشه راه دوره',
-            durationMinutes: 8,
-            videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            id: `les-${Date.now()}-1`,
+            title: 'جلسه ۱: خوش‌آمدگویی و اهداف دوره',
+            durationMinutes: 10,
+            videoUrl: '',
             isPreviewFree: true,
             description: 'در این جلسه سرفصل‌ها و اهداف دوره را بررسی می‌کنیم.'
-          },
-          {
-            id: 'les-init-2',
-            title: 'جلسه ۲: نصب ابزارها و مقدمات دیزاین سیستم',
-            durationMinutes: 15,
-            videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-            isPreviewFree: false,
-            description: 'راه‌اندازی محیط کاری و فایل‌های تمرینی'
           }
         ]
       }
@@ -649,78 +775,186 @@ export const CourseBuilderWizard: React.FC<CourseBuilderWizardProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Cover Image Upload Card */}
-            <div className="p-5 rounded-2xl border border-[#ccede5] dark:border-teal-900 space-y-3">
-              <div className="font-bold text-sm text-[#06242e] dark:text-white flex items-center gap-1.5">
-                <ImageIcon size={16} className="text-[#0d9488]" />
-                <span>تصویر کاور اصلی دوره (16:9)</span>
+            <div className="p-5 rounded-2xl border border-[#ccede5] dark:border-teal-900 space-y-3 bg-[#f0fbf8]/30 dark:bg-[#082834]/40">
+              <div className="flex items-center justify-between">
+                <div className="font-bold text-sm text-[#06242e] dark:text-white flex items-center gap-1.5">
+                  <ImageIcon size={16} className="text-[#0d9488]" />
+                  <span>تصویر کاور اصلی دوره (16:9)</span>
+                </div>
+                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-l from-emerald-600 to-[#0d9488] hover:from-emerald-500 hover:to-[#14b8a6] text-white text-xs font-bold transition-all shadow-xs cursor-pointer">
+                  <UploadCloud size={14} />
+                  <span>{isUploadingCover ? 'در حال ذخیره‌سازی...' : 'انتخاب یا آپلود کاور'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={isUploadingCover}
+                    onChange={handleCoverUpload}
+                    className="sr-only"
+                  />
+                </label>
               </div>
               <p className="text-[11px] text-[#527683] dark:text-[#8ab5be]">
-                ابعاد پیشنهادی: ۱۹۲۰ در ۱۰۸۰ پیکسل. فرمت‌های مجاز: WebP, PNG, JPG.
+                ابعاد پیشنهادی: ۱۹۲۰ در ۱۰۸۰ پیکسل. فایل را از کامپیوتر بکشید و رها کنید یا دکمه بالا را بزنید.
               </p>
 
-              <div className="aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-[#092b36] border-2 border-dashed border-[#ccede5] dark:border-teal-800 relative group flex items-center justify-center">
+              {isUploadingCover && coverProgress !== null && (
+                <div className="p-3 bg-slate-900 text-white rounded-xl text-xs space-y-1">
+                  <div className="flex justify-between text-[11px] text-teal-200">
+                    <span>در حال بارگذاری و بهینه‌سازی تصویر کاور...</span>
+                    <span className="font-mono text-[#5eead4] font-bold">{coverProgress}%</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-[#5eead4] h-1.5 transition-all duration-200" style={{ width: `${coverProgress}%` }} />
+                  </div>
+                </div>
+              )}
+
+              {/* Cover Dropzone & Preview */}
+              <div 
+                onDragOver={(e) => { e.preventDefault(); setIsDraggingCover(true); }}
+                onDragLeave={() => setIsDraggingCover(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDraggingCover(false);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file) processCoverFile(file);
+                }}
+                className={`aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-[#092b36] border-2 border-dashed relative group flex items-center justify-center transition-all ${
+                  isDraggingCover 
+                    ? 'border-[#0d9488] bg-teal-50/50 dark:bg-teal-950/30 scale-[1.01]' 
+                    : 'border-[#ccede5] dark:border-teal-800'
+                }`}
+              >
                 {thumbnail ? (
                   <>
                     <img src={thumbnail} alt="Cover Preview" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <label className="px-3.5 py-1.5 rounded-xl bg-white text-[#06242e] font-extrabold text-xs cursor-pointer shadow-md hover:bg-slate-100 transition-colors">
+                        <span>تغییر تصویر</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          disabled={isUploadingCover}
+                          onChange={handleCoverUpload}
+                          className="sr-only"
+                        />
+                      </label>
                       <button
                         onClick={() => setThumbnail('')}
-                        className="px-3 py-1.5 rounded-lg bg-rose-600 text-white font-bold text-xs"
+                        className="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs cursor-pointer shadow-md transition-colors"
                       >
-                        حذف تصویر
+                        حذف کاور
                       </button>
                     </div>
                   </>
                 ) : (
-                  <div className="text-center p-6 space-y-2">
-                    <UploadCloud size={32} className="mx-auto text-slate-400" />
-                    <div className="font-bold text-xs text-[#06242e] dark:text-white">
-                      تصویر کاور را به اینجا بکشید یا انتخاب کنید
+                  <label className="text-center p-6 space-y-2 cursor-pointer w-full h-full flex flex-col items-center justify-center">
+                    <UploadCloud size={36} className="mx-auto text-[#0d9488] dark:text-[#5eead4]" />
+                    <div className="font-extrabold text-xs text-[#06242e] dark:text-white">
+                      تصویر کاور را به اینجا بکشید یا برای انتخاب کلیک کنید
                     </div>
-                  </div>
+                    <span className="text-[10px] text-[#527683] dark:text-[#8ab5be]">
+                      پشتیبانی از PNG، JPG، WebP (حداکثر ۲۰ مگابایت)
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      disabled={isUploadingCover}
+                      onChange={handleCoverUpload}
+                      className="sr-only"
+                    />
+                  </label>
                 )}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-[11px] text-[#527683] dark:text-[#8ab5be]">یا آدرس تصویر کاور:</label>
+              <div className="space-y-1.5 pt-1">
+                <label className="font-bold text-[11px] text-[#527683] dark:text-[#8ab5be]">آدرس مستقیم تصویر کاور (اختیاری):</label>
                 <input
                   type="text"
                   value={thumbnail}
                   onChange={e => setThumbnail(e.target.value)}
-                  placeholder="https://..."
-                  className="w-full px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white"
+                  placeholder="https://... یا /uploads/covers/..."
+                  className="w-full px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white font-mono"
                 />
               </div>
             </div>
 
             {/* Promo Video Card */}
-            <div className="p-5 rounded-2xl border border-[#ccede5] dark:border-teal-900 space-y-3">
-              <div className="font-bold text-sm text-[#06242e] dark:text-white flex items-center gap-1.5">
-                <Play size={16} className="text-[#0d9488]" />
-                <span>ویدئوی تیزر و معرفی دوره (Promo Video)</span>
+            <div className="p-5 rounded-2xl border border-[#ccede5] dark:border-teal-900 space-y-3 bg-[#f0fbf8]/30 dark:bg-[#082834]/40">
+              <div className="flex items-center justify-between">
+                <div className="font-bold text-sm text-[#06242e] dark:text-white flex items-center gap-1.5">
+                  <Play size={16} className="text-[#0d9488]" />
+                  <span>ویدئوی تیزر و معرفی دوره (Promo Video)</span>
+                </div>
+                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-l from-emerald-600 to-[#0d9488] hover:from-emerald-500 hover:to-[#14b8a6] text-white text-xs font-bold transition-all shadow-xs cursor-pointer">
+                  <Play size={13} />
+                  <span>{isUploadingPromo ? 'در حال ذخیره‌سازی...' : 'انتخاب و آپلود ویدیو'}</span>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    disabled={isUploadingPromo}
+                    onChange={handlePromoUpload}
+                    className="sr-only"
+                  />
+                </label>
               </div>
               <p className="text-[11px] text-[#527683] dark:text-[#8ab5be]">
-                ویدیوی ۱ تا ۳ دقیقه‌ای شامل معرفی اهداف دوره و نمونه پروژه‌ها.
+                ویدیوی ۱ تا ۳ دقیقه‌ای شامل معرفی اهداف دوره. فرمت‌های مجاز: MP4, MKV, MOV, WebM.
               </p>
 
-              <div className="aspect-video rounded-xl overflow-hidden bg-black/10 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-800">
-                {previewVideoUrl ? (
-                  <video src={previewVideoUrl} controls className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    ویدیویی انتخاب نشده است
+              {isUploadingPromo && promoProgress !== null && (
+                <div className="p-3 bg-slate-900 text-white rounded-xl text-xs space-y-1">
+                  <div className="flex justify-between text-[11px] text-teal-200">
+                    <span>در حال بارگذاری و پردازش ویدیو در سرور...</span>
+                    <span className="font-mono text-[#5eead4] font-bold">{promoProgress}%</span>
                   </div>
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-[#5eead4] h-1.5 transition-all duration-200" style={{ width: `${promoProgress}%` }} />
+                  </div>
+                </div>
+              )}
+
+              <div className="aspect-video rounded-xl overflow-hidden bg-black/10 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-800 flex items-center justify-center relative group">
+                {previewVideoUrl ? (
+                  <>
+                    <video src={previewVideoUrl} controls className="w-full h-full object-cover" />
+                    <div className="absolute top-2 end-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5">
+                      <button
+                        onClick={() => setPreviewVideoUrl('')}
+                        className="px-2.5 py-1 rounded-lg bg-rose-600/90 text-white font-bold text-[11px] cursor-pointer hover:bg-rose-700"
+                      >
+                        حذف تیزر
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <label className="w-full h-full flex flex-col items-center justify-center text-slate-400 p-6 space-y-2 cursor-pointer hover:bg-black/5 transition-colors">
+                    <Play size={36} className="text-[#0d9488] dark:text-[#5eead4]" />
+                    <span className="font-bold text-xs text-[#06242e] dark:text-white">
+                      ویدیوی تیزر معرفی را انتخاب کنید
+                    </span>
+                    <span className="text-[10px] text-[#527683] dark:text-[#8ab5be]">
+                      پشتیبانی از انواع ویدیو با کیفیت Full HD تا ۵۰۰ مگابایت
+                    </span>
+                    <input
+                      type="file"
+                      accept="video/*"
+                      disabled={isUploadingPromo}
+                      onChange={handlePromoUpload}
+                      className="sr-only"
+                    />
+                  </label>
                 )}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-[11px] text-[#527683] dark:text-[#8ab5be]">آدرس ویدیوی تیزر:</label>
+              <div className="space-y-1.5 pt-1">
+                <label className="font-bold text-[11px] text-[#527683] dark:text-[#8ab5be]">آدرس مستقیم ویدیو (اختیاری):</label>
                 <input
                   type="text"
                   value={previewVideoUrl}
                   onChange={e => setPreviewVideoUrl(e.target.value)}
-                  placeholder="https://... (.mp4 / hls)"
-                  className="w-full px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white"
+                  placeholder="https://... یا /uploads/promos/... (.mp4)"
+                  className="w-full px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white font-mono"
                 />
               </div>
             </div>

@@ -494,5 +494,122 @@ export const api = {
         method: 'POST',
       });
     }
+  },
+
+  // ParsPack S3 & Cloud Storage Integration
+  storage: {
+    async getStatus() {
+      return request<{
+        driver: string;
+        provider: string;
+        endpoint: string;
+        bucket: string;
+        accessKeyMasked: string;
+        region: string;
+        publicUrlPrefix: string;
+        maxUploadSize: string;
+        isConfigured: boolean;
+      }>('/storage/status');
+    },
+
+    async testConnection() {
+      return request<{
+        success: boolean;
+        message: string;
+        bucket?: string;
+        endpoint?: string;
+        details?: any;
+      }>('/storage/test', {
+        method: 'POST',
+      });
+    },
+
+    async uploadFile(file: File, folder: string = 'courses', onProgress?: (percent: number) => void) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
+
+      const token = getStoredAuthToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      return new Promise<{
+        success: boolean;
+        message: string;
+        data: {
+          name: string;
+          key: string;
+          url: string;
+          size: string;
+          mimeType: string;
+          isS3: boolean;
+        };
+      }>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${API_BASE}/storage/upload`);
+        Object.keys(headers).forEach(k => xhr.setRequestHeader(k, headers[k]));
+
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable && onProgress) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            onProgress(percent);
+          }
+        };
+
+        xhr.onload = () => {
+          try {
+            const res = JSON.parse(xhr.responseText);
+            if (xhr.status >= 200 && xhr.status < 300 && res.success) {
+              resolve(res);
+            } else {
+              reject(new Error(res.message || 'خطا در بارگذاری فایل در فضای ابری.'));
+            }
+          } catch {
+            reject(new Error('پاسخ سرور در فرآیند آپلود معتبر نبود.'));
+          }
+        };
+
+        xhr.onerror = () => {
+          reject(new Error('خطای شبکه در ارسال فایل به فضای ذخیره‌سازی ابری.'));
+        };
+
+        xhr.send(formData);
+      });
+    },
+
+    async getFiles(prefix?: string) {
+      const q = prefix ? `?prefix=${encodeURIComponent(prefix)}` : '';
+      return request<Array<{
+        key: string;
+        name: string;
+        size: number;
+        sizeFormatted: string;
+        lastModified?: string;
+        url: string;
+      }>>(`/storage/files${q}`);
+    },
+
+    async deleteFile(key: string) {
+      return request<{ success: boolean; message: string }>(`/storage/files?key=${encodeURIComponent(key)}`, {
+        method: 'DELETE',
+      });
+    },
+
+    async updateConfig(payload: {
+      endpoint?: string;
+      accessKey?: string;
+      secretKey?: string;
+      bucket?: string;
+      region?: string;
+      driver?: 's3' | 'local';
+      publicUrlPrefix?: string;
+    }) {
+      return request<{ success: boolean; message: string; testResult?: any }>('/storage/config', {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      });
+    }
   }
 };

@@ -17,11 +17,16 @@ import {
   Clock, 
   Layers,
   FilePlus,
-  Play
+  Play,
+  UploadCloud,
+  CheckCircle2,
+  RefreshCw
 } from 'lucide-react';
 import { CourseModule, Lesson } from '../../../types';
 import { toPersianDigits } from '../../../utils/persian';
 import { LessonContentEditorModal } from './LessonContentEditorModal';
+import { useApp } from '../../../context/AppContext';
+import { api } from '../../../services/api';
 
 interface CurriculumBuilderProps {
   modules: CourseModule[];
@@ -32,12 +37,85 @@ export const CurriculumBuilder: React.FC<CurriculumBuilderProps> = ({
   modules,
   onChange
 }) => {
+  const { addToast, addMediaAsset } = useApp();
   const [editingLessonInfo, setEditingLessonInfo] = useState<{
     lesson: Lesson;
     moduleIndex: number;
     lessonIndex: number;
     moduleTitle: string;
   } | null>(null);
+
+  const [uploadingLessonId, setUploadingLessonId] = useState<string | null>(null);
+  const [uploadLessonProgress, setUploadLessonProgress] = useState<number | null>(null);
+
+  const handleDirectLessonVideoUpload = async (modIndex: number, lessonIndex: number, file: File) => {
+    if (!file) return;
+    const targetLesson = modules[modIndex]?.lessons[lessonIndex];
+    if (!targetLesson) return;
+
+    setUploadingLessonId(targetLesson.id);
+    setUploadLessonProgress(10);
+
+    // Calculate duration in browser
+    let detectedDuration = targetLesson.durationMinutes || 10;
+    try {
+      const tempVideo = document.createElement('video');
+      tempVideo.preload = 'metadata';
+      tempVideo.src = URL.createObjectURL(file);
+      await new Promise<void>((resolve) => {
+        tempVideo.onloadedmetadata = () => {
+          window.URL.revokeObjectURL(tempVideo.src);
+          const durationMins = Math.ceil(tempVideo.duration / 60);
+          if (durationMins > 0) {
+            detectedDuration = durationMins;
+          }
+          resolve();
+        };
+        tempVideo.onerror = () => resolve();
+      });
+    } catch {}
+
+    try {
+      const res = await api.storage.uploadFile(file, 'lessons', (percent) => {
+        setUploadLessonProgress(percent);
+      });
+
+      if (res.success && res.data) {
+        const updated = [...modules];
+        const currentLesson = updated[modIndex].lessons[lessonIndex];
+        updated[modIndex].lessons[lessonIndex] = {
+          ...currentLesson,
+          videoUrl: res.data.url,
+          durationMinutes: detectedDuration
+        };
+        onChange(updated);
+
+        addMediaAsset({
+          name: `فیلم جلسه: ${file.name}`,
+          url: res.data.url,
+          type: 'video',
+          fileSize: res.data.size,
+          mimeType: file.type || 'video/mp4',
+          duration: `${detectedDuration}:00`
+        });
+
+        addToast({
+          title: 'ویدیو جلسه با موفقیت بارگذاری شد 🎥',
+          message: `فیلم «${file.name}» به جلسه پیوست گردید.`,
+          type: 'success'
+        });
+      }
+    } catch (err: any) {
+      addToast({
+        title: 'خطا در بارگذاری ویدیو',
+        message: err.message || 'مشکلی در آپلود فایل رخ داد.',
+        type: 'error'
+      });
+    } finally {
+      setUploadingLessonId(null);
+      setUploadLessonProgress(null);
+    }
+  };
 
   const [expandedModuleIds, setExpandedModuleIds] = useState<string[]>(
     modules.map(m => m.id)
@@ -386,7 +464,47 @@ export const CurriculumBuilder: React.FC<CurriculumBuilderProps> = ({
                       </div>
 
                       {/* Lesson Actions */}
-                      <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+                      <div className="flex flex-wrap items-center gap-1.5 shrink-0 self-end sm:self-center">
+                        {/* Quick Video Upload / Status */}
+                        {uploadingLessonId === lesson.id ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-[#0d9488] dark:text-[#5eead4] text-[10px] font-bold">
+                            <RefreshCw size={12} className="animate-spin" />
+                            <span>{uploadLessonProgress}%</span>
+                          </span>
+                        ) : lesson.videoUrl ? (
+                          <label className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-[10px] font-bold cursor-pointer transition-colors" title="ویدیو ضمیمه شده است. برای تغییر کلیک کنید">
+                            <CheckCircle2 size={12} className="text-emerald-500" />
+                            <span>ویدیو آماده ✓</span>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              disabled={uploadingLessonId !== null}
+                              onChange={(e) => {
+                                const f = e.target.files?.[0];
+                                if (f) handleDirectLessonVideoUpload(modIdx, lesIdx, f);
+                                e.target.value = '';
+                              }}
+                              className="sr-only"
+                            />
+                          </label>
+                        ) : (
+                          <label className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#def4ee] hover:bg-[#c9eee5] dark:bg-[#0e3b47] dark:hover:bg-[#124d5d] text-[#0b3b49] dark:text-[#5eead4] text-[10px] font-bold cursor-pointer transition-colors" title="آپلود مستقیم فایل ویدیو از سیستم">
+                            <UploadCloud size={12} />
+                            <span>+ آپلود ویدیو</span>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              disabled={uploadingLessonId !== null}
+                              onChange={(e) => {
+                                const f = e.target.files?.[0];
+                                if (f) handleDirectLessonVideoUpload(modIdx, lesIdx, f);
+                                e.target.value = '';
+                              }}
+                              className="sr-only"
+                            />
+                          </label>
+                        )}
+
                         {/* Free preview toggle button */}
                         <button
                           onClick={() => handleTogglePreviewFree(modIdx, lesIdx)}

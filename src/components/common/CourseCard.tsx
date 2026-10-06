@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Course } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from './RatingStars';
-import { Play, Clock, BookOpen, Award } from 'lucide-react';
-import { formatPriceToman, toPersianDigits } from '../../utils/persian';
+import { Play, Clock, BookOpen, Award, Crown, CheckCircle2 } from 'lucide-react';
+import { toPersianDigits } from '../../utils/persian';
 
 interface CourseCardProps {
   course: Course;
@@ -99,11 +99,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               {t('newBadge')}
             </span>
           )}
-          {discountPercent > 0 && !course.isFree && (
-            <span className="absolute top-3 inset-inline-end-3 bg-rose-500 text-white font-black text-[10px] px-2 py-0.5 rounded shadow-xs tracking-wider">
-              {toPersianDigits(discountPercent)}٪ {language === 'fa' ? 'تخفیف' : 'OFF'}
-            </span>
-          )}
         </div>
 
         {/* Content */}
@@ -149,35 +144,30 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             <RatingStars rating={course.rating} reviewCount={course.reviewCount} />
             <div className="flex items-center gap-3">
               <div className="text-start">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-base font-bold text-[#06242e] dark:text-slate-100">
-                    {course.price === 0 ? t('free') : formatPriceToman(course.price)}
+                {enrolled ? (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0d9488] dark:text-[#5eead4] bg-[#def4ee] dark:bg-[#0e3b47] px-2.5 py-1 rounded-lg">
+                    <CheckCircle2 size={14} />
+                    <span>{t('enrolled')}</span>
                   </span>
-                  {course.originalPrice > course.price && (
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPriceToman(course.originalPrice)}
-                      </span>
-                      {discountPercent > 0 && (
-                        <span className="px-1.5 py-0.2 rounded text-[10px] font-black bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400">
-                          {toPersianDigits(discountPercent)}٪
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
+                ) : (
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 text-xs font-bold text-amber-700 dark:text-amber-300">
+                    <Crown size={14} className="text-amber-500 fill-amber-400" />
+                    <span>دسترسی با اشتراک ویژه</span>
+                  </div>
+                )}
               </div>
               <button
-                onClick={handleAddToCartClick}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCardClick();
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   enrolled
                     ? 'bg-[#0d9488] text-white hover:bg-[#0f766e]'
-                    : inCart
-                    ? 'bg-[#def4ee] dark:bg-[#0e3b47] text-[#0b3b49] dark:text-[#5eead4]'
                     : 'bg-[#0b3b49] hover:bg-[#06242e] text-white shadow-xs'
                 }`}
               >
-                {enrolled ? t('goToCourse') : inCart ? t('inCart') : t('addToCart')}
+                {enrolled ? t('goToCourse') : 'مشاهده دوره'}
               </button>
             </div>
           </div>
@@ -221,11 +211,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           {course.isNew && (
             <span className="bg-[#0d9488] text-white font-bold text-[10px] px-2 py-0.5 rounded shadow-2xs uppercase tracking-wider">
               {t('newBadge')}
-            </span>
-          )}
-          {discountPercent > 0 && !course.isFree && (
-            <span className="bg-rose-500 text-white font-black text-[10px] px-2 py-0.5 rounded shadow-xs tracking-wider">
-              {toPersianDigits(discountPercent)}٪ {language === 'fa' ? 'تخفیف' : 'OFF'}
             </span>
           )}
         </div>
@@ -294,32 +279,20 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         )}
 
-        {/* Rating and Price Row */}
+        {/* Rating and Subscription Access Row */}
         <div className="pt-2.5 border-t border-teal-100 dark:border-teal-900/60 flex items-center justify-between">
           <RatingStars rating={course.rating} reviewCount={course.reviewCount} />
           
           <div className="flex items-center gap-1.5 text-start">
             {enrolled ? (
-              <span className="text-xs font-bold text-[#0d9488] dark:text-[#5eead4] bg-[#def4ee] dark:bg-[#0e3b47] px-2 py-0.5 rounded">
-                {t('enrolled')}
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0d9488] dark:text-[#5eead4] bg-[#def4ee] dark:bg-[#0e3b47] px-2 py-0.5 rounded-lg">
+                <CheckCircle2 size={13} />
+                <span>{t('enrolled')}</span>
               </span>
             ) : (
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-bold text-sm text-[#06242e] dark:text-slate-100">
-                  {course.price === 0 ? t('free') : formatPriceToman(course.price)}
-                </span>
-                {course.originalPrice > course.price && (
-                  <div className="flex items-center gap-1">
-                    <span className="text-[11px] text-gray-400 line-through">
-                      {formatPriceToman(course.originalPrice)}
-                    </span>
-                    {discountPercent > 0 && (
-                      <span className="px-1 py-0.2 rounded text-[9px] font-black bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400">
-                        {toPersianDigits(discountPercent)}٪
-                      </span>
-                    )}
-                  </div>
-                )}
+              <div className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 px-2 py-0.5 rounded-lg">
+                <Crown size={12} className="text-amber-500 fill-amber-400" />
+                <span>دسترسی VIP</span>
               </div>
             )}
           </div>

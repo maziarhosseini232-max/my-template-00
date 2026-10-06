@@ -55,9 +55,10 @@ export const CourseAnalyticsModal: React.FC<CourseAnalyticsModalProps> = ({ cour
             </div>
 
             <div className="p-3.5 rounded-2xl bg-[#def4ee]/40 dark:bg-[#082834] border border-[#ccede5] dark:border-teal-900">
-              <div className="text-[11px] text-[#527683] dark:text-[#8ab5be]">مجموع فروش ناخالص</div>
-              <div className="text-sm font-black text-[#0d9488] dark:text-[#5eead4] mt-1.5 truncate">
-                {formatTomanPrice(estimatedRevenue)}
+              <div className="text-[11px] text-[#527683] dark:text-[#8ab5be]">نوع دسترسی</div>
+              <div className="text-xs font-black text-[#0d9488] dark:text-[#5eead4] mt-1.5 flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                <span>اشتراک ویژه VIP</span>
               </div>
             </div>
 

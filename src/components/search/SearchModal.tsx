@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Search, X, Clock, TrendingUp, BookOpen, User, Sparkles, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Search, X, Clock, TrendingUp, BookOpen, User, Sparkles, ArrowLeft, ArrowRight, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { formatPriceToman, toPersianDigits } from '../../utils/persian';
 
@@ -185,8 +185,9 @@ export const SearchModal: React.FC = () => {
                               </p>
                             </div>
                           </div>
-                          <span className="font-bold text-xs text-slate-900 dark:text-slate-100 shrink-0 ms-2">
-                            {formatPriceToman(course.price)}
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 px-2 py-0.5 rounded-lg shrink-0 ms-2">
+                            <Crown size={12} className="text-amber-500 fill-amber-400" />
+                            <span>دسترسی VIP</span>
                           </span>
                         </div>
                       ))}

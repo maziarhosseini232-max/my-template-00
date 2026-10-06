@@ -808,36 +808,16 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ slugOrId }) 
 
               {/* Price & Checkout Card */}
               <div className="p-6 space-y-5">
-                {/* Price block */}
-                {isVipCourse ? (
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-400/40 dark:border-amber-500/30 space-y-2">
-                    <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-black text-sm">
-                      <Crown size={18} className="text-amber-500 shrink-0" />
-                      <span>دسترسی فقط با اشتراک ویژه (VIP)</span>
-                    </div>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                      این دوره به همراه تمام دوره‌های دیگر با داشتن یکی از پلن‌های اشتراک VIP در دسترس شما قرار می‌گیرد.
-                    </p>
+                {/* Subscription Access Information */}
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-400/40 dark:border-amber-500/30 space-y-2">
+                  <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-black text-sm">
+                    <Crown size={18} className="text-amber-500 shrink-0 fill-amber-400" />
+                    <span>دسترسی با اشتراک ویژه (VIP)</span>
                   </div>
-                ) : (
-                  <div className="flex items-baseline justify-between">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-                        {course.price === 0 ? 'رایگان' : formatPriceToman(course.price)}
-                      </span>
-                      {course.originalPrice && course.originalPrice > course.price ? (
-                        <span className="text-xs sm:text-sm text-slate-400 line-through">
-                          {formatPriceToman(course.originalPrice)}
-                        </span>
-                      ) : null}
-                    </div>
-                    {course.discountPercentage ? (
-                      <span className="bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-xs font-bold px-2.5 py-1 rounded-full">
-                        ٪{toPersianDigits(course.discountPercentage)} تخفیف
-                      </span>
-                    ) : null}
-                  </div>
-                )}
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    این دوره به همراه تمام دوره‌های دیگر آکادمی با داشتن یکی از پلن‌های اشتراک VIP در دسترس نامحدود شما قرار می‌گیرد.
+                  </p>
+                </div>
 
                 {/* Primary CTA */}
                 <div className="space-y-2.5">
@@ -849,15 +829,13 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ slugOrId }) 
                         ? 'bg-indigo-700 opacity-80 cursor-wait text-white shadow-indigo-900/20'
                         : hasFullAccess
                         ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/25'
-                        : isVipCourse
-                        ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-amber-500/30'
-                        : 'bg-teal-700 hover:bg-teal-600 text-white shadow-teal-700/25'
+                        : 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-amber-500/30'
                     }`}
                   >
                     {isEnrolling ? (
                       <>
                         <RotateCcw className="animate-spin" size={16} />
-                        <span>{language === 'fa' ? 'در حال ثبت‌نام در دوره...' : 'Enrolling...'}</span>
+                        <span>{language === 'fa' ? 'در حال بررسی دسترسی...' : 'Checking access...'}</span>
                       </>
                     ) : hasFullAccess ? (
                       <>
@@ -865,21 +843,10 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ slugOrId }) 
                         <span>{language === 'fa' ? 'ورود به کلاس و مشاهده جلسات' : 'Start Learning'}</span>
                         {isRTL ? <ArrowLeft size={16} /> : <ArrowRight size={16} />}
                       </>
-                    ) : isVipCourse ? (
-                      <>
-                        <Crown size={18} />
-                        <span>تهیه اشتراک ویژه برای تماشا</span>
-                        {isRTL ? <ArrowLeft size={16} /> : <ArrowRight size={16} />}
-                      </>
-                    ) : course.price === 0 || course.isFree ? (
-                      <>
-                        <span>{language === 'fa' ? 'ثبت‌نام رایگان در دوره' : 'Enroll in Free Course'}</span>
-                        {isRTL ? <ArrowLeft size={16} /> : <ArrowRight size={16} />}
-                      </>
                     ) : (
                       <>
-                        <Crown size={18} />
-                        <span>تهیه اشتراک ویژه برای تماشا</span>
+                        <Crown size={18} className="fill-slate-950" />
+                        <span>تهیه اشتراک ویژه و شروع یادگیری</span>
                         {isRTL ? <ArrowLeft size={16} /> : <ArrowRight size={16} />}
                       </>
                     )}

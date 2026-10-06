@@ -20,7 +20,7 @@ import { CoursePreviewModal } from './CoursePreviewModal';
 import { Course } from '../../../types';
 
 export const CourseManagementStudio: React.FC = () => {
-  const { courses, categories, instructors, mediaAssets, navigate, isLoggedIn, currentUser } = useApp();
+  const { courses, categories, instructors, mediaAssets, navigate, isLoggedIn, currentUser, currentRoute } = useApp();
 
   const isActualAdmin = Boolean(
     isLoggedIn && currentUser &&
@@ -34,11 +34,21 @@ export const CourseManagementStudio: React.FC = () => {
     }
   }, [isActualAdmin, navigate]);
 
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
+
+  useEffect(() => {
+    if (currentRoute?.query?.includes('tab=')) {
+      const match = currentRoute.query.match(/tab=([^&]+)/);
+      if (match && match[1]) {
+        setActiveTab(match[1]);
+      }
+    }
+  }, [currentRoute?.query]);
+
   if (!isActualAdmin) {
     return null;
   }
 
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
   // Modals state

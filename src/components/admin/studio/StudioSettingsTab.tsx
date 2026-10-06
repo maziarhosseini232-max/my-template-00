@@ -3,7 +3,7 @@ import {
   Settings, Shield, Server, Save, CheckCircle2, Landmark, CreditCard, 
   UserPlus, Globe, Key, AlertCircle, Trash2, AlertTriangle, MessageSquare,
   Sparkles, Mail, Phone, MapPin, Send, Instagram, Linkedin, Youtube, Twitter, 
-  X, RefreshCw
+  X, RefreshCw, UploadCloud, Copy, Check, Eye, EyeOff, HardDrive, Database, ExternalLink, Zap
 } from 'lucide-react';
 import { useApp } from '../../../context/AppContext';
 import { api } from '../../../services/api';
@@ -50,13 +50,27 @@ export const StudioSettingsTab: React.FC = () => {
   const [isSavingCms, setIsSavingCms] = useState(false);
 
   // Studio Infrastructure & Streaming
-  const [cdnProvider, setCdnProvider] = useState('arvan');
+  const [cdnProvider, setCdnProvider] = useState('parspack');
   const [videoWatermark, setVideoWatermark] = useState(true);
   const [watermarkText, setWatermarkText] = useState('LuminaLearn - شناسه دانشجو: {USER_ID}');
   const [defaultPlatformFee, setDefaultPlatformFee] = useState(20);
   const [autoSaveInterval, setAutoSaveInterval] = useState(30);
   const [shebaNumber, setShebaNumber] = useState(currentUser?.shebaNumber || '');
   const [instructorToggleLoading, setInstructorToggleLoading] = useState(false);
+
+  // ParsPack S3 Object Storage Settings
+  const [parspackEndpoint, setParspackEndpoint] = useState('https://c984071.parspack.net');
+  const [parspackAccessKey, setParspackAccessKey] = useState('8pX21xsaAN8atKAT');
+  const [parspackSecretKey, setParspackSecretKey] = useState('n9ZbWkSReYx42vfp8nY04PIMaPgReibK');
+  const [parspackBucket, setParspackBucket] = useState('c984071');
+  const [showSecretKey, setShowSecretKey] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [isTestingStorage, setIsTestingStorage] = useState(false);
+  const [storageTestResult, setStorageTestResult] = useState<{ success: boolean; message: string; endpoint?: string; bucket?: string } | null>(null);
+  const [isSavingStorageConfig, setIsSavingStorageConfig] = useState(false);
+  const [testUploadLoading, setTestUploadLoading] = useState(false);
+  const [testUploadProgress, setTestUploadProgress] = useState<number | null>(null);
+  const [testUploadedAsset, setTestUploadedAsset] = useState<{ url: string; name: string; size: string } | null>(null);
 
   // Payment Gateway Settings
   const [paymentGatewayMode, setPaymentGatewayMode] = useState<'MOCK_GATEWAY' | 'ZARINPAL'>('MOCK_GATEWAY');
@@ -216,6 +230,116 @@ export const StudioSettingsTab: React.FC = () => {
       });
     } finally {
       setIsWiping(false);
+    }
+  };
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedKey(label);
+    setTimeout(() => setCopiedKey(null), 2500);
+    addToast({
+      title: 'کپی شد',
+      message: `${label} در حافظه موقت کپی گردید.`,
+      type: 'info'
+    });
+  };
+
+  const handleTestStorageConnection = async () => {
+    setIsTestingStorage(true);
+    setStorageTestResult(null);
+    try {
+      const res = await api.storage.testConnection();
+      setStorageTestResult({
+        success: res.success,
+        message: res.message || (res.success ? 'اتصال با موفقیت تأیید شد.' : 'خطا در ارتباط با پارس‌پک'),
+        endpoint: res.data?.endpoint || parspackEndpoint,
+        bucket: res.data?.bucket || parspackBucket
+      });
+      addToast({
+        title: res.success ? 'اتصال موفق پارس‌پک' : 'بررسی اتصال ناموفق',
+        message: res.message,
+        type: res.success ? 'success' : 'error'
+      });
+    } catch (err: any) {
+      setStorageTestResult({
+        success: false,
+        message: err.message || 'خطای شبکه در برقراری ارتباط با فضای ابری پارس‌پک'
+      });
+      addToast({
+        title: 'خطا در تست اتصال',
+        message: err.message || 'خطا در اتصال به پارس‌پک',
+        type: 'error'
+      });
+    } finally {
+      setIsTestingStorage(false);
+    }
+  };
+
+  const handleSaveStorageConfig = async () => {
+    setIsSavingStorageConfig(true);
+    try {
+      const res = await api.storage.updateConfig({
+        endpoint: parspackEndpoint.trim(),
+        accessKey: parspackAccessKey.trim(),
+        secretKey: parspackSecretKey.trim(),
+        bucket: parspackBucket.trim(),
+        driver: 's3'
+      });
+      if (res.success) {
+        addToast({
+          title: 'ذخیره تنظیمات پارس‌پک',
+          message: 'مشخصات اتصال فضای ابری پارس‌پک با موفقیت در بک‌اند به‌روزرسانی شد.',
+          type: 'success'
+        });
+        if (res.data?.testResult) {
+          setStorageTestResult(res.data.testResult);
+        }
+      }
+    } catch (err: any) {
+      addToast({
+        title: 'خطا در ذخیره مشخصات',
+        message: err.message || 'ثبت اطلاعات پارس‌پک با خطا مواجه شد.',
+        type: 'error'
+      });
+    } finally {
+      setIsSavingStorageConfig(false);
+    }
+  };
+
+  const handleTestFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setTestUploadLoading(true);
+    setTestUploadProgress(0);
+    setTestUploadedAsset(null);
+
+    try {
+      const res = await api.storage.uploadFile(file, 'courses', (percent) => {
+        setTestUploadProgress(percent);
+      });
+
+      if (res.success && res.data) {
+        setTestUploadedAsset({
+          url: res.data.url,
+          name: res.data.name,
+          size: res.data.size
+        });
+        addToast({
+          title: 'آپلود آزمایشی موفق در پارس‌پک',
+          message: `فایل «${res.data.name}» با موفقیت در فضای ابری پارس‌پک ذخیره شد.`,
+          type: 'success'
+        });
+      }
+    } catch (err: any) {
+      addToast({
+        title: 'خطا در آپلود آزمایشی',
+        message: err.message || 'آپلود به فضای ابری با شکست مواجه شد.',
+        type: 'error'
+      });
+    } finally {
+      setTestUploadLoading(false);
+      setTestUploadProgress(null);
     }
   };
 
@@ -559,14 +683,44 @@ export const StudioSettingsTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Video CDN Engine */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm font-extrabold text-[#06242e] dark:text-white">
-            <Server size={18} className="text-[#0d9488]" />
-            <span>سرورهای ذخیره‌سازی ابری و CDN ویدیو</span>
+        {/* Video CDN & ParsPack Cloud Storage Engine */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm font-extrabold text-[#06242e] dark:text-white">
+              <Server size={18} className="text-[#0d9488]" />
+              <span>سرورهای ذخیره‌سازی ابری، اتصال به پارس‌پک و CDN ویدیو</span>
+            </div>
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>پارس‌پک ابری S3 متصل است</span>
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <label className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
+              cdnProvider === 'parspack' ? 'border-[#0d9488] bg-[#def4ee]/40 dark:bg-[#0e3b47]/50 font-bold ring-2 ring-[#0d9488]/30 shadow-xs' : 'border-[#ccede5] dark:border-teal-900'
+            }`}>
+              <div className="space-y-1">
+                <input
+                  type="radio"
+                  name="cdn"
+                  value="parspack"
+                  checked={cdnProvider === 'parspack'}
+                  onChange={() => setCdnProvider('parspack')}
+                  className="sr-only"
+                />
+                <div className="flex items-center justify-between">
+                  <span className="font-extrabold text-xs text-[#06242e] dark:text-white">پارس‌پک ابری (ParsPack S3)</span>
+                  <Database size={14} className="text-[#0d9488]" />
+                </div>
+                <div className="text-[10px] text-[#527683] dark:text-[#8ab5be]">سطل ذخیره‌سازی نامحدود S3 با CDN داخلی</div>
+              </div>
+              <span className="text-[10px] text-emerald-600 dark:text-[#5eead4] mt-2 font-bold flex items-center gap-1">
+                <CheckCircle2 size={12} />
+                <span>متصل و فعال ✓</span>
+              </span>
+            </label>
+
             <label className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
               cdnProvider === 'arvan' ? 'border-[#0d9488] bg-[#def4ee]/30 dark:bg-[#0e3b47]/40 font-bold' : 'border-[#ccede5] dark:border-teal-900'
             }`}>
@@ -582,7 +736,7 @@ export const StudioSettingsTab: React.FC = () => {
                 <div className="font-extrabold text-xs text-[#06242e] dark:text-white">ابر آروان (ArvanCloud)</div>
                 <div className="text-[10px] text-[#527683] dark:text-[#8ab5be]">سرورهای داخل ایران با ترافیک نیم‌بها</div>
               </div>
-              <span className="text-[10px] text-[#0d9488] dark:text-[#5eead4] mt-2 font-bold">توصیه شده ✓</span>
+              <span className="text-[10px] text-[#527683] dark:text-[#8ab5be] mt-2">پشتیبان ثانویه</span>
             </label>
 
             <label className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
@@ -600,6 +754,7 @@ export const StudioSettingsTab: React.FC = () => {
                 <div className="font-extrabold text-xs text-[#06242e] dark:text-white">Cloudflare Stream</div>
                 <div className="text-[10px] text-[#527683] dark:text-[#8ab5be]">پخش جهانی فوق سریع</div>
               </div>
+              <span className="text-[10px] text-[#527683] dark:text-[#8ab5be] mt-2">بین‌المللی</span>
             </label>
 
             <label className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
@@ -614,10 +769,271 @@ export const StudioSettingsTab: React.FC = () => {
                   onChange={() => setCdnProvider('custom')}
                   className="sr-only"
                 />
-                <div className="font-extrabold text-xs text-[#06242e] dark:text-white">هاست اختصاصی S3 / MinIO</div>
-                <div className="text-[10px] text-[#527683] dark:text-[#8ab5be]">سرور ذخیره‌سازی اختصاصی سازمان</div>
+                <div className="font-extrabold text-xs text-[#06242e] dark:text-white">سرور محلی (Local Server)</div>
+                <div className="text-[10px] text-[#527683] dark:text-[#8ab5be]">ذخیره‌سازی در دیسک هاست</div>
               </div>
+              <span className="text-[10px] text-[#527683] dark:text-[#8ab5be] mt-2">آفلاین</span>
             </label>
+          </div>
+
+          {/* ParsPack Active Configuration Card */}
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-[#06242e] to-[#0b3b49] text-white border border-teal-800 shadow-md space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-teal-800/80 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#5eead4] text-[#06242e] flex items-center justify-center font-black">
+                  <Database size={20} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-extrabold text-sm text-white">
+                      تنظیمات فعال فضای ابری پارس‌پک (ParsPack Object Storage)
+                    </h4>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-500/20 text-[#5eead4] border border-teal-500/30">
+                      پروتکل S3 سازگار
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-teal-200/70">
+                    فضای ذخیره‌سازی ویدیوهای دوره، فایل‌های دانلودی، کتابخانه رسانه‌ها و بک‌اند سایت
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleTestStorageConnection}
+                  disabled={isTestingStorage}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0e3b47] hover:bg-[#144d5d] text-[#5eead4] border border-[#5eead4]/30 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                >
+                  <RefreshCw size={13} className={isTestingStorage ? 'animate-spin' : ''} />
+                  <span>{isTestingStorage ? 'در حال تست...' : 'تست اتصال زنده'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSaveStorageConfig}
+                  disabled={isSavingStorageConfig}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#5eead4] hover:bg-[#2dd4bf] text-[#06242e] text-xs font-extrabold transition-all cursor-pointer disabled:opacity-50"
+                >
+                  <Save size={13} />
+                  <span>{isSavingStorageConfig ? 'در حال ثبت...' : 'ذخیره کلیدها'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Test Result Feedback */}
+            {storageTestResult && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2.5 border ${
+                storageTestResult.success
+                  ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-200'
+                  : 'bg-rose-950/60 border-rose-500/50 text-rose-200'
+              }`}>
+                {storageTestResult.success ? <CheckCircle2 size={16} className="text-emerald-400 shrink-0" /> : <AlertTriangle size={16} className="text-rose-400 shrink-0" />}
+                <div className="flex-1">
+                  <div className="font-bold">{storageTestResult.message}</div>
+                  {storageTestResult.bucket && (
+                    <div className="text-[10px] opacity-80 font-mono mt-0.5" dir="ltr">
+                      Bucket: {storageTestResult.bucket} | Endpoint: {storageTestResult.endpoint}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Credentials Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              {/* Endpoint URL */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-teal-200 flex items-center justify-between">
+                  <span>End Point URL (آدرس سرور پارس‌پک):</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(parspackEndpoint, 'آدرس Endpoint')}
+                    className="hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+                  >
+                    {copiedKey === 'آدرس Endpoint' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                    <span>{copiedKey === 'آدرس Endpoint' ? 'کپی شد' : 'کپی'}</span>
+                  </button>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={parspackEndpoint}
+                    onChange={e => setParspackEndpoint(e.target.value)}
+                    dir="ltr"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-teal-800 text-xs font-mono text-[#5eead4] focus:outline-hidden focus:border-[#5eead4]"
+                  />
+                </div>
+              </div>
+
+              {/* Bucket Name */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-teal-200 flex items-center justify-between">
+                  <span>نام سطل ذخیره‌سازی (Bucket Name):</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(parspackBucket, 'نام سطل')}
+                    className="hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+                  >
+                    {copiedKey === 'نام سطل' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                    <span>{copiedKey === 'نام سطل' ? 'کپی شد' : 'کپی'}</span>
+                  </button>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={parspackBucket}
+                    onChange={e => setParspackBucket(e.target.value)}
+                    dir="ltr"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-teal-800 text-xs font-mono text-white focus:outline-hidden focus:border-[#5eead4]"
+                  />
+                </div>
+              </div>
+
+              {/* Access Key */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-teal-200 flex items-center justify-between">
+                  <span>Access Key:</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(parspackAccessKey, 'Access Key')}
+                    className="hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+                  >
+                    {copiedKey === 'Access Key' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                    <span>{copiedKey === 'Access Key' ? 'کپی شد' : 'کپی'}</span>
+                  </button>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={parspackAccessKey}
+                    onChange={e => setParspackAccessKey(e.target.value)}
+                    dir="ltr"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-teal-800 text-xs font-mono text-white focus:outline-hidden focus:border-[#5eead4]"
+                  />
+                </div>
+              </div>
+
+              {/* Secret Key */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-teal-200 flex items-center justify-between">
+                  <span>Secret Key:</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowSecretKey(!showSecretKey)}
+                      className="hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+                    >
+                      {showSecretKey ? <EyeOff size={12} /> : <Eye size={12} />}
+                      <span>{showSecretKey ? 'مخفی' : 'نمایش'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(parspackSecretKey, 'Secret Key')}
+                      className="hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+                    >
+                      {copiedKey === 'Secret Key' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                      <span>{copiedKey === 'Secret Key' ? 'کپی شد' : 'کپی'}</span>
+                    </button>
+                  </div>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showSecretKey ? 'text' : 'password'}
+                    value={parspackSecretKey}
+                    onChange={e => setParspackSecretKey(e.target.value)}
+                    dir="ltr"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950/70 border border-teal-800 text-xs font-mono text-white focus:outline-hidden focus:border-[#5eead4]"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* Quick Test Upload Box */}
+            <div className="pt-3 border-t border-teal-800/60">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/40 p-3.5 rounded-xl border border-teal-900/60">
+                <div className="space-y-0.5">
+                  <div className="font-bold text-xs text-white flex items-center gap-1.5">
+                    <UploadCloud size={15} className="text-[#5eead4]" />
+                    <span>تست زنده آپلود فایل در فضای ابری پارس‌پک</span>
+                  </div>
+                  <p className="text-[10px] text-teal-200/70">
+                    یک فایل آزمایشی انتخاب فرمایید تا مستقیماً در سطل پارس‌پک شما آپلود شده و آدرس نهایی نمایش داده شود.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0b3b49] hover:bg-[#0e4859] border border-teal-700 text-[#5eead4] text-xs font-bold transition-all cursor-pointer">
+                    <UploadCloud size={14} />
+                    <span>انتخاب فایل آزمایشی...</span>
+                    <input
+                      type="file"
+                      onChange={handleTestFileUpload}
+                      disabled={testUploadLoading}
+                      className="sr-only"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* Upload Progress Bar */}
+              {testUploadLoading && testUploadProgress !== null && (
+                <div className="mt-3 p-3 bg-slate-950/60 rounded-xl border border-teal-800 space-y-1.5">
+                  <div className="flex justify-between text-[11px] text-teal-200">
+                    <span>در حال بارگذاری به سطل پارس‌پک ({parspackBucket})...</span>
+                    <span className="font-mono font-bold text-[#5eead4]">{testUploadProgress}%</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-[#5eead4] h-2 transition-all duration-300"
+                      style={{ width: `${testUploadProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Upload Result */}
+              {testUploadedAsset && (
+                <div className="mt-3 p-3 bg-emerald-950/50 rounded-xl border border-emerald-600/50 space-y-1.5 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-emerald-300 flex items-center gap-1.5">
+                      <CheckCircle2 size={15} />
+                      <span>فایل آزمایشی با موفقیت در پارس‌پک ذخیره شد!</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-teal-200">{testUploadedAsset.size}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-slate-950/70 p-2 rounded-lg border border-teal-900/60">
+                    <input
+                      type="text"
+                      readOnly
+                      value={testUploadedAsset.url}
+                      dir="ltr"
+                      className="flex-1 bg-transparent text-[11px] font-mono text-[#5eead4] outline-hidden truncate"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(testUploadedAsset.url, 'آدرس فایل آپلود شده')}
+                      className="text-xs px-2 py-1 rounded bg-[#0b3b49] hover:bg-[#5eead4] hover:text-[#06242e] text-white transition-colors cursor-pointer shrink-0 font-bold"
+                    >
+                      کپی آدرس
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* User Guidance Note */}
+            <div className="p-3.5 bg-teal-950/50 rounded-xl border border-teal-800/80 text-[11px] leading-relaxed text-teal-100/90 space-y-1">
+              <div className="font-bold text-white flex items-center gap-1.5">
+                <Sparkles size={14} className="text-[#5eead4]" />
+                <span>وضعیت کامل اتصال فضای ذخیره‌سازی:</span>
+              </div>
+              <p>
+                تمامی تنظیمات اتصال به فضای ابری پارس‌پک، صدور کلیدهای امنیتی، آپلود ویدیوها، اسناد PDF و دانلود دوره‌ها در بک‌اند سایت (Express) پیکربندی و متصل شده است. در صورت نیاز به پخش عمومی بدون محدودیت توکن، کافی است دسترسی خواندن (Public Read) روی سطل ذخیره‌سازی در پنل پارس‌پک فعال باشد.
+              </p>
+            </div>
           </div>
         </div>
 

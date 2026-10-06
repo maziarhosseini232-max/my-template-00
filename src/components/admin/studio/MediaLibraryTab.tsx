@@ -16,10 +16,16 @@ import {
   Plus, 
   Check, 
   Clock, 
-  FileCheck 
+  FileCheck,
+  Database,
+  Sparkles,
+  Server,
+  CheckCircle2,
+  RefreshCw
 } from 'lucide-react';
 import { toPersianDigits } from '../../../utils/persian';
 import { MediaAsset } from '../../../types';
+import { api } from '../../../services/api';
 
 interface MediaLibraryTabProps {
   onOpenBulkUpload: () => void;
@@ -36,6 +42,71 @@ export const MediaLibraryTab: React.FC<MediaLibraryTabProps> = ({ onOpenBulkUplo
   const [newUrlName, setNewUrlName] = useState('');
   const [newUrlLink, setNewUrlLink] = useState('');
   const [newUrlType, setNewUrlType] = useState<MediaAsset['type']>('video');
+
+  // ParsPack S3 Upload State
+  const [isUploadingParsPack, setIsUploadingParsPack] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [uploadingFileName, setUploadingFileName] = useState<string>('');
+
+  const handleParsPackUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploadingParsPack(true);
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setUploadingFileName(file.name);
+      setUploadProgress(0);
+
+      try {
+        let detectedType: MediaAsset['type'] = 'download';
+        if (file.type.startsWith('video/') || file.name.match(/\.(mp4|mkv|webm|mov)$/i)) {
+          detectedType = 'video';
+        } else if (file.type.startsWith('image/') || file.name.match(/\.(jpg|jpeg|png|webp|svg)$/i)) {
+          detectedType = 'image';
+        } else if (file.type.includes('pdf') || file.name.endsWith('.pdf')) {
+          detectedType = 'pdf';
+        } else if (file.type.startsWith('audio/') || file.name.match(/\.(mp3|wav|ogg|m4a)$/i)) {
+          detectedType = 'audio';
+        }
+
+        const res = await api.storage.uploadFile(file, 'courses', (percent) => {
+          setUploadProgress(percent);
+        });
+
+        if (res.success && res.data) {
+          addMediaAsset({
+            name: file.name,
+            url: res.data.url,
+            type: detectedType,
+            fileSize: res.data.size,
+            mimeType: file.type || 'application/octet-stream',
+            thumbnailUrl: detectedType === 'video'
+              ? 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600'
+              : detectedType === 'image' ? res.data.url : undefined
+          });
+
+          addToast({
+            title: 'آپلود در پارس‌پک موفق بود',
+            message: `فایل «${file.name}» با موفقیت در فضای ابری پارس‌پک ذخیره شد.`,
+            type: 'success'
+          });
+        }
+      } catch (err: any) {
+        addToast({
+          title: 'خطا در بارگذاری',
+          message: err.message || `آپلود «${file.name}» در فضای ابری ناموفق بود.`,
+          type: 'error'
+        });
+      }
+    }
+
+    setIsUploadingParsPack(false);
+    setUploadProgress(null);
+    setUploadingFileName('');
+    e.target.value = '';
+  };
 
   const filteredAssets = useMemo(() => {
     return mediaAssets.filter(asset => {
@@ -92,7 +163,21 @@ export const MediaLibraryTab: React.FC<MediaLibraryTabProps> = ({ onOpenBulkUplo
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Direct ParsPack S3 Upload Button */}
+          <label className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-l from-emerald-600 to-[#0d9488] hover:from-emerald-500 hover:to-[#14b8a6] text-white text-xs font-black shadow-xs transition-all cursor-pointer">
+            <Database size={15} />
+            <span>{isUploadingParsPack ? 'در حال آپلود در پارس‌پک...' : 'آپلود در فضای ابری پارس‌پک (S3)'}</span>
+            <input
+              type="file"
+              multiple
+              accept="video/*,image/*,application/pdf,audio/*,.zip,.rar"
+              onChange={handleParsPackUpload}
+              disabled={isUploadingParsPack}
+              className="sr-only"
+            />
+          </label>
+
           <button
             onClick={() => setShowAddUrlModal(true)}
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-[#06242e] border border-[#ccede5] dark:border-teal-900 text-[#06242e] dark:text-slate-200 text-xs font-bold hover:bg-[#f0fbf8] dark:hover:bg-[#092b36] transition-colors cursor-pointer"
@@ -106,10 +191,52 @@ export const MediaLibraryTab: React.FC<MediaLibraryTabProps> = ({ onOpenBulkUplo
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0b3b49] dark:bg-[#5eead4] text-white dark:text-[#06242e] text-xs font-extrabold shadow-sm transition-all cursor-pointer"
           >
             <UploadCloud size={16} />
-            <span>بارگذاری رسانه جدید</span>
+            <span>بارگذاری سریع و گروهی</span>
           </button>
         </div>
       </div>
+
+      {/* ParsPack Status Badge & Live Progress Bar */}
+      <div className="p-3.5 rounded-2xl bg-gradient-to-l from-[#def4ee]/60 to-white dark:from-[#0e3b47]/50 dark:to-[#06242e] border border-teal-200 dark:border-teal-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <Server size={15} />
+          </div>
+          <div className="space-y-0.5">
+            <div className="font-extrabold text-[#06242e] dark:text-white flex items-center gap-2">
+              <span>فضای ذخیره‌سازی ابری: پارس‌پک (ParsPack Object Storage S3)</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            </div>
+            <div className="text-[11px] text-[#527683] dark:text-[#8ab5be] font-mono" dir="ltr">
+              c984071.parspack.net &bull; Bucket: c984071
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 text-[11px] text-[#0d9488] dark:text-[#5eead4] font-bold">
+          <CheckCircle2 size={14} />
+          <span>پروتکل امن S3 &bull; سقف فایل: ۵۰۰ مگابایت</span>
+        </div>
+      </div>
+
+      {/* Active Uploading Banner */}
+      {isUploadingParsPack && uploadProgress !== null && (
+        <div className="p-4 rounded-2xl bg-slate-900 text-white border border-teal-800 space-y-2 shadow-lg animate-in fade-in duration-200">
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-bold flex items-center gap-2">
+              <RefreshCw size={14} className="animate-spin text-[#5eead4]" />
+              <span>در حال ارسال فایل «{uploadingFileName}» به سطل پارس‌پک...</span>
+            </span>
+            <span className="font-mono font-extrabold text-[#5eead4]">{uploadProgress}%</span>
+          </div>
+          <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+            <div
+              className="bg-gradient-to-l from-emerald-400 to-[#5eead4] h-2.5 transition-all duration-200"
+              style={{ width: `${uploadProgress}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Filter and Search Bar */}
       <div className="p-4 rounded-2xl bg-white dark:bg-[#06242e] border border-[#ccede5] dark:border-teal-900/60 shadow-xs space-y-3">

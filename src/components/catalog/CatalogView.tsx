@@ -39,8 +39,6 @@ export const CatalogView: React.FC = () => {
     { value: 'popular' as const, label: t('sortPopular'), icon: Flame },
     { value: 'newest' as const, label: t('sortNewest'), icon: Clock },
     { value: 'rating' as const, label: t('sortRating'), icon: Star },
-    { value: 'price-asc' as const, label: t('sortPriceLow'), icon: ArrowDownWideNarrow },
-    { value: 'price-desc' as const, label: t('sortPriceHigh'), icon: ArrowUpWideNarrow },
   ], [t]);
 
   const currentSortOption = sortOptions.find(opt => opt.value === filters.sortBy) || sortOptions[0];
@@ -455,36 +453,6 @@ export const CatalogView: React.FC = () => {
                           name="level"
                           checked={filters.level === lvl}
                           onChange={() => setFilters(prev => ({ ...prev, level: lvl }))}
-                          className="accent-indigo-600"
-                        />
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Price Type */}
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider text-[11px] mb-2.5">
-                    {t('price')}
-                  </h4>
-                  <div className="space-y-1">
-                    {[
-                      { id: 'all', label: t('allPrices') },
-                      { id: 'free', label: t('freeOnly') },
-                      { id: 'under50', label: language === 'fa' ? 'زیر ۵۰۰٬۰۰۰ تومان' : 'Under $50' }
-                    ].map(p => (
-                      <label
-                        key={p.id}
-                        className="flex items-center justify-between p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
-                      >
-                        <span className={filters.priceType === p.id ? 'font-bold text-indigo-600 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-400'}>
-                          {p.label}
-                        </span>
-                        <input
-                          type="radio"
-                          name="priceType"
-                          checked={filters.priceType === p.id}
-                          onChange={() => setFilters(prev => ({ ...prev, priceType: p.id as CatalogFilters['priceType'] }))}
                           className="accent-indigo-600"
                         />
                       </label>

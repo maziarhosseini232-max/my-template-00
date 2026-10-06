@@ -7,6 +7,7 @@ const router = Router();
 router.get('/', productController.getAll);
 router.get('/:id', productController.getById);
 router.post('/:id/request-download', optionalAuth, productController.requestDownload);
+router.get('/download', productController.downloadFile);
 router.get('/download/file', productController.downloadFile);
 
 export default router;

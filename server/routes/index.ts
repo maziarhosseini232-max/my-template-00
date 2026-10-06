@@ -8,6 +8,7 @@ import cmsRoutes from './cmsRoutes.js';
 import seoRoutes from './seoRoutes.js';
 import adminRoutes from './adminRoutes.js';
 import commerceRoutes from './commerceRoutes.js';
+import storageRoutes from './storageRoutes.js';
 import { seoController } from '../controllers/seoController.js';
 import { authController } from '../controllers/authController.js';
 import { authenticate } from '../middleware/auth.js';
@@ -23,6 +24,7 @@ apiRouter.use('/cms', cmsRoutes);
 apiRouter.use('/seo', seoRoutes);
 apiRouter.use('/admin', adminRoutes);
 apiRouter.use('/commerce', commerceRoutes);
+apiRouter.use('/storage', storageRoutes);
 apiRouter.post('/instructor/apply', authenticate, authController.applyInstructor);
 
 // Sitemap & Robots

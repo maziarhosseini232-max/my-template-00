@@ -3,7 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { 
   LayoutDashboard, BookOpen, Wallet, Download, Award, FileText, 
   User, GraduationCap, ShieldCheck, Flame, Clock, Plus,
-  ChevronLeft, ArrowLeft, ArrowRight, ExternalLink, Zap, LogOut, CheckCircle2, Sparkles, Crown, Bell, Receipt
+  ChevronLeft, ArrowLeft, ArrowRight, ExternalLink, Zap, LogOut, CheckCircle2, Sparkles, Crown, Bell, Receipt, BarChart3
 } from 'lucide-react';
 import { toPersianDigits, formatPriceToman } from '../../utils/persian';
 
@@ -406,18 +406,31 @@ export const StudentDashboard: React.FC = () => {
                 );
               })}
 
-              {/* Admin Studio Jump Button (Only visible in dashboard if admin) */}
+              {/* Admin Studio Jump Buttons (Only visible in dashboard if admin) */}
               {(userRole === 'admin' || currentUser.role === 'admin') && (
-                <div className="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                  <div className="text-[10px] font-bold text-slate-400 px-1">
+                    بخش‌های مدیریتی شما
+                  </div>
                   <button
-                    onClick={() => navigate('admin')}
-                    className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl bg-gradient-to-l from-teal-700 to-indigo-700 text-white text-xs font-bold shadow-md hover:opacity-95 transition-all cursor-pointer"
+                    onClick={() => navigate('admin', undefined, 'tab=dashboard')}
+                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-slate-100 dark:bg-[#09222b] hover:bg-slate-200 dark:hover:bg-[#0e3b47] text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer border border-slate-200/60 dark:border-teal-900/40"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Sparkles size={18} className="text-teal-300" />
-                      <span>استودیو و پنل مدیریت دوره‌ها</span>
+                      <LayoutDashboard size={16} className="text-[#0d9488] dark:text-[#5eead4]" />
+                      <span>میز کار و استودیو انتشار</span>
                     </div>
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={15} />
+                  </button>
+                  <button
+                    onClick={() => navigate('admin', undefined, 'tab=reports')}
+                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-gradient-to-l from-[#0b3b49] to-teal-800 text-white text-xs font-bold shadow-xs hover:opacity-95 transition-all cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BarChart3 size={16} className="text-[#5eead4]" />
+                      <span>گزارش‌ها و آنالیتیکس تخصصی</span>
+                    </div>
+                    <ChevronLeft size={15} />
                   </button>
                 </div>
               )}

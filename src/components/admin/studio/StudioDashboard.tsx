@@ -43,41 +43,41 @@ export const StudioDashboard: React.FC<StudioDashboardProps> = ({
   const publishedCourses = courses.filter(c => c.status === 'published');
   const draftCourses = courses.filter(c => c.status === 'draft');
   const pendingCourses = courses.filter(c => c.status === 'pending');
-  const totalStudents = courses.reduce((sum, c) => sum + (c.studentCount || 0), 0);
-  const totalRevenue = courses.reduce((sum, c) => sum + ((c.studentCount || 0) * (c.price || 0)), 0);
+  const totalLessonsCount = courses.reduce((sum, c) => sum + (c.modules?.reduce((ms, m) => ms + (m.lessons?.length || 0), 0) || 0), 0);
+  const mediaCount = mediaAssets?.length || 0;
 
   const stats = [
     {
-      title: 'کل دوره‌های پلتفرم',
-      value: toPersianDigits(courses.length),
-      subtext: `${toPersianDigits(publishedCourses.length)} دوره فعال در مارکت‌پلیس`,
+      title: 'دوره‌های آماده و فعال',
+      value: toPersianDigits(publishedCourses.length),
+      subtext: `از مجموع ${toPersianDigits(courses.length)} دوره تعریف‌شده در پلتفرم`,
       icon: BookOpen,
       color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400',
-      badge: '+۱۲٪ رشد این ماه'
+      badge: 'منتشرشده'
     },
     {
-      title: 'پیش‌نویس‌ها و کارتابل',
+      title: 'کارتابل پیش‌نویس و بازبینی',
       value: toPersianDigits(draftCourses.length + pendingCourses.length),
-      subtext: `${toPersianDigits(draftCourses.length)} پیش‌نویس | ${toPersianDigits(pendingCourses.length)} در انتظار انتشار`,
+      subtext: `${toPersianDigits(draftCourses.length)} پیش‌نویس | ${toPersianDigits(pendingCourses.length)} در حال آماده‌سازی`,
       icon: Clock,
       color: 'bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400',
       badge: 'نیازمند تکمیل'
     },
     {
-      title: 'مجموع دانشجویان فعال',
-      value: toPersianDigits(totalStudents),
-      subtext: 'دانشجوی ثبت‌نام‌شده در دوره‌ها',
-      icon: Users,
-      color: 'bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400',
-      badge: 'نرخ تکمیل ۸۴٪'
+      title: 'مجموع جلسات و سرفصل‌ها',
+      value: toPersianDigits(totalLessonsCount),
+      subtext: 'جلسه ویدیویی تدوین‌شده و ساختاریافته',
+      icon: Play,
+      color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400',
+      badge: 'محتوای فعال'
     },
     {
-      title: 'ارزش فروش ناخالص دوره‌ها',
-      value: formatTomanPrice(totalRevenue),
-      subtext: 'مجموع ارزش تراکنش‌های ثبت‌شده',
-      icon: DollarSign,
+      title: 'فایل‌ها و پیوست‌های چندرسانه‌ای',
+      value: toPersianDigits(mediaCount),
+      subtext: 'ویدیو، پروژه تمرینی، اسلاید و PDF',
+      icon: FolderOpen,
       color: 'bg-teal-50 text-teal-600 dark:bg-teal-950/50 dark:text-teal-400',
-      badge: 'تضمین تسویه'
+      badge: 'کتابخانه ابری'
     }
   ];
 
@@ -169,6 +169,30 @@ export const StudioDashboard: React.FC<StudioDashboardProps> = ({
         })}
       </div>
 
+      {/* Dedicated Analytics Jump Banner */}
+      <div className="rounded-2xl bg-gradient-to-r from-teal-900/20 via-[#def4ee]/60 to-teal-500/10 dark:from-[#082834] dark:via-[#09333f] dark:to-[#06242e] border border-teal-300/60 dark:border-teal-800 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-teal-600 dark:bg-[#5eead4] text-white dark:text-[#06242e] flex items-center justify-center shrink-0 shadow-xs">
+            <BarChart3 size={20} />
+          </div>
+          <div>
+            <h4 className="font-black text-xs sm:text-sm text-[#06242e] dark:text-white">
+              صفحه مستقل گزارش‌ها، تحلیل هوش تجاری و آمار اشتراک‌ها
+            </h4>
+            <p className="text-[11px] text-[#527683] dark:text-[#8ab5be] mt-0.5">
+              مشاهده وضعیت رشد اعضای ویژه VIP، قیف یادگیری دانشجویان، ساعات مطالعه، رضایت‌سنجی و خروجی اکسل
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => onSelectTab('reports')}
+          className="px-4 py-2 rounded-xl bg-[#0b3b49] hover:bg-[#0f4d5f] dark:bg-[#5eead4] dark:hover:bg-[#2dd4bf] text-white dark:text-[#06242e] font-extrabold text-xs shrink-0 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+        >
+          <span>ورود به گزارش‌ها و آنالیتیکس</span>
+          <ArrowUpRight size={14} />
+        </button>
+      </div>
+
       {/* Recent Courses and Quick Actions Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -233,7 +257,7 @@ export const StudioDashboard: React.FC<StudioDashboardProps> = ({
                         <span>•</span>
                         <span>{toPersianDigits(totalLessons)} جلسه</span>
                         <span>•</span>
-                        <span>{course.price ? formatTomanPrice(course.price) : 'رایگان'}</span>
+                        <span className="text-[#0d9488] dark:text-[#5eead4] font-bold">دسترسی VIP</span>
                       </div>
                     </div>
                   </div>

@@ -4,7 +4,7 @@ import {
   Compass, Search, ShoppingBag, Bell, Moon, Sun, 
   ChevronDown, LayoutDashboard, ShieldCheck, Check, Globe, 
   BookOpen, Sparkles, LogIn, LogOut, User as UserIcon, KeyRound, GraduationCap, ArrowRight,
-  Wallet, Crown
+  Wallet, Crown, BarChart3
 } from 'lucide-react';
 import { UserRole } from '../../types';
 import { toPersianDigits } from '../../utils/persian';
@@ -511,10 +511,44 @@ export const Navbar: React.FC = () => {
                     >
                       <div className="flex items-center gap-2.5">
                         <LayoutDashboard size={15} className="text-teal-600 dark:text-teal-400" />
-                        <span>داشبورد من</span>
+                        <span>داشبورد کاربری من</span>
                       </div>
                       <span className="text-[10px] text-slate-400">ورود</span>
                     </button>
+
+                    {/* Admin Direct Management Links */}
+                    {isActualAdmin && (
+                      <div className="p-1 rounded-xl bg-teal-50/70 dark:bg-[#092b36] border border-teal-200/60 dark:border-teal-900/60 space-y-0.5">
+                        <button
+                          onClick={() => {
+                            navigate('admin', undefined, 'tab=dashboard');
+                            setProfileOpen(false);
+                          }}
+                          className="w-full flex items-center justify-between px-2.5 py-1.5 text-xs font-bold rounded-lg text-slate-800 dark:text-slate-200 hover:bg-white dark:hover:bg-[#0e3b47] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2">
+                            <BookOpen size={14} className="text-teal-600 dark:text-teal-400" />
+                            <span>میز کار و انتشار دوره</span>
+                          </div>
+                          <span className="text-[10px] text-teal-700 dark:text-teal-300">استودیو</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate('admin', undefined, 'tab=reports');
+                            setProfileOpen(false);
+                          }}
+                          className="w-full flex items-center justify-between px-2.5 py-1.5 text-xs font-bold rounded-lg text-[#0b3b49] dark:text-[#5eead4] hover:bg-white dark:hover:bg-[#0e3b47] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2">
+                            <BarChart3 size={14} className="text-emerald-600 dark:text-emerald-400" />
+                            <span>گزارش‌ها و آنالیتیکس</span>
+                          </div>
+                          <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[9px] font-black">
+                            VIP
+                          </span>
+                        </button>
+                      </div>
+                    )}
 
                     {/* Notifications / Alerts Collapsible Section */}
                     <div className="rounded-xl border border-teal-100/80 dark:border-teal-900/60 overflow-hidden bg-slate-50/60 dark:bg-slate-900/40">

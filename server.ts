@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -20,6 +21,18 @@ async function startServer() {
   // JSON Body Parser
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+  // Static Uploads Directory for Course Covers, Videos & Media Assets
+  const publicUploadsDir = path.join(process.cwd(), 'public', 'uploads');
+  const rootUploadsDir = path.join(process.cwd(), 'uploads');
+  if (!fs.existsSync(publicUploadsDir)) {
+    fs.mkdirSync(publicUploadsDir, { recursive: true });
+  }
+  if (!fs.existsSync(rootUploadsDir)) {
+    fs.mkdirSync(rootUploadsDir, { recursive: true });
+  }
+  app.use('/uploads', express.static(publicUploadsDir));
+  app.use('/uploads', express.static(rootUploadsDir));
 
   // API Routes (FIRST)
   app.use('/api', apiRouter);

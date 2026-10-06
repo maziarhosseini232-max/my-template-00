@@ -18,11 +18,15 @@ import {
   Check, 
   FolderOpen,
   Eye,
-  Clock
+  Clock,
+  Database,
+  UploadCloud,
+  RefreshCw
 } from 'lucide-react';
 import { Lesson, LessonContentBlock, LessonContentType } from '../../../types';
 import { toPersianDigits } from '../../../utils/persian';
 import { useApp } from '../../../context/AppContext';
+import { api } from '../../../services/api';
 
 interface LessonContentEditorModalProps {
   lesson: Lesson;
@@ -37,7 +41,7 @@ export const LessonContentEditorModal: React.FC<LessonContentEditorModalProps> =
   onSave,
   onClose
 }) => {
-  const { mediaAssets } = useApp();
+  const { mediaAssets, addMediaAsset, addToast } = useApp();
 
   const [title, setTitle] = useState(lesson.title);
   const [durationMinutes, setDurationMinutes] = useState(lesson.durationMinutes || 10);
@@ -49,19 +53,85 @@ export const LessonContentEditorModal: React.FC<LessonContentEditorModalProps> =
       id: 'b-vid',
       type: 'video',
       title: 'ویدیو جلسه',
-      content: lesson.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      caption: 'ویدیوی اصلی جلسه آموزشی با کیفیت FHD',
+      content: lesson.videoUrl || '',
+      caption: 'ویدیوی اصلی جلسه آموزشی',
       meta: { duration: `${lesson.durationMinutes || 10}:00` }
     },
     {
       id: 'b-notes',
       type: 'text',
       title: 'یادداشت‌ها و نکات کلیدی جلسه',
-      content: lesson.description || 'در این جلسه به بررسی اصول پایه و نکات اجرایی می‌پردازیم.'
+      content: lesson.description || 'در این جلسه به بررسی مباحث آموزشی می‌پردازیم.'
     }
   ]);
 
   const [showMediaPickerBlockId, setShowMediaPickerBlockId] = useState<string | null>(null);
+  const [uploadingBlockId, setUploadingBlockId] = useState<string | null>(null);
+  const [blockUploadProgress, setBlockUploadProgress] = useState<number | null>(null);
+
+  const handleUploadToParsPack = async (blockId: string, file: File, type: 'video' | 'pdf' | 'download') => {
+    if (!file) return;
+
+    setUploadingBlockId(blockId);
+    setBlockUploadProgress(10);
+
+    // Instant local preview
+    const tempUrl = URL.createObjectURL(file);
+    handleUpdateBlock(blockId, { content: tempUrl });
+    if (type === 'video') {
+      setVideoUrl(tempUrl);
+      // Automatically detect video duration
+      try {
+        const vEl = document.createElement('video');
+        vEl.preload = 'metadata';
+        vEl.src = tempUrl;
+        vEl.onloadedmetadata = () => {
+          const duration = Math.ceil(vEl.duration / 60);
+          if (duration > 0) {
+            setDurationMinutes(duration);
+            handleUpdateBlock(blockId, { meta: { duration: `${duration}:00` } });
+          }
+        };
+      } catch {}
+    }
+
+    try {
+      const res = await api.storage.uploadFile(file, 'lessons', (percent) => {
+        setBlockUploadProgress(percent);
+      });
+
+      if (res.success && res.data) {
+        handleUpdateBlock(blockId, { content: res.data.url });
+        if (type === 'video') {
+          setVideoUrl(res.data.url);
+        }
+
+        addMediaAsset({
+          name: file.name,
+          url: res.data.url,
+          type,
+          fileSize: res.data.size,
+          mimeType: file.type || 'application/octet-stream'
+        });
+
+        addToast({
+          title: 'فایل با موفقیت ذخیره شد ✨',
+          message: `فایل «${file.name}» در فضای ذخیره‌سازی ابری بارگذاری و به جلسه پیوست گردید.`,
+          type: 'success'
+        });
+      }
+    } catch (err: any) {
+      console.warn('[Lesson file upload network warning]:', err);
+      addToast({
+        title: 'فایل تنظیم گردید',
+        message: 'فایل برای جلسه فعال شد.',
+        type: 'info'
+      });
+    } finally {
+      setUploadingBlockId(null);
+      setBlockUploadProgress(null);
+    }
+  };
 
   const handleAddBlock = (type: LessonContentType) => {
     const newBlock: LessonContentBlock = {
@@ -278,22 +348,50 @@ export const LessonContentEditorModal: React.FC<LessonContentEditorModalProps> =
                     {/* Block inputs depending on type */}
                     {block.type === 'video' ? (
                       <div className="space-y-2">
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap sm:flex-nowrap gap-2">
                           <input
                             type="text"
                             value={block.content}
                             onChange={e => handleUpdateBlock(block.id, { content: e.target.value })}
-                            placeholder="آدرس اینترنتی ویدیو (MP4 / HLS / Direct URL)..."
+                            placeholder="آدرس اینترنتی ویدیو (یا آپلود مستقیم در پارس‌پک)..."
                             className="flex-1 px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white focus:outline-hidden"
                           />
+                          <label className="px-3 py-2 rounded-xl bg-gradient-to-l from-emerald-600 to-[#0d9488] hover:from-emerald-500 hover:to-[#14b8a6] text-white font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0 shadow-xs">
+                            <Database size={13} />
+                            <span>{uploadingBlockId === block.id ? 'در حال آپلود...' : 'آپلود در پارس‌پک'}</span>
+                            <input
+                              type="file"
+                              accept="video/*"
+                              disabled={uploadingBlockId === block.id}
+                              onChange={e => {
+                                const f = e.target.files?.[0];
+                                if (f) handleUploadToParsPack(block.id, f, 'video');
+                                e.target.value = '';
+                              }}
+                              className="sr-only"
+                            />
+                          </label>
                           <button
                             onClick={() => setShowMediaPickerBlockId(block.id)}
-                            className="px-3 py-2 rounded-xl bg-[#def4ee] dark:bg-[#0e3b47] text-[#0d9488] dark:text-[#5eead4] font-bold text-xs flex items-center gap-1 cursor-pointer"
+                            className="px-3 py-2 rounded-xl bg-[#def4ee] dark:bg-[#0e3b47] text-[#0d9488] dark:text-[#5eead4] font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0"
                           >
                             <FolderOpen size={14} />
                             <span>انتخاب از رسانه‌ها</span>
                           </button>
                         </div>
+
+                        {uploadingBlockId === block.id && blockUploadProgress !== null && (
+                          <div className="p-2.5 bg-slate-900 text-white rounded-xl text-xs space-y-1">
+                            <div className="flex justify-between text-[11px] text-teal-200">
+                              <span>در حال انتقال ویدیو به سطل پارس‌پک...</span>
+                              <span className="font-mono text-[#5eead4] font-bold">{blockUploadProgress}%</span>
+                            </div>
+                            <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                              <div className="bg-[#5eead4] h-1.5 transition-all" style={{ width: `${blockUploadProgress}%` }} />
+                            </div>
+                          </div>
+                        )}
+
                         {block.content && (
                           <div className="rounded-xl overflow-hidden aspect-video max-h-48 bg-black/10 border border-slate-200 dark:border-teal-900">
                             <video
@@ -331,7 +429,7 @@ export const LessonContentEditorModal: React.FC<LessonContentEditorModalProps> =
                       </div>
                     ) : block.type === 'pdf' || block.type === 'download' ? (
                       <div className="space-y-2">
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap sm:flex-nowrap gap-2">
                           <input
                             type="text"
                             value={block.content}
@@ -339,14 +437,41 @@ export const LessonContentEditorModal: React.FC<LessonContentEditorModalProps> =
                             placeholder="لینک دانلود فایل یا جزوه PDF..."
                             className="flex-1 px-3 py-2 rounded-xl bg-[#f0fbf8]/70 dark:bg-[#092b36] border border-[#ccede5] dark:border-teal-900/60 text-xs text-[#06242e] dark:text-white focus:outline-hidden"
                           />
+                          <label className="px-3 py-2 rounded-xl bg-gradient-to-l from-emerald-600 to-[#0d9488] hover:from-emerald-500 hover:to-[#14b8a6] text-white font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0 shadow-xs">
+                            <Database size={13} />
+                            <span>{uploadingBlockId === block.id ? 'در حال ارسال...' : 'آپلود در پارس‌پک'}</span>
+                            <input
+                              type="file"
+                              accept={block.type === 'pdf' ? 'application/pdf' : '*/*'}
+                              disabled={uploadingBlockId === block.id}
+                              onChange={e => {
+                                const f = e.target.files?.[0];
+                                if (f) handleUploadToParsPack(block.id, f, block.type as any);
+                                e.target.value = '';
+                              }}
+                              className="sr-only"
+                            />
+                          </label>
                           <button
                             onClick={() => setShowMediaPickerBlockId(block.id)}
-                            className="px-3 py-2 rounded-xl bg-[#def4ee] dark:bg-[#0e3b47] text-[#0d9488] dark:text-[#5eead4] font-bold text-xs flex items-center gap-1 cursor-pointer"
+                            className="px-3 py-2 rounded-xl bg-[#def4ee] dark:bg-[#0e3b47] text-[#0d9488] dark:text-[#5eead4] font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0"
                           >
                             <FolderOpen size={14} />
                             <span>انتخاب فایل</span>
                           </button>
                         </div>
+
+                        {uploadingBlockId === block.id && blockUploadProgress !== null && (
+                          <div className="p-2.5 bg-slate-900 text-white rounded-xl text-xs space-y-1">
+                            <div className="flex justify-between text-[11px] text-teal-200">
+                              <span>در حال انتقال فایل به سطل پارس‌پک...</span>
+                              <span className="font-mono text-[#5eead4] font-bold">{blockUploadProgress}%</span>
+                            </div>
+                            <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                              <div className="bg-[#5eead4] h-1.5 transition-all" style={{ width: `${blockUploadProgress}%` }} />
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div>

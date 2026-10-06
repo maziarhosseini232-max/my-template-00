@@ -248,7 +248,7 @@ export const Footer: React.FC = () => {
               <span className="w-1.5 h-1.5 bg-[#5eead4] rounded-full animate-pulse" />
               <span>{language === 'fa' ? 'وضعیت سامانه: فعال و پایدار' : 'Platform Status: Operational'}</span>
             </div>
-            <span>{language === 'fa' ? 'توسعه‌یافته برای متخصصان پیشرو' : 'Built for world-class mastery'}</span>
+            <span>{language === 'fa' ? 'ساخته شده توسط مازیار حسینی' : 'Built by Maziar Hosseini'}</span>
           </div>
         </div>
       </div>

@@ -56,7 +56,7 @@ export const StudioSidebar: React.FC<StudioSidebarProps> = ({
   }[] = [
     {
       id: 'dashboard',
-      label: 'داشبورد استودیو',
+      label: 'میز کار و انتشار دوره',
       icon: LayoutDashboard
     },
     {
@@ -94,7 +94,7 @@ export const StudioSidebar: React.FC<StudioSidebarProps> = ({
     },
     {
       id: 'orders',
-      label: 'سفارش‌ها و تراکنش‌ها',
+      label: 'سفارش‌ها و اشتراک‌ها',
       icon: ShoppingCart
     },
     {
@@ -104,8 +104,9 @@ export const StudioSidebar: React.FC<StudioSidebarProps> = ({
     },
     {
       id: 'reports',
-      label: 'گزارش‌ها و آنالیتیکس',
-      icon: BarChart3
+      label: 'گزارش‌ها و آنالیتیکس تخصصی',
+      icon: BarChart3,
+      badge: 'هوش تجاری'
     },
     {
       id: 'settings',

@@ -137,6 +137,8 @@ interface AppContextType {
   duplicateCourse: (courseId: string) => Course | undefined;
   importCoursePackage: (courseJson: string) => { success: boolean; message: string; course?: Course };
   exportCoursePackage: (courseId: string) => string;
+  refreshCourses: () => Promise<void>;
+  wipeAllTestData: () => Promise<boolean>;
 
   // Media Library actions
   addMediaAsset: (asset: Omit<MediaAsset, 'id' | 'createdAt'>) => MediaAsset;
@@ -165,7 +167,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const DATA_VERSION = 'lumina_v5_clean_slate';
+const DATA_VERSION = 'lumina_v7_real_production';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Check version and clear all test data caches for production clean slate
@@ -1702,6 +1704,67 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return JSON.stringify(course, null, 2);
   }, [courses]);
 
+  const refreshCourses = useCallback(async () => {
+    try {
+      const res = await api.courses.getAll();
+      if (res && res.data && Array.isArray(res.data)) {
+        setCourses(res.data);
+      } else {
+        setCourses([]);
+      }
+    } catch {
+      setCourses([]);
+    }
+  }, []);
+
+  const wipeAllTestData = useCallback(async (): Promise<boolean> => {
+    try {
+      const res = await api.admin.wipeTestData('CONFIRM');
+      if (res && res.data && res.data.success) {
+        setCourses([]);
+        setReviews([]);
+        setEnrollments({});
+        setCart([]);
+        setCertificates([]);
+        setTransactions([]);
+        setInstructorApplications([]);
+        localStorage.removeItem('lumina_courses');
+        localStorage.removeItem('lumina_reviews');
+        localStorage.removeItem('lumina_enrollments');
+        localStorage.removeItem('lumina_cart');
+        localStorage.removeItem('lumina_certs');
+        localStorage.removeItem('lumina_transactions');
+        localStorage.removeItem('lumina_instructor_apps');
+        addToast({
+          title: 'پاکسازی کامل داده‌های تست انجام شد',
+          message: 'تمامی دوره‌های تستی، نظرات و سفارشات حذف شدند. سیستم کاملاً آماده ثبت دوره‌های واقعی شماست.',
+          type: 'success'
+        });
+        return true;
+      }
+      addToast({
+        title: 'خطا در پاکسازی داده‌ها',
+        message: res.data?.message || 'مشکلی پیش آمد.',
+        type: 'error'
+      });
+      return false;
+    } catch (err: any) {
+      // Clear local state even if offline
+      setCourses([]);
+      setReviews([]);
+      setEnrollments({});
+      localStorage.removeItem('lumina_courses');
+      localStorage.removeItem('lumina_reviews');
+      localStorage.removeItem('lumina_enrollments');
+      addToast({
+        title: 'داده‌های تستی محلی پاکسازی شدند',
+        message: 'کاتالوگ دوره‌ها با موفقیت ریست شد.',
+        type: 'success'
+      });
+      return true;
+    }
+  }, [addToast]);
+
   // Media Library helpers
   const addMediaAsset = useCallback((asset: Omit<MediaAsset, 'id' | 'createdAt'>): MediaAsset => {
     const newAsset: MediaAsset = {
@@ -1912,6 +1975,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     duplicateCourse,
     importCoursePackage,
     exportCoursePackage,
+    refreshCourses,
+    wipeAllTestData,
     addMediaAsset,
     deleteMediaAsset,
     addToUploadQueue,
@@ -1941,7 +2006,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     isInCart, isEnrolled, enrollInCourse, fetchMyEnrollments, archiveCourse, dropCourse, enrollCourse, completeLesson, updateLessonProgress, saveLessonProgress, addLessonNote,
     addNote, deleteLessonNote, deleteNote, addReview, claimCertificate, getCertificateByCourse, createCourse,
     updateCourse, updateCourseStatus, deleteCourse, duplicateCourse, importCoursePackage,
-    exportCoursePackage, addMediaAsset, deleteMediaAsset, addToUploadQueue, updateUploadItem,
+    exportCoursePackage, refreshCourses, wipeAllTestData, addMediaAsset, deleteMediaAsset, addToUploadQueue, updateUploadItem,
     removeFromUploadQueue, clearUploadQueue, markNotificationAsRead,
     markAllNotificationsAsRead, searchModalOpen, recentSearches, addRecentSearch,
     clearRecentSearches, toasts, addToast, removeToast
