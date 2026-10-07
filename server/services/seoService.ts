@@ -62,6 +62,7 @@ export class SeoService {
 
     let urls = [
       { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily' },
+      { loc: `${baseUrl}/product`, priority: '0.95', changefreq: 'weekly' },
       { loc: `${baseUrl}/catalog`, priority: '0.9', changefreq: 'daily' }
     ];
 

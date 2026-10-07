@@ -153,6 +153,12 @@ export const Navbar: React.FC = () => {
             >
               دوره‌ها
             </button>
+            <button
+              onClick={() => navigate('product')}
+              className="px-3 py-1.5 text-xs font-semibold text-[#456774] dark:text-slate-300 hover:text-[#0d9488] dark:hover:text-[#5eead4] rounded-xl hover:bg-[#f0faf7] dark:hover:bg-[#0b252e] transition-colors"
+            >
+              معرفی محصول
+            </button>
 
             {/* VIP Subscription Link */}
             {isVipUser ? (

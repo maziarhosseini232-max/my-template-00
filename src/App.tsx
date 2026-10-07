@@ -42,6 +42,11 @@ import { PaymentGatewayPortal } from './components/checkout/PaymentGatewayPortal
 import { MockGatewayPage } from './components/checkout/MockGatewayPage';
 import { VipPricingPage } from './components/vip/VipPricingPage';
 
+const ProductSalesPage = React.lazy(async () => {
+  const productModule = await import('./components/product/ProductSalesPage');
+  return { default: productModule.ProductSalesPage };
+});
+
 const AppContent: React.FC = () => {
   const { currentRoute, setSearchModalOpen, isLoggedIn, currentUser, navigate } = useApp();
 
@@ -73,6 +78,22 @@ const AppContent: React.FC = () => {
   // Render view based on route
   const renderCurrentView = () => {
     switch (currentRoute.view) {
+      case 'product':
+        return (
+          <React.Suspense
+            fallback={
+              <main
+                className="grid min-h-[50vh] place-items-center bg-[#f8f7f2] text-[#173f3b]"
+                dir="rtl"
+                lang="fa"
+              >
+                <p role="status">در حال آماده‌سازی صفحهٔ محصول…</p>
+              </main>
+            }
+          >
+            <ProductSalesPage />
+          </React.Suspense>
+        );
       case 'home':
         return (
           <main>
@@ -144,7 +165,7 @@ const AppContent: React.FC = () => {
   };
 
   // Check if current view is distraction-free (player, bank gateway, or secret admin portal)
-  const isDistractionFreeView = currentRoute.view === 'player' || currentRoute.view === 'payment' || currentRoute.view === 'mock-gateway' || currentRoute.view === 'admin-login';
+  const isDistractionFreeView = currentRoute.view === 'product' || currentRoute.view === 'player' || currentRoute.view === 'payment' || currentRoute.view === 'mock-gateway' || currentRoute.view === 'admin-login';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased transition-colors duration-200 selection:bg-indigo-500 selection:text-white">
@@ -183,4 +204,3 @@ export default function App() {
     </ErrorBoundary>
   );
 }
-

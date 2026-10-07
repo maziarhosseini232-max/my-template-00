@@ -25,7 +25,7 @@ export interface ToastItem {
 }
 
 export interface RouteState {
-  view: 'home' | 'catalog' | 'course-detail' | 'player' | 'dashboard' | 'instructor' | 'admin' | 'cart' | 'checkout' | 'wishlist' | 'certificates' | 'certificate-verify' | 'instructor-profile' | 'category' | 'payment' | 'admin-login' | 'vip' | 'pricing' | 'mock-gateway';
+  view: 'home' | 'product' | 'catalog' | 'course-detail' | 'player' | 'dashboard' | 'instructor' | 'admin' | 'cart' | 'checkout' | 'wishlist' | 'certificates' | 'certificate-verify' | 'instructor-profile' | 'category' | 'payment' | 'admin-login' | 'vip' | 'pricing' | 'mock-gateway';
   param?: string; // course slug/id or instructor id or cert id or order id
   id?: string;
   query?: string;
@@ -239,6 +239,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (typeof window !== 'undefined') {
       const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
       const search = window.location.search;
+
+      if (pathname === '/product') {
+        return { view: 'product' };
+      }
 
       if (pathname === '/lumina-secure-portal') {
         return { view: 'admin-login' };
@@ -607,6 +611,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (!window.location.pathname.startsWith('/mock-gateway')) {
           window.history.pushState(null, '', '/mock-gateway' + (query ? `?${query}` : ''));
         }
+      } else if (view === 'product') {
+        if (window.location.pathname !== '/product') {
+          window.history.pushState(null, '', '/product');
+        }
       } else if (view === 'home') {
         if (window.location.pathname !== '/') {
           window.history.pushState(null, '', '/');
@@ -623,6 +631,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       if (pathname === '/lumina-secure-portal') {
         setCurrentRoute({ view: 'admin-login' });
+      } else if (pathname === '/product') {
+        setCurrentRoute({ view: 'product' });
       } else if (pathname === '/mock-gateway' || pathname.startsWith('/mock-gateway')) {
         setCurrentRoute({ view: 'mock-gateway' });
       } else if (pathname === '/admin' || pathname === '/studio' || search.includes('tab=studio')) {
